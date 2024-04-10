@@ -1,0 +1,470 @@
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap");
+:root {
+  --main-babygreen: #e6fdf0;
+  --main-lightgreen: #ceebdb;
+  --main-darkgreen: #a9c3b6;
+  --main-lightblue: #abcad7;
+  --main-darkblue: #83a9ba;
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Fredoka", sans-serif;
+  direction: rtl;
+  background-color: var(--main-babygreen);
+}
+
+.button {
+  direction: rtl;
+  font-size: 32px;
+  padding: 10px 30px;
+  margin: auto;
+  width: 80%;
+  background-color: var(--main-lightgreen);
+  border: none;
+  color: var(--main-darkgreen);
+  border-radius: 10px;
+  margin: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: "Fredoka", sans-serif;
+  transition: 300ms ease;
+
+}
+
+.buttons-container {
+  direction: ltr;
+  background-color: var(--main-darkgreen);
+  display: flex;
+  padding: 50px 0px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 0px 15px;
+  height: 50vh;
+  border-radius: 10px;
+  overflow-y: scroll;
+  /* width: 30%; */
+}
+
+.buttons-container::-webkit-scrollbar {
+  
+  width: 8px; /* Set the width of the scrollbar */
+}
+
+.buttons-container::-webkit-scrollbar-thumb {
+  background-color: var(--main-lightgreen); /* Set the color of the scrollbar track */
+  border-radius: 10px; /* Optional: Round the corners of the thumb */
+  border: 1px solid var(--main-darkgreen);
+
+}
+
+.buttons-container::-webkit-scrollbar-track {
+  background-color: var(--main-darkgreen); /* Set the color of the scrollbar thumb */
+  border-radius: 10px; /* Optional: Round the corners of the thumb */
+
+}
+
+.deg-year-semster-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 35px;
+}
+
+.wrapper-label {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+
+.buttons-cont-label {
+  text-align: right;
+  padding-right: 20px;
+  font-size: 32px;
+  color: var(--main-darkgreen);
+  font-weight: 500;
+}
+
+.navbar {
+  width: 100%;
+  text-align: center;
+  height: 70px;
+  background-color: var(--main-lightblue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  justify-items: center;
+  z-index: 100;
+  margin-bottom: 30px;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.182);
+}
+
+#line {
+  width: 0.6px;
+  display: inline-block;
+  height: 17px;
+  background-color: #fff;
+  top: 4px;
+  position: relative;
+}
+
+#rounded-btns {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 25px;
+  width: 25%;
+  box-shadow: 3px 3px 2px rgba(34, 34, 34, 0.1);
+  background-color: var(--main-darkblue);
+}
+
+.nav-button-wrapper {
+  display: inline-block;
+  width: 49%;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.university-wrapper {
+  display: flex;
+  flex-direction: column;
+  text-align: center !important;
+  align-items: center;
+  height: 100%;
+  margin: 30px 20px;
+}
+
+.univ-image-circle {
+  width: 150px;
+  height: 150px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.univ-image {
+  width: 80%;
+}
+
+.univ-name {
+  font-weight: 600;
+  color: #222;
+}
+
+.univ-name:visited .univ-name:link, .univ-city {
+  text-decoration: none !important;
+  font-style: none;
+}
+.univ-city {
+  color: var(--main-darkgreen);
+  text-decoration: none;
+}
+
+.universities-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-height: 70vh;
+  overflow-y: hidden;
+}
+
+.arrow {
+  height: 30px;
+  cursor: pointer;
+}
+
+.arrow-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.course-container {
+  height: 80vh;
+  margin: 0px 100px;
+  display: flex;
+}
+
+.course-details {
+  display: block;
+  height: 80vh;
+  flex: 1;
+}
+
+.course-details-image {
+  border-radius: 10px;
+  height: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  
+  
+}
+.details-wrapper {
+  margin: 0px 20px;
+  height: 100%;
+}
+
+.course-info {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 15px 0px;
+  color: #222;
+}
+
+.CircularProgressbar-path {
+  stroke: var(--main-lightblue) !important;
+}
+
+.selected-btn {
+  /* background-color: var(--main-lightblue); */
+  /* color: var(--main-darkblue); */
+  box-shadow: 2px 2px 5px #22222246;
+  /* border: 1px solid #6a7a72; */
+  /* color: var(--main-lightgreen); */
+  transition: 300ms ease;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+}
+
+.next-btn{
+  width: 83%;
+  /* margin-left: 50px; */
+  display: flex;
+  justify-content: center;
+
+  
+}
+
+.next-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  width: 95%;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.faculties-btn-container {
+  text-align: center;
+  margin: 0px 50px;
+  height: 65vh;
+  padding: 50px 0px;
+border-radius: 10px;
+}
+
+.course-form-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid var(--main-darkgreen);
+  border-radius: 15px;
+  margin: 0px 200px;
+}
+
+.add-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 60%;
+}
+
+.add-form-item{
+  margin:15px 0px;
+  font-family: "Fredoka", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 80%;
+  
+}
+
+.course-preview {
+  background-color: var(--main-darkgreen);
+  height: 80vh;
+  width: 40%;
+  border-radius: 10px 0px 0px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+
+.course-name {
+  border-radius: 3px;
+  width: 70%;
+  border: 1px solid rgb(133, 133, 133)
+}
+
+.back-next-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 30px;
+  gap: 70%;
+}
+
+.text-field {
+  direction: ltr !important;
+  text-align: right !important;
+  margin: 50px;
+}
+
+.select-box {
+  width: 50%;
+  margin: 6px 0px;
+}
+
+.circles-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-circle-item {
+  margin: 0px 10px;
+  width: 100px;
+}
+
+.course-preview-title {
+  font-weight: 600;
+}
+
+.dropdown-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.small-btn {
+  color: var(--main-darkgreen);
+  background-color: var(--main-lightgreen);
+  border-radius: 5px;
+  border:1px solid var(--main-darkgreen);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.comments-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color:var(--main-darkgreen);
+  padding: 15px;
+  border-radius: 10px;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: -90px;
+  transition: width 200ms ease-in-out;
+}
+
+.comment {
+  background-color: var(--main-lightgreen);
+  border-radius: 5px;
+  padding: 15px;
+  width: 95%;
+}
+
+.comment-name {
+  margin: 0px;
+  margin-bottom: 7px;
+  font-size: 14px;
+}
+
+.comment-title {
+margin: 0px;
+}
+
+.comment-text {
+
+}
+
+
+.text-area {
+  background-color: rgb(239, 238, 238);
+    font-family: "Fredoka", sans-serif;
+    resize: none;
+    width: 90%;
+}
+
+.comment-form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+
+.send-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:5% ;
+  height: 63px;
+  cursor: pointer
+}
+
+a {
+  text-decoration: none;
+}
+
+.title-textbox-wrapper {
+  width: 99%;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: -13px;
+}
+
+.title-textbox {
+  font-family: "Fredoka", sans-serif;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid rgb(133, 133, 133);
+  background-color: rgb(239, 238, 238);
+  
+
+
+}
+
+.modal-textbox {
+  margin: 10px;
+  padding: 5px;
+  border:1px solid black;
+  border-radius: 3px;
+}
