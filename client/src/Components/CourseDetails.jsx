@@ -4,6 +4,7 @@ import "react-circular-progressbar/dist/styles.css";
 import { useUniversities } from "../contexts/AppContext";
 import "animate.css";
 import CourseComments from "./CourseComments";
+import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 
 
 export default function CourseDetails() {
@@ -35,7 +36,7 @@ export default function CourseDetails() {
   return (
     <div className="course-details animate__animated animate__fadeIn ">
       <div className="details-wrapper">
-        <div className="course-details-image">
+        {/* <div className="course-details-image">
           <div style={{ width: 150, height: 150 }}>
             <CircularProgressbarWithChildren value={selectedCourse.avgGrade}>
             <div style={{ fontSize: 32, marginTop: -5 }}>
@@ -66,7 +67,13 @@ export default function CourseDetails() {
               </div>
             </CircularProgressbarWithChildren>
           </div>
-        </div>
+        </div> */}
+          <SparkLineChart
+            data={[1, 4, 2, 5, 7, 2, 4, 6, 5, 7, 2, 4, 6, 5, 7, 2, 4, 6, 5, 7, 2, 4, 6].sort((a,b) => a-b)}
+            height={100}
+            showHighlight
+            showTooltip
+          />
         <p className="course-info">שם: {selectedCourse?.courseName}</p>
         <p className="course-info"> מרצה: {selectedCourse?.lecturerName}</p>
         {/* <p className="course-info">תיאור:</p> */}

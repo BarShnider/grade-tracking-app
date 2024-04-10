@@ -30,7 +30,7 @@ public class DBservices
         // read the connection string from the configuration file
         IConfigurationRoot configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json").Build();
-        string cStr = configuration.GetConnectionString("DefaultConnection");
+        string cStr = configuration.GetConnectionString("myProjDB");
         SqlConnection con = new SqlConnection(cStr);
         con.Open();
         return con;
