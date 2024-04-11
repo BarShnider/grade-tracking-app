@@ -42,6 +42,11 @@
             DBservices dbs = new DBservices();
             return dbs.GetCourseByDegreeID(degreeID);
         }
+        public static List<Course> GetAllCoursesYear(int year)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetCourseByYear(year);
+        }
 
     }
 }

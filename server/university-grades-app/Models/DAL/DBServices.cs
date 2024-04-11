@@ -813,6 +813,9 @@ public class DBservices
         }
 
     }
+    //--------------------------------------------------------------------------------------------------
+    // This all courses by degree 
+    //--------------------------------------------------------------------------------------------------
     public List<Course> GetCourseByDegreeID(int degreeID)
     {
         SqlConnection con;
@@ -902,6 +905,65 @@ public class DBservices
             //int numEffected = cmd.ExecuteNonQuery(); // execute the command
             int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
             return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    //--------------------------------------------------------------------------------------------------
+    // This all courses by degree 
+    //--------------------------------------------------------------------------------------------------
+    public List<Course> GetCourseByYear(int year)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@year", year);
+        cmd = CreateCommandWithStoredProcedure("Get_Course_By_Year", con, paramDic);             // create the command
+
+
+        List<Course> coursesList = new List<Course>();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Course c = new Course();
+
+                c.CourseId = Convert.ToInt32(dataReader["courseId"].ToString());
+                c.CourseCode = Convert.ToInt32(dataReader["courseCode"].ToString());
+                c.CourseName = dataReader["courseName"].ToString();
+                c.LecturerName = dataReader["lecturerName"].ToString();
+                c.avgGrade = Convert.ToInt32(dataReader["avgGrade"].ToString());
+                c.minGrade = Convert.ToInt32(dataReader["maxGrade"].ToString());
+                c.maxGrade = Convert.ToInt32(dataReader["minGrade"].ToString());
+                coursesList.Add(c);
+            }
+            return coursesList;
         }
         catch (Exception ex)
         {
