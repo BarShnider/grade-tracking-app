@@ -98,9 +98,11 @@ function CourseComments() {
         <Comment
           key={comment.commentId}
           commenterId={comment.commenterId}
+          commentId={comment.commentId}
           title={comment.title}
           username={comment.whoCommented}
           text={comment.text}
+          setComments={setComments}
         />
       ))}
       {/* <Comment />
