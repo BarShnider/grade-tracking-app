@@ -813,6 +813,111 @@ public class DBservices
         }
 
     }
+    public List<Course> GetCourseByDegreeID(int degreeID)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@degreeID", degreeID);
+        cmd = CreateCommandWithStoredProcedure("Get_Course_By_Degree", con, paramDic);             // create the command
+
+
+        List<Course> coursesList = new List<Course>();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Course c = new Course();
+
+                c.CourseId = Convert.ToInt32(dataReader["courseId"].ToString());
+                c.CourseCode = Convert.ToInt32(dataReader["courseCode"].ToString());
+                c.CourseName = dataReader["courseName"].ToString();
+                c.LecturerName = dataReader["lecturerName"].ToString();
+                c.avgGrade = Convert.ToInt32(dataReader["avgGrade"].ToString());
+                c.minGrade = Convert.ToInt32(dataReader["maxGrade"].ToString());
+                c.maxGrade = Convert.ToInt32(dataReader["minGrade"].ToString());
+                coursesList.Add(c);
+            }
+            return coursesList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    //--------------------------------------------------------------------------------------------------
+    // This method checks if user exists 
+    //--------------------------------------------------------------------------------------------------
+    public int LoginUser(User user)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@userMail", user.Email);
+        paramDic.Add("@userPassword", user.Password);
+
+
+
+
+        cmd = CreateCommandWithStoredProcedure("CheckUser", con, paramDic);             // create the command
+
+        try
+        {
+            //int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
 
 }
 

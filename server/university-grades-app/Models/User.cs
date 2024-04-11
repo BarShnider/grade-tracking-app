@@ -21,5 +21,11 @@
             }
 
         }
+        public int Login()
+        {
+            DBservices dbs = new DBservices();
+            int numCheck = dbs.LoginUser(this);
+            return numCheck;
+        }
     }
 }

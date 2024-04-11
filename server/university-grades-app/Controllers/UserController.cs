@@ -30,6 +30,21 @@ namespace university_grades_app.Controllers
             return user.Register();
         }
 
+        [HttpPost]
+        [Route("Login")]
+        public int Login(User user
+            )
+        {
+            try
+            {
+                return user.Login();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("User not found");
+            }
+        }
+
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

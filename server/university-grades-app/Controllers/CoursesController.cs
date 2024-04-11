@@ -10,14 +10,14 @@ namespace university_grades_app.Controllers
     {
         // GET: api/<CoursesController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("GetAllCoursesByDegree/{degreeID}")]
+        public List<Course> GetAllCoursesByDeg(int degreeID)
         {
-            return new string[] { "value1", "value2" };
+            return Course.GetAllCoursesByDegree(degreeID);
         }
 
         // GET api/<CoursesController>/5
         [HttpGet]
-        [Route("GetAllCourses")]
         public List<Course> GetAllCourses()
         {
             return Course.GetAllCourses();

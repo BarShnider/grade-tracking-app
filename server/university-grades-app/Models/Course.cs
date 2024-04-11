@@ -37,7 +37,11 @@
                 return true;
             }
         }
-
+        public static List<Course> GetAllCoursesByDegree(int degreeID)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetCourseByDegreeID(degreeID);
+        }
 
     }
 }
