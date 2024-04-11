@@ -40,9 +40,10 @@ namespace university_grades_app.Controllers
         }
 
         // DELETE api/<CommentsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete()]
+        public int Delete(int commentID, int userID)
         {
+            return Comment.DeleteComment(commentID, userID);
         }
     }
 }
