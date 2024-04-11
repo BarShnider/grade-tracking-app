@@ -41,6 +41,7 @@ namespace university_grades_app.Controllers
 
         // DELETE api/<CommentsController>/5
         [HttpDelete()]
+        [Route("DeleteComment/{commentID}")]
         public int Delete(int commentID)
         {
             return Comment.DeleteComment(commentID);
