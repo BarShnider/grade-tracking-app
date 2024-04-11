@@ -36,8 +36,8 @@ export default function CourseDetails() {
   return (
     <div className="course-details animate__animated animate__fadeIn ">
       <div className="details-wrapper">
-        {/* <div className="course-details-image">
-          <div style={{ width: 150, height: 150 }}>
+        <div className="course-details-image">
+          {/* <div style={{ width: 150, height: 150 }}>
             <CircularProgressbarWithChildren value={selectedCourse.avgGrade}>
             <div style={{ fontSize: 32, marginTop: -5 }}>
                 <strong>{selectedCourse?.avgGrade}</strong>
@@ -66,14 +66,14 @@ export default function CourseDetails() {
                 <strong>הכי נמוך</strong> 
               </div>
             </CircularProgressbarWithChildren>
-          </div>
-        </div> */}
+          </div> */}
           <SparkLineChart
             data={[1, 4, 2, 5, 7, 2, 4, 6, 5, 7, 2, 4, 6, 5, 7, 2, 4, 6, 5, 7, 2, 4, 6].sort((a,b) => a-b)}
             height={100}
             showHighlight
             showTooltip
           />
+        </div>
         <p className="course-info">שם: {selectedCourse?.courseName}</p>
         <p className="course-info"> מרצה: {selectedCourse?.lecturerName}</p>
         {/* <p className="course-info">תיאור:</p> */}

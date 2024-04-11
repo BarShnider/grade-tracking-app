@@ -11,6 +11,7 @@ function CourseComments() {
   const [commentWriter,setCommentWriter] = useState(1)
   // console.log(selectedCourse);
 
+  console.log(comments)
   useEffect(function(){
     setCommentText("")
     setCommentTitle("כותרת")
@@ -95,6 +96,8 @@ function CourseComments() {
       </svg>}
       {comments.map((comment) => (
         <Comment
+          key={comment.commentId}
+          commenterId={comment.commenterId}
           title={comment.title}
           username={comment.whoCommented}
           text={comment.text}
