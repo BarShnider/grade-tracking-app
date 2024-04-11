@@ -30,10 +30,10 @@ namespace university_grades_app.Models
             DBservices dbs = new DBservices();
             return dbs.EditComment(commentID, userId, editComment);
         }
-        public static int DeleteComment(int commentID, int userId)
+        public static int DeleteComment(int commentID)
         {
             DBservices dbs = new DBservices();
-            return dbs.DeleteCommentByID(commentID, userId);
+            return dbs.DeleteCommentByID(commentID);
         }
 
     }

@@ -770,7 +770,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method deletes comment by userID and commentId 
     //--------------------------------------------------------------------------------------------------
-    public int DeleteCommentByID(int commentID, int userId)
+    public int DeleteCommentByID(int commentID)
     {
 
         SqlConnection con;
@@ -787,7 +787,6 @@ public class DBservices
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@userID", userId);
         paramDic.Add("@commentID", commentID);
 
         cmd = CreateCommandWithStoredProcedure("Delete_Comment", con, paramDic);             // create the command
