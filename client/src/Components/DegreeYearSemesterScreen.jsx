@@ -37,7 +37,9 @@ export default function DegreeYearSemesterScreen() {
 
   function handleSemesterClick(semester) {
     const newSelectedSemester = selectedSemester === semester ? null : semester;
+    console.log(newSelectedSemester)
     setSelectedSemester(newSelectedSemester);
+    console.log(selectedSemester)
   }
 
   // console.log(useParams())
@@ -152,7 +154,7 @@ export default function DegreeYearSemesterScreen() {
         </ButtonsContainer>
       </DegreeYearSemesterContainer>
       <div className="next-btn-wrapper">
-        <Link to={`next/${selectedSemester?.semesterNumber}`}>
+        <Link to={`next/${selectedSemester?.semesterId}`}>
         <NextButton  >הבא</NextButton>
         </Link>
       </div>
