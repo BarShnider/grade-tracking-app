@@ -7,6 +7,8 @@ using System.Data;
 using university_grades_app.Models;
 using System.Text;
 using System.Globalization;
+using System.ComponentModel.Design;
+using System.Xml.Linq;
 
 /// <summary>
 /// DBServices is a class created by me to provides some DataBase Services
@@ -509,6 +511,7 @@ public class DBservices
                 c.Title = dataReader["CommentTitle"].ToString();
                 c.Date = Convert.ToDateTime(dataReader["DateAdded"]);
                 c.WhoCommented = dataReader["UserName"].ToString();
+                c.CommenterId= Convert.ToInt32(dataReader["UserID"].ToString());
 
 
                 commentsList.Add(c);
@@ -627,6 +630,145 @@ public class DBservices
             }
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // This method adds new user to data
+    //--------------------------------------------------------------------------------------------------
+    public int AddUser(string email, string password)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserName", email);
+        paramDic.Add("@Password", password);
+
+        cmd = CreateCommandWithStoredProcedure("Final_Add_New_User", con, paramDic);
+        try
+        {
+            //int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // This method checks if user is already exist by email 
+    //--------------------------------------------------------------------------------------------------
+    public int CheckUserExistEmail(string email)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@email", email);
+
+        cmd = CreateCommandWithStoredProcedure("Final_Check_User", con, paramDic);             // create the command
+
+        try
+        {
+            //int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    //--------------------------------------------------------------------------------------------------
+    // This method edits comment by user 
+    //--------------------------------------------------------------------------------------------------
+    public int EditComment(int commentID, int userId, string editComment)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@userID", userId);
+        paramDic.Add("@commentID", commentID);
+        paramDic.Add("@comment", editComment);
+
+        cmd = CreateCommandWithStoredProcedure("Edit_Comment", con, paramDic);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
 }
 
 

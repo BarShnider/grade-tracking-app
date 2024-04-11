@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 using university_grades_app.Models;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,9 +33,10 @@ namespace university_grades_app.Controllers
         }
 
         // PUT api/<CommentsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut()]
+        public int Put(int commentID,int userID, [FromBody] string editComment)
         {
+            return Comment.EditCommentByUser(commentID, userID, editComment);
         }
 
         // DELETE api/<CommentsController>/5

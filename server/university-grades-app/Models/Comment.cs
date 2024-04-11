@@ -1,4 +1,6 @@
-﻿namespace university_grades_app.Models
+﻿using System.Xml.Linq;
+
+namespace university_grades_app.Models
 {
     public class Comment
     {
@@ -23,6 +25,11 @@
             return GetAllCommentsByCourseId(courseId);
         }
 
+        public static int EditCommentByUser(int commentID, int userId, string editComment)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.EditComment(commentID, userId, editComment);
+        }
 
     }
 }
