@@ -19,10 +19,6 @@ function Comment({username,title,text,commenterId, commentId,setComments}) {
       if (!res.ok) {
         throw new Error('Failed to delete the comment');
       }
-  
-      // Assuming you want to update your UI to reflect the deletion,
-      // you might want to remove the deleted comment from your comments state.
-      // This step will depend on how you're managing state in your application.
       setComments(currentComments => currentComments.filter(comment => comment.commentId !== commentID));
   
     } catch (error) {

@@ -482,3 +482,20 @@ a {
   border-radius: 15px;
   box-shadow: 3px 3px 3px #2222225c;
 }
+
+.login-header {
+  color: var(--main-darkgreen);
+}
+
+.navbar-user {
+  position: absolute;
+  top: 25px;
+  right: 20px;
+}
+
+.logout-link, .logout-link:visited {
+  text-decoration: underline ;
+  color: #222;
+  cursor: pointer;
+  
+}

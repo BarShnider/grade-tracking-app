@@ -1,0 +1,81 @@
+import TextField from "@mui/material/TextField";
+import Button from "./Button";
+import IconButton from "@mui/material/IconButton";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useState } from "react";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+
+function Register() {
+    const [showPassword, setShowPassword] = useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+  
+    const handleMouseDownPassword = (event) => {
+      event.preventDefault();
+    };
+
+    return (
+<div className="login-form">
+      <h1 className="login-header">הרשמה</h1>
+      <TextField
+        sx={{ width: "80%" }}
+        id="outlined-basic"
+        label="שם משתמש"
+        color={"success"}
+        variant="outlined"
+      />
+      <FormControl sx={{ width: "80%", direction: "ltr" }} variant="outlined">
+        <InputLabel color="success" htmlFor="outlined-adornment-password">
+          סיסמא
+        </InputLabel>
+        <OutlinedInput
+          color="success"
+          id="outlined-adornment-password"
+          type={showPassword ? "text" : "password"}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="סיסמא"
+        />
+      </FormControl>
+      <FormControl sx={{ width: "80%", direction: "ltr" }} variant="outlined">
+        <InputLabel color="success" htmlFor="outlined-adornment-password">
+          אימות סיסמא
+        </InputLabel>
+        <OutlinedInput
+          color="success"
+          id="outlined-adornment-password"
+          type={showPassword ? "text" : "password"}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+          label="אימות סיסמא"
+        />
+      </FormControl>
+      <Button>התחברות</Button>
+    </div>
+    )
+}
+
+export default Register

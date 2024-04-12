@@ -32,7 +32,7 @@ namespace university_grades_app.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public int Login(User user
+        public User Login(User user
             )
         {
             try

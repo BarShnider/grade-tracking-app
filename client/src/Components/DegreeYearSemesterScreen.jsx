@@ -24,7 +24,7 @@ export default function DegreeYearSemesterScreen() {
   const [selectedDegree, setSelectedDegree] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedSemester, setSelectedSemester] = useState(null);
-
+  const [param,setParam] = useState("")
   function handleDegClick(degree) {
     const newSelectedDegree = selectedDegree === degree ? null : degree;
     setSelectedDegree(newSelectedDegree);
@@ -111,6 +111,19 @@ export default function DegreeYearSemesterScreen() {
     [selectedYear]
   );
 
+  useEffect(function(){
+    if (selectedDegree && !selectedYear && !selectedSemester ){
+      setParam(`degree-${selectedDegree.degreeId}`)
+    }
+    else if (selectedDegree && selectedYear && !selectedSemester ){
+      setParam(`year-${selectedYear.yearId}`)
+    }
+    else if (selectedDegree && selectedYear && selectedSemester ){
+      setParam(`semester-${selectedSemester.semesterId}`)
+    }
+
+  },[selectedDegree,selectedSemester,selectedYear])
+
   return (
     <div style={{ textAlign: "center" }}>
       <DegreeYearSemesterContainer>
@@ -154,7 +167,7 @@ export default function DegreeYearSemesterScreen() {
         </ButtonsContainer>
       </DegreeYearSemesterContainer>
       <div className="next-btn-wrapper">
-        <Link to={`next/${selectedSemester?.semesterId}`}>
+        <Link to={`next/${param}`}>
         <NextButton  >הבא</NextButton>
         </Link>
       </div>

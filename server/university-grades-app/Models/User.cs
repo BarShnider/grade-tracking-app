@@ -21,11 +21,14 @@
             }
 
         }
-        public int Login()
+        public User Login()
         {
             DBservices dbs = new DBservices();
             int numCheck = dbs.LoginUser(this);
-            return numCheck;
+
+                return dbs.GetUserById(numCheck);
+      
+
         }
     }
 }

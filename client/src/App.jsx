@@ -9,6 +9,8 @@ import FacultiesScreen from "./Components/FacultiesScreen";
 import AddNewCourseScreen from "./Components/AddNewCourseScreen";
 import AddCourseForm from "./Components/AddCourseForm";
 import CourseDestinationForm from "./Components/CourseDestinationForm";
+import LoginScreen from "./Components/LoginScreen";
+import Register from "./Components/Register";
 
 function App() {
   return (
@@ -18,6 +20,9 @@ function App() {
           <Navbar />
           <Routes>
             <Route index element={<Navigate replace to="universities" />} />
+            <Route path="login" element={<LoginScreen />} />
+            <Route path="register" element={<Register />} />
+
 
             <Route
               path="universities"

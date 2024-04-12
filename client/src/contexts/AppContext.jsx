@@ -8,6 +8,7 @@ function AppProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [currentUniversity, setCurrentUniversity] = useState({});
   const [selectedCourse, setSelectedCourse] = useState(null)
+  const [connectedUser, setConnectedUser] = useState(null)
 
 
   const [newCourse, setNewCourse] = useState(null)
@@ -44,7 +45,7 @@ function AppProvider({ children }) {
     }
   }
 
-  return <AppContext.Provider value={{universities,isLoading,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse}}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{universities,isLoading,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
 }
 
 

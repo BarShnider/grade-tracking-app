@@ -12,40 +12,91 @@ export default function CourseList({ list }) {
   const [courses, setCourses] = useState([])
   const {num} = useParams()
   const {setSelectedCourse, selectedCourse} = useUniversities()
-  const [isLoading, setIsLoading] = useState(false)  
+  const [isLoading, setIsLoading] = useState(false)
+  const [query,setQuery] = useState("")
   function onSelectedCourse(course){
     const newSelectedCourse = selectedCourse === course ? null : course;
     setSelectedCourse(newSelectedCourse);
     
   }
-  useEffect(
-    function () {
-      if (num) {
-        setIsLoading(true)
-        fetch(
-          `${BASE_URL}/Courses/GetAllCoursesBySemesterId/${num}`
-        )
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json(); // Parse JSON data from the response
-          })
-          .then((data) => {
-            // console.log(data);
-            setCourses(data);
-          })
-          .catch((err) => {
-            console.error(err);
-          }).finally(
-            setIsLoading(false)
-          );
-      }
-    },
-    [num]
-  );
-  // if(isLoading) return   <TailSpin height="80"width="80"color="#4fa94d"ariaLabel="tail-spin-loading"radius="1"wrapperStyle={{}}wrapperClass=""visible={true}/>
 
+  // useEffect(function(){
+  //   let type = num.split('-')[0]
+  //   let id = num.split('-')[1]
+  //   console.log(type)
+  //   console.log(id)
+  //   if(type === "semester"){
+  //     setQuery(`GetAllCoursesBySemesterId/${id}`)
+  //   }
+  //   else if(type === "year"){
+  //     setQuery(`GetAllCoursesByYear/${id}`)
+  //   }
+  //   else if(type === "degree"){
+  //     setQuery(`GetAllCoursesByDegree/${id}`)
+  //   }
+    
+  // },[num])
+  // useEffect(
+  //   function () {
+  //     if (num) { // OPTION: CAN ADD 'ELSE' WHEN THERE IS NO PARAMS AND THEN GET
+  //       setIsLoading(true)
+  //       fetch(
+  //         `${BASE_URL}/Courses/${query}`
+  //       )
+  //         .then((response) => {
+  //           if (!response.ok) {
+  //             throw new Error("Network response was not ok");
+  //           }
+  //           return response.json(); // Parse JSON data from the response
+  //         })
+  //         .then((data) => {
+  //           // console.log(data);
+  //           setCourses(data);
+  //         })
+  //         .catch((err) => {
+  //           console.error(err);
+  //         }).finally(
+  //           setIsLoading(false)
+  //         );
+  //     }
+
+  //   },
+  //   [query]
+  // );
+
+  useEffect(() => {
+    let type = num.split('-')[0];
+    let id = num.split('-')[1];
+    let query = "";
+
+    if (type === "semester") {
+      query = `GetAllCoursesBySemesterId/${id}`;
+    } else if (type === "year") {
+      query = `GetAllCoursesByYear/${id}`;
+    } else if (type === "degree") {
+      query = `GetAllCoursesByDegree/${id}`;
+    }
+
+    if (query) {
+      setIsLoading(true);
+      fetch(`${BASE_URL}/Courses/${query}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); // Parse JSON data from the response
+        })
+        .then((data) => {
+          setCourses(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [num]); 
   return (
     <>
       <ButtonsContainer isLoading={isLoading}>

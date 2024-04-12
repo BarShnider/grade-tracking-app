@@ -921,6 +921,58 @@ public class DBservices
             }
         }
     }
+
+
+    public User GetUserById(int userId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@userId", userId);
+        cmd = CreateCommandWithStoredProcedure("SP_GetUserById", con, paramDic);             // create the command
+
+
+        List<Course> coursesList = new List<Course>();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+                User u = new User();
+
+            while (dataReader.Read())
+            {
+
+                u.Email = dataReader["UserName"].ToString();
+
+            }
+            return u;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
     //--------------------------------------------------------------------------------------------------
     // This all courses by degree 
     //--------------------------------------------------------------------------------------------------

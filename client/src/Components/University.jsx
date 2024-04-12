@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom"
+import { Link,  } from "react-router-dom"
 
 export default function University({univ}){
     const {imageUrl, location, name, universityId} = univ
     // console.log(universityId)
-
     return (
         <Link to={`${universityId}`} className="university-wrapper nav-link">
         <div className="university-wrapper" >
