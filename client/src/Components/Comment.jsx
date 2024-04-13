@@ -31,12 +31,12 @@ function Comment({username,title,text,commenterId, commentId,setComments}) {
   
   async function updateComment(commentID, userID, editComment) {
     try {
-      const response = await fetch(`${BASE_URL}/Comments/${commentID}/${userID}`, {
+      const response = await fetch(`${BASE_URL}/Comments?commentID=${commentID}&userID=${userID}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ editComment })
+        body: JSON.stringify( editComment )
       });
   
       if (!response.ok) {
@@ -53,6 +53,7 @@ function Comment({username,title,text,commenterId, commentId,setComments}) {
             comment.commentId === commentID ? { ...comment, text: editComment } : comment
           )
         );
+        setIsEditMode(mode => !mode)
       } else {
         // Handle the case where the server did not update any records
         console.error("No comments were updated.");
@@ -79,10 +80,20 @@ function Comment({username,title,text,commenterId, commentId,setComments}) {
         <IconButton onClick={() => deleteComment(commentId)} aria-label="delete" color="secondery" size="small">
         <DeleteIcon sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
       </IconButton>
-        <IconButton onClick={() => setIsEditMode((mode) => !mode)} aria-label="edit" color="secondery" size="small">
+
+
+      {!isEditMode && <IconButton onClick={() => setIsEditMode((mode) => !mode)} aria-label="edit" color="secondery" size="small">
+      <EditRoundedIcon sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
+      </IconButton>}
+      {isEditMode && <IconButton onClick={() => updateComment(commentId,connectedUser.id,newText)} aria-label="edit" color="secondery" size="small">
+      <DoneIcon  sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
+      </IconButton>}
+
+
+        {/* <IconButton onClick={() => setIsEditMode((mode) => !mode)} aria-label="edit" color="secondery" size="small">
         {!isEditMode && <EditRoundedIcon sx={{width:"20px",height:"20px", margin:"0px 5px"}} />}
         {isEditMode && <DoneIcon onClick={() => updateComment(commentId,connectedUser.id,newText)} sx={{width:"20px",height:"20px", margin:"0px 5px"}} />}
-      </IconButton>
+      </IconButton> */}
         </div>}
         </div>
         </>
