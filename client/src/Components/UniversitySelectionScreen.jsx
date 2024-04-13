@@ -6,14 +6,14 @@ import UniversitiesContainer from "./UniversitiesContainer";
 import University from "./University";
 import {useNavigate} from 'react-router-dom'
 export default function UniversitySelectionScreen() {
-  const { connectedUser } = useUniversities();
+  const { connectedUser, loadingUser } = useUniversities();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!connectedUser) {
+    if (!connectedUser && !loadingUser) {
       navigate('/login');
     }
-  }, [connectedUser, navigate]);
+  }, [connectedUser, navigate,loadingUser]);
   return (
     
     <>

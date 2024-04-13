@@ -18,7 +18,7 @@ function generateHebrewLettersByIndex(index) {
 
 export default function DegreeYearSemesterScreen() {
   // generateHebrewLettersByIndex(0)
-  const { connectedUser } = useUniversities();
+  const { connectedUser ,loadingUser} = useUniversities();
   const [degrees, setDegrees] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [years, setYears] = useState([]);
@@ -32,10 +32,10 @@ export default function DegreeYearSemesterScreen() {
   
 
   useEffect(() => {
-    if (!connectedUser) {
+    if (!connectedUser && !loadingUser) {
       navigate('/login');
     }
-  }, [connectedUser, navigate]);
+  }, [connectedUser, navigate,loadingUser]);
 
 
   function handleDegClick(degree) {

@@ -6,14 +6,14 @@ import FacultySelectionButtonContainer from "./FacultySelectionButtonContainer";
 import {useNavigate} from 'react-router-dom'
 function FacultiesScreen() {
     const { id } = useParams();
-    const {connectedUser , getFacultiesByUniversityId,faculties,isLoading} = useUniversities()
+    const {connectedUser , getFacultiesByUniversityId,faculties,isLoading,loadingUser} = useUniversities()
     const navigate = useNavigate();
   
     useEffect(() => {
-      if (!connectedUser) {
+      if (!connectedUser && !loadingUser) {
         navigate('/login');
       }
-    }, [connectedUser, navigate]);
+    }, [connectedUser, navigate,loadingUser]);
 
     useEffect(function(){
         getFacultiesByUniversityId(id)

@@ -9,6 +9,7 @@ function AppProvider({ children }) {
   const [currentUniversity, setCurrentUniversity] = useState({});
   const [selectedCourse, setSelectedCourse] = useState(null)
   const [connectedUser, setConnectedUser] = useState(null)
+  const [loadingUser, setLoadingUser] = useState(true);  // Default to true to assume loading initially
 
 
   const [newCourse, setNewCourse] = useState(null)
@@ -45,16 +46,31 @@ function AppProvider({ children }) {
     }
   }
 
-  
-  useEffect(function(){
-    let connUser = JSON.parse(sessionStorage.getItem("connectedUser"))
-    console.log(connUser)
-    if(connUser !== null & connectedUser === null){
-      setConnectedUser(connUser);
-    }
-  },[])
+  useEffect(() => {
+    const loadConnectedUser = () => {
+      try {
+        const storedUser = localStorage.getItem("connectedUser");
+        if (storedUser) {
+          setConnectedUser(JSON.parse(storedUser));
+        }
+      } catch (error) {
+        console.error("Failed to retrieve user:", error);
+      }
+      setLoadingUser(false);  // Set loading to false after attempting to load user
+    };
 
-  return <AppContext.Provider value={{universities,isLoading,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
+    loadConnectedUser();
+  }, []);
+
+  useEffect(() => {
+    if (connectedUser) {
+      localStorage.setItem("connectedUser", JSON.stringify(connectedUser));
+    } else {
+      localStorage.removeItem("connectedUser");
+    }
+  }, [connectedUser]);
+
+  return <AppContext.Provider value={{universities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
 }
 
 
