@@ -5,6 +5,8 @@
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string FirstName { get; set; }   
+        public string LastName { get; set; }
 
         //This function register a new user to the database
         public bool Register()
@@ -16,7 +18,7 @@
             }
             else
             {
-                dbs.AddUser(this.Email,this.Password);
+                dbs.AddUser(this);
                 return true;
             }
 
@@ -41,6 +43,12 @@
         {
             DBservices dbs = new DBservices();
             return dbs.GetUserRating(userId,courseId);
+        }
+
+        public static int UserGradesCourse(int userId, int courseId, int grade)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.UserGradesCourse(userId,courseId, grade);
         }
     }
 }

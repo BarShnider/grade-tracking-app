@@ -48,6 +48,14 @@ namespace university_grades_app.Controllers
         }
 
         [HttpPost]
+        [Route("UserGradesCourse/{userId}/{courseId}/{grade}")]
+        public int UserGradesCourse(int userId, int courseId, int grade)
+        {
+
+            return university_grades_app.Models.User.UserGradesCourse(userId, courseId, grade);
+        }
+
+        [HttpPost]
         [Route("Login")]
         public User Login(User user
             )

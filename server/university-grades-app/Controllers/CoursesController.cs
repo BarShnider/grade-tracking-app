@@ -23,6 +23,13 @@ namespace university_grades_app.Controllers
             return Course.GetAllCoursesYear(yearID);
         }
 
+        [HttpGet]
+        [Route("GetAllCoursesGradesByCourseID/{courseID}")]
+        public List<int> GetAllCoursesByCourseID(int courseID)
+        {
+            return Course.GetCoursesGrades(courseID);
+        }
+
         // GET api/<CoursesController>/5
         [HttpGet]
         public List<Course> GetAllCourses()

@@ -23,6 +23,11 @@
             DBservices dbs = new DBservices();
             return dbs.GetAllCoursesBySemsterId(semesterId);
         }
+        public static List<int> GetCoursesGrades(int courseID)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetCoursesGradesByCourseID(courseID);
+        }
 
         public static bool AddNewCourse(Course c, int semesterId)
         {

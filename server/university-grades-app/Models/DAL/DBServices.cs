@@ -69,7 +69,7 @@ public class DBservices
 
 
     //--------------------------------------------------------------------------------------------------
-    // This method Reads all Songs
+    // This method returns all universities
     //--------------------------------------------------------------------------------------------------
     public List<University> GetUniversities()
     {
@@ -634,7 +634,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method adds new user to data
     //--------------------------------------------------------------------------------------------------
-    public int AddUser(string email, string password)
+    public int AddUser(User user)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -649,8 +649,10 @@ public class DBservices
             throw (ex);
         }
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@UserName", email);
-        paramDic.Add("@Password", password);
+        paramDic.Add("@UserName", user.Email);
+        paramDic.Add("@Password", user.Password);
+        paramDic.Add("@FirstName", user.FirstName);
+        paramDic.Add("@LastName", user.LastName);
 
         cmd = CreateCommandWithStoredProcedure("Final_Add_New_User", con, paramDic);
         try
@@ -768,6 +770,9 @@ public class DBservices
         }
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // This method add rating to course by user
+    //--------------------------------------------------------------------------------------------------
     public int UserRatesCourse(int userId, int courseId,float rating)
     {
 
@@ -1184,7 +1189,107 @@ public class DBservices
                 con.Close();
             }
         }
+    }
+    //--------------------------------------------------------------------------------------------------
+    // This method add grade to course by user
+    //--------------------------------------------------------------------------------------------------
+    public int UserGradesCourse(int userId, int courseId, int grade)
+    {
 
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", userId);
+        paramDic.Add("@courseId", courseId);
+        paramDic.Add("@grade", grade);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_UserGradesCourse", con, paramDic);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // This method add grades to course by courseID
+    //--------------------------------------------------------------------------------------------------
+
+    public List<int> GetCoursesGradesByCourseID(int courseID)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@courseID", courseID);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetGradesByCourseID", con, paramDic);             // create the command
+        List<int> grades = new List<int>();
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                int grade = Convert.ToInt32(dataReader["grade"].ToString());
+                grades.Add(grade);
+            }
+            return grades;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
     }
 }
 
