@@ -5,7 +5,8 @@ import DegreeYearSemesterContainer from "./DegreeYearSemesterContainer";
 import Button from "./Button";
 import NextButton from "./NextButton";
 import { useState, useEffect } from "react";
-
+import { useUniversities } from "../contexts/AppContext";
+import {useNavigate} from 'react-router-dom'
 const BASE_URL = `https://localhost:7204/api`;
 
 function generateHebrewLettersByIndex(index) {
@@ -17,6 +18,7 @@ function generateHebrewLettersByIndex(index) {
 
 export default function DegreeYearSemesterScreen() {
   // generateHebrewLettersByIndex(0)
+  const { connectedUser } = useUniversities();
   const [degrees, setDegrees] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [years, setYears] = useState([]);
@@ -25,6 +27,17 @@ export default function DegreeYearSemesterScreen() {
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedSemester, setSelectedSemester] = useState(null);
   const [param,setParam] = useState("")
+  const navigate = useNavigate();
+
+  
+
+  useEffect(() => {
+    if (!connectedUser) {
+      navigate('/login');
+    }
+  }, [connectedUser, navigate]);
+
+
   function handleDegClick(degree) {
     const newSelectedDegree = selectedDegree === degree ? null : degree;
     setSelectedDegree(newSelectedDegree);

@@ -45,6 +45,15 @@ function AppProvider({ children }) {
     }
   }
 
+  
+  useEffect(function(){
+    let connUser = JSON.parse(sessionStorage.getItem("connectedUser"))
+    console.log(connUser)
+    if(connUser !== null & connectedUser === null){
+      setConnectedUser(connUser);
+    }
+  },[])
+
   return <AppContext.Provider value={{universities,isLoading,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
 }
 

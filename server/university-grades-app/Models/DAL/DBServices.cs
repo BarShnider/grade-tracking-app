@@ -79,7 +79,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -191,7 +191,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -250,7 +250,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -310,7 +310,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -366,7 +366,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -424,7 +424,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -482,7 +482,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -767,6 +767,53 @@ public class DBservices
             }
         }
     }
+
+    public int UserRatesCourse(int userId, int courseId,float rating)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", userId);
+        paramDic.Add("@courseId", courseId);
+        paramDic.Add("@Rating", rating);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_UserRatingCourse", con, paramDic);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
     //--------------------------------------------------------------------------------------------------
     // This method deletes comment by userID and commentId 
     //--------------------------------------------------------------------------------------------------
@@ -823,7 +870,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -930,7 +977,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -952,7 +999,7 @@ public class DBservices
 
             while (dataReader.Read())
             {
-
+                u.Id = Convert.ToInt32(dataReader["UserId"].ToString());
                 u.Email = dataReader["UserName"].ToString();
 
             }
@@ -983,7 +1030,7 @@ public class DBservices
 
         try
         {
-            con = connect("DefaultConnection"); // create the connection
+            con = connect("myProjDB"); // create the connection
         }
         catch (Exception ex)
         {
@@ -1033,6 +1080,112 @@ public class DBservices
         }
     }
 
+    public float GetCourseRating(int courseId)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@courseId", courseId);
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetCourseRating", con, paramDic);             // create the command
+
+
+        
+        
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            float rating = 0;
+            while (dataReader.Read())
+            {
+                rating = float.Parse(dataReader["AverageRating"].ToString());
+
+            }
+                return rating;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+
+    public float GetUserRating(int userId,int courseId)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@userID", userId);
+        paramDic.Add("@courseId", courseId);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetUserRating", con, paramDic);             // create the command
+
+
+
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            float rating = 0;
+            while (dataReader.Read())
+            {
+                rating = float.Parse(dataReader["UserRating"].ToString());
+
+            }
+            return rating;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
 }
 
 

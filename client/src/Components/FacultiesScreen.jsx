@@ -2,12 +2,19 @@ import { Link, useParams } from "react-router-dom"
 import { useUniversities } from "../contexts/AppContext"
 import { useEffect } from "react";
 import Button from "./Button";
-import ButtonsContainer from "./ButtonsContainer";
 import FacultySelectionButtonContainer from "./FacultySelectionButtonContainer";
-
+import {useNavigate} from 'react-router-dom'
 function FacultiesScreen() {
     const { id } = useParams();
-    const {getFacultiesByUniversityId,faculties,isLoading} = useUniversities()
+    const {connectedUser , getFacultiesByUniversityId,faculties,isLoading} = useUniversities()
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      if (!connectedUser) {
+        navigate('/login');
+      }
+    }, [connectedUser, navigate]);
+
     useEffect(function(){
         getFacultiesByUniversityId(id)
     },[id])

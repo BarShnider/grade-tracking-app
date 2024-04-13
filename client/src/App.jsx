@@ -4,15 +4,17 @@ import Navbar from "./Components/Navbar";
 import UniversitySelectionScreen from "./Components/UniversitySelectionScreen";
 import DegreeYearSemesterScreen from "./Components/DegreeYearSemesterScreen";
 import CourseSelectionScreen from "./Components/CourseSelectionScreen";
-import { AppProvider } from "./contexts/AppContext";
+import { AppProvider, useUniversities } from "./contexts/AppContext";
 import FacultiesScreen from "./Components/FacultiesScreen";
 import AddNewCourseScreen from "./Components/AddNewCourseScreen";
 import AddCourseForm from "./Components/AddCourseForm";
 import CourseDestinationForm from "./Components/CourseDestinationForm";
 import LoginScreen from "./Components/LoginScreen";
 import Register from "./Components/Register";
+import { useEffect } from "react";
 
 function App() {
+
   return (
     <>
       <AppProvider>

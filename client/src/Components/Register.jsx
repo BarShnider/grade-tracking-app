@@ -8,11 +8,11 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-
+import {useNavigate} from "react-router-dom";
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword((show) => !show);
-  
+    const navigate = useNavigate();
     const handleMouseDownPassword = (event) => {
       event.preventDefault();
     };
@@ -20,8 +20,10 @@ function Register() {
     return (
 <div className="login-form">
       <h1 className="login-header">הרשמה</h1>
+      <span>יש לך כבר משתמש? <span className="clickable logout-link" onClick={() => navigate("/login")}>התחבר עכשיו!</span></span>
+
       <TextField
-        sx={{ width: "80%" }}
+        sx={{ width: "80%",direction: "ltr" }}
         id="outlined-basic"
         label="שם משתמש"
         color={"success"}

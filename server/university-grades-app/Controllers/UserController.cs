@@ -20,6 +20,15 @@ namespace university_grades_app.Controllers
         [HttpGet("{email}")]
         public void Get(string email)
         {
+
+        }
+
+        // GET api/<UserController>/5
+        [HttpGet]
+        [Route("GetUserRating/{courseId}/{userId}")]
+        public float GetUserRating(int userId,int courseId)
+        {
+            return university_grades_app.Models.User.GetUserRating(userId,courseId);
         }
 
         // POST api/<UserController>
@@ -28,6 +37,14 @@ namespace university_grades_app.Controllers
         public bool Post([FromBody] User user)
         {
             return user.Register();
+        }
+
+        [HttpPost]
+        [Route("UserRatesCourse/{userId}/{courseId}/{rating}")]
+        public int UserRatesCourse(int userId,int courseId,float rating)
+        {
+            
+            return university_grades_app.Models.User.UserRatesCourse(userId,courseId,rating);
         }
 
         [HttpPost]

@@ -48,5 +48,12 @@
             return dbs.GetCourseByYear(year);
         }
 
+        public static float GetCourseRating(int courseId)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetCourseRating(courseId);
+        }
+
+
     }
 }

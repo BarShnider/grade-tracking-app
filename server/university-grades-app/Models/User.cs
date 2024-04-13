@@ -30,5 +30,17 @@
       
 
         }
+
+        public static int UserRatesCourse(int userId, int courseId,float rating)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.UserRatesCourse(userId, courseId,rating);
+        }
+
+        public static float GetUserRating(int userId, int courseId)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetUserRating(userId,courseId);
+        }
     }
 }

@@ -37,6 +37,13 @@ namespace university_grades_app.Controllers
             return Course.GetAllCoursesBySemesterId(semesterId);
         }
 
+        [HttpGet]
+        [Route("GetCourseRating/{courseId}")]
+        public float GetCourseRating(int courseId)
+        {
+            return Course.GetCourseRating(courseId);
+        }
+
         // POST api/<CoursesController>
         [HttpPost]
         [Route("AddNewCourse/{semesterId}")]

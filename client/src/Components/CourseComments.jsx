@@ -4,11 +4,10 @@ import { useUniversities } from "../contexts/AppContext";
 const BASE_URL = `https://localhost:7204/api`;
 
 function CourseComments() {
-  const { selectedCourse, setIsLoading, isLoading } = useUniversities();
+  const { selectedCourse, setIsLoading, isLoading,connectedUser } = useUniversities();
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("")
   const [commentTitle, setCommentTitle] = useState("כותרתתת")
-  const [commentWriter,setCommentWriter] = useState(1)
   // console.log(selectedCourse);
 
   console.log(comments)
@@ -47,10 +46,10 @@ function CourseComments() {
   async function createComment() {
     try {
       let newComment = {
-        CommenterId: commentWriter,
+        CommenterId: connectedUser.id,
         Title: commentTitle,
         Text:commentText,
-        whoCommented : "אנונימייייי"
+        whoCommented : connectedUser.email
       }
       // setIsLoading(true);
       const res = await fetch(`${BASE_URL}/Comments/CommentOnCourse/${selectedCourse?.courseId}`, {

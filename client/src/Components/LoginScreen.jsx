@@ -26,6 +26,11 @@ function LoginScreen() {
     event.preventDefault();
   };
 
+  function loginAsGuest(){
+    setConnectedUser({id:2, email:"אורח",password:"" })
+    navigate("/universities")
+  }
+
   async function login() {
     try {
       const user = {
@@ -48,7 +53,8 @@ function LoginScreen() {
       const data = await response.json(); // Or handle the response as needed
       if(data !== 0){
       console.log("Login successful", data);
-      setConnectedUser(data)
+      setConnectedUser(data);
+      sessionStorage.setItem("connectedUser",JSON.stringify(data))
       navigate('/universities'); // If using react-router-dom for navigation
       }
       else{
@@ -66,7 +72,7 @@ function LoginScreen() {
     <div className="login-form">
       <h1 className="login-header">התחברות</h1>
       <TextField
-        sx={{ width: "80%" }}
+        sx={{ width: "80%",direction: "ltr" }}
         id="outlined-basic"
         label="שם משתמש"
         color={"success"}
@@ -97,6 +103,8 @@ function LoginScreen() {
           label="סיסמא"
         />
       </FormControl>
+      <span>עדיין לא רשום? <span className="clickable logout-link" onClick={() => navigate("/register")}>הרשם עכשיו!</span></span>
+       <span className="clickable logout-link" onClick={() => loginAsGuest()}>התחבר כאורח</span>
       <Button onClick={() => login()}>התחבר</Button>
     </div>
   );
