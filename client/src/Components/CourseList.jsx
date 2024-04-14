@@ -88,6 +88,10 @@ export default function CourseList({ list }) {
         })
         .then((data) => {
           setCourses(data);
+          if (data && data.length > 0 && !selectedCourse) {
+            setSelectedCourse(data[0]); // Set the first course as selected if no course is currently selected
+            
+          }
         })
         .catch((err) => {
           console.error(err);

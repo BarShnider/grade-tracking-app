@@ -29,6 +29,20 @@ function Register() {
         color={"success"}
         variant="outlined"
       />
+          <TextField
+        sx={{ width: "80%",direction: "ltr" }}
+        id="outlined-basic"
+        label="שם פרטי"
+        color={"success"}
+        variant="outlined"
+      />
+          <TextField
+        sx={{ width: "80%",direction: "ltr" }}
+        id="outlined-basic"
+        label="שם משפחה"
+        color={"success"}
+        variant="outlined"
+      />
       <FormControl sx={{ width: "80%", direction: "ltr" }} variant="outlined">
         <InputLabel color="success" htmlFor="outlined-adornment-password">
           סיסמא

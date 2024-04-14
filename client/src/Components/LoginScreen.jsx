@@ -36,6 +36,8 @@ function LoginScreen() {
       const user = {
         Email: email, // Assuming your backend expects a Username field
         Password: password,  // Assuming your backend expects a Password field
+        FirstName: "OptionalFirstName", // Add a default or form-controlled value
+        LastName: "OptionalLastName"   // Add a default or form-controlled value
       };
   
       const response = await fetch(`${BASE_URL}/User/Login`, { 
@@ -51,7 +53,7 @@ function LoginScreen() {
       }
       
       const data = await response.json(); // Or handle the response as needed
-      if(data !== 0){
+      if(data.id !== 0){
       console.log("Login successful", data);
       setConnectedUser(data);
       sessionStorage.setItem("connectedUser",JSON.stringify(data))

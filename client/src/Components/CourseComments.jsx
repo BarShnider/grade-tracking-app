@@ -70,13 +70,13 @@ function CourseComments() {
 
   return (
     <div className="comments-container">
-      <div className="title-textbox-wrapper">
+      {/* <div className="title-textbox-wrapper">
         <input className="title-textbox" type="text" placeholder="כתוב כותרת..." onChange={e => setCommentTitle(e.target.value)}  />
-      </div>
+      </div> */}
       <div className="comment-form-wrapper">
         <textarea onChange={(e) => setCommentText(e.target.value)}
           className="comment text-area"
-          placeholder="כתוב תגובה..."
+          placeholder="כתוב את דעתך על הקורס..."
         ></textarea>
         <button className="small-btn send-btn" onClick={createComment}>
           <span>שלח</span>
