@@ -353,8 +353,8 @@ const userGradesCourse = async (userId, courseId, grade) => {
           </span>
         </p>
         {/* <p className="course-info">תיאור:</p> */}
-      </div>
       <CourseComments />
+      </div>
     </div>
   );
 }

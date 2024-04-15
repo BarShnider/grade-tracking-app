@@ -12,7 +12,6 @@ import CourseDestinationForm from "./Components/CourseDestinationForm";
 import LoginScreen from "./Components/LoginScreen";
 import Register from "./Components/Register";
 import { useEffect } from "react";
-import EmailForm from "./Components/EmailForm";
 
 function App() {
   return (
