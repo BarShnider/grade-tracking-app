@@ -25,13 +25,26 @@ export default function MenuNavbar() {
       setOpen((prevOpen) => !prevOpen);
     };
   
+    // const handleClose = (event) => {
+    //   if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    //       logout();
+    //     return;
+    //   }
+    //   setOpen(false);
+    // };
+
     const handleClose = (event) => {
-      if (anchorRef.current && anchorRef.current.contains(event.target)) {
-          logout();
-        return;
+      // Close the dropdown if the click is outside the anchor element (button)
+      if (anchorRef.current && !anchorRef.current.contains(event.target)) {
+        setOpen(false);
       }
-      setOpen(false);
     };
+    
+    const handleEditDetails = (e) => {
+      navigate("/edit");
+      handleClose(e);
+  };
+
 
     const onLogoutClick = (event) => {
         logout()
@@ -96,7 +109,7 @@ export default function MenuNavbar() {
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={handleClose}>עריכת פרטים</MenuItem>
+                  <MenuItem onClick={(e) => handleEditDetails(e)}>עריכת פרטים</MenuItem>
                   <MenuItem onClick={(e) => onLogoutClick(e)}>התנתק</MenuItem>
                 </MenuList>
               </ClickAwayListener>

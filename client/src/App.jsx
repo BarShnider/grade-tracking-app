@@ -12,6 +12,7 @@ import CourseDestinationForm from "./Components/CourseDestinationForm";
 import LoginScreen from "./Components/LoginScreen";
 import Register from "./Components/Register";
 import { useEffect } from "react";
+import EditDetails from "./Components/EditDetails";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route index element={<Navigate replace to="universities" />} />
             <Route path="login" element={<LoginScreen />} />
             <Route path="register" element={<Register />} />
+            <Route path="edit" element={<EditDetails />} />
 
             <Route
               path="universities"

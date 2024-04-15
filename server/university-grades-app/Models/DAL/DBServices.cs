@@ -827,6 +827,9 @@ public class DBservices
             {
                 u.Id = Convert.ToInt32(dataReader["UserId"].ToString());
                 u.Email = dataReader["UserName"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+
 
             }
             return u;
