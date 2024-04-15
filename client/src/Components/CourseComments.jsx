@@ -10,7 +10,6 @@ function CourseComments() {
   const [commentTitle, setCommentTitle] = useState("כותרתתת")
   // console.log(selectedCourse);
 
-  console.log(comments)
   useEffect(function(){
     setCommentText("")
     setCommentTitle("כותרת")

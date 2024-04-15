@@ -72,8 +72,7 @@ function Comment({username,title,text,commenterId, commentId,setComments}) {
         <div className="comment">
             <div>
             <p className="comment-name">{username}</p>
-            <h4 className="comment-title">{title}</h4>
-            {!isEditMode? <span className="comment-text">{text}</span>: <textarea onChange={(e)=>setNewText(e.target.value) } defaultValue={text}></textarea>}
+            {!isEditMode? <span className="comment-text">{text}</span>: <textarea style={{width:"80%"}} onChange={(e)=>setNewText(e.target.value) } defaultValue={text}></textarea>}
             </div>
 
         {connectedUser.id === commenterId && <div>
