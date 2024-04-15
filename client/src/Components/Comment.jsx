@@ -77,15 +77,15 @@ function Comment({username,title,text,commenterId, commentId,setComments}) {
             </div>
 
         {connectedUser.id === commenterId && <div>
-        <IconButton onClick={() => deleteComment(commentId)} aria-label="delete" color="secondery" size="small">
+        <IconButton sx={{width:"30px",height:"30px"}} onClick={() => deleteComment(commentId)} aria-label="delete" color="secondery" size="small">
         <DeleteIcon sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
       </IconButton>
 
 
-      {!isEditMode && <IconButton onClick={() => setIsEditMode((mode) => !mode)} aria-label="edit" color="secondery" size="small">
+      {!isEditMode && <IconButton sx={{width:"30px",height:"30px"}} onClick={() => setIsEditMode((mode) => !mode)} aria-label="edit" color="secondery" size="small">
       <EditRoundedIcon sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
       </IconButton>}
-      {isEditMode && <IconButton onClick={() => updateComment(commentId,connectedUser.id,newText)} aria-label="edit" color="secondery" size="small">
+      {isEditMode && <IconButton sx={{width:"30px",height:"30px"}} onClick={() => updateComment(commentId,connectedUser.id,newText)} aria-label="edit" color="secondery" size="small">
       <DoneIcon  sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
       </IconButton>}
 

@@ -30,15 +30,17 @@ function App() {
               path="universities"
               element={<UniversitySelectionScreen />}
             />
-            <Route path="universities/:id" element={<FacultiesScreen />} />
+            <Route path="universities/:id" element={<DegreeYearSemesterScreen />} />
             <Route
               path="universities/:id/faculties/:facId"
               element={<DegreeYearSemesterScreen />}
             />
-            <Route
+            <Route path="universities/:id/next/:num" element={<CourseSelectionScreen />} />
+
+            {/* <Route
               path="universities/:id/faculties/:facId/next/:num"
               element={<CourseSelectionScreen />}
-            />
+            /> */}
             <Route path="addnew" element={<AddNewCourseScreen />}>
               <Route path="course-form" element={<AddCourseForm />} />
               <Route path="dest-form" element={<CourseDestinationForm />} />

@@ -525,3 +525,15 @@ a {
   fill:var(--main-lightblue) !important; 
   background-color: var(--main-lightblue) !important;
 }
+
+.container-slide {
+  transition: transform 0.3s ease-in-out;
+}
+
+.container-move-right {
+  transform: translateX(100%);
+}
+
+.container-visible {
+  transform: translateX(0%);
+}

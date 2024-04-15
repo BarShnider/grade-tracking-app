@@ -18,11 +18,12 @@ function generateHebrewLettersByIndex(index) {
 
 export default function DegreeYearSemesterScreen() {
   // generateHebrewLettersByIndex(0)
-  const { connectedUser ,loadingUser} = useUniversities();
+  const { connectedUser, getFacultiesByUniversityId ,loadingUser,faculties} = useUniversities();
   const [degrees, setDegrees] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [years, setYears] = useState([]);
-  const { facId } = useParams();
+  const { facId,id } = useParams();
+  const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [selectedDegree, setSelectedDegree] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
   const [selectedSemester, setSelectedSemester] = useState(null);
@@ -38,6 +39,9 @@ export default function DegreeYearSemesterScreen() {
   }, [connectedUser, navigate,loadingUser]);
 
 
+  useEffect(function(){
+    getFacultiesByUniversityId(id)
+},[id])
   function handleDegClick(degree) {
     const newSelectedDegree = selectedDegree === degree ? null : degree;
     setSelectedDegree(newSelectedDegree);
@@ -55,50 +59,79 @@ export default function DegreeYearSemesterScreen() {
     console.log(selectedSemester)
   }
 
+  function handleFacultyClick(faculty) {
+    const newSelectedFaculty = selectedFaculty === faculty ? null : faculty;
+    setSelectedFaculty(newSelectedFaculty);
+  }
+  
+
   // console.log(useParams())
-  useEffect(
-    function () {
-      fetch(`${BASE_URL}/Degrees/GetAllDegreesByFacultyId/${facId}`)
-        .then((response) => {
+  // useEffect(
+  //   function () {
+  //     fetch(`${BASE_URL}/Degrees/GetAllDegreesByFacultyId/${facId}`)
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error("Network response was not ok");
+  //         }
+  //         return response.json(); // Parse JSON data from the response
+  //       })
+  //       .then((data) => {
+  //         console.log(data);
+  //         setDegrees(data);
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   },
+  //   [facId]
+  // );
+
+  useEffect(() => {
+    if (selectedFaculty) {
+      const fetchDegrees = async () => {
+        try {
+          const response = await fetch(`${BASE_URL}/Degrees/GetAllDegreesByFacultyId/${selectedFaculty.facultyId}`);
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
-          return response.json(); // Parse JSON data from the response
-        })
-        .then((data) => {
-          console.log(data);
-          setDegrees(data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    },
-    [facId]
-  );
+          const degreesData = await response.json();
+          setDegrees(degreesData);
+        } catch (error) {
+          console.error("Failed to fetch degrees:", error);
+          setDegrees([]); // Optionally reset the degrees on error
+        }
+      };
+  
+      fetchDegrees();
+    } else {
+      setDegrees([]); // Reset degrees when there is no selected faculty
+    }
+  }, [selectedFaculty]);
+  
 
-  useEffect(
-    function () {
-      if (selectedDegree) {
-        fetch(
-          `${BASE_URL}/Years/GetAllYearsByDegreeId/${selectedDegree?.degreeId}`
-        )
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json(); // Parse JSON data from the response
-          })
-          .then((data) => {
-            console.log(data);
-            setYears(data);
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
-    },
-    [selectedDegree]
-  );
+  // useEffect(
+  //   function () {
+  //     if (selectedDegree) {
+  //       fetch(
+  //         `${BASE_URL}/Years/GetAllYearsByDegreeId/${selectedDegree?.degreeId}`
+  //       )
+  //         .then((response) => {
+  //           if (!response.ok) {
+  //             throw new Error("Network response was not ok");
+  //           }
+  //           return response.json(); // Parse JSON data from the response
+  //         })
+  //         .then((data) => {
+  //           console.log(data);
+  //           setYears(data);
+  //         })
+  //         .catch((err) => {
+  //           console.error(err);
+  //         });
+  //     }
+  //   },
+  //   [selectedDegree]
+  // );
 
   useEffect(
     function () {
@@ -140,7 +173,19 @@ export default function DegreeYearSemesterScreen() {
   return (
     <div style={{ textAlign: "center" }}>
       <DegreeYearSemesterContainer>
-        <ButtonsContainer key="degCont" label={"תואר:"}>
+      <ButtonsContainer key="facCont" label={"פקולטה:"}>
+  {faculties.map((faculty) => (
+    <Button
+      key={faculty.facultyId}
+      selected={selectedFaculty?.facultyId === faculty.facultyId}
+      onClick={() => handleFacultyClick(faculty)}
+    >
+      {faculty.name}
+    </Button>
+  ))}
+</ButtonsContainer>
+
+        {selectedFaculty && <ButtonsContainer key="degCont" label={"תואר:"}>
           {degrees.map((deg) => (
             <Button
               key={deg.degreeId}
@@ -150,8 +195,8 @@ export default function DegreeYearSemesterScreen() {
               {deg.name}
             </Button>
           ))}
-        </ButtonsContainer>
-        <ButtonsContainer key="yearCont" label={"שנה:"}>
+        </ButtonsContainer>}
+        {/* <ButtonsContainer key="yearCont" label={"שנה:"}>
           {years.length > 0 &&
             years.map((year) => (
               <Button
@@ -177,7 +222,7 @@ export default function DegreeYearSemesterScreen() {
                   )}'`
             }`}</Button>
           ))}
-        </ButtonsContainer>
+        </ButtonsContainer> */}
       </DegreeYearSemesterContainer>
       <div className="next-btn-wrapper">
         <Link to={`next/${param}`}>
