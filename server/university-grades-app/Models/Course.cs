@@ -17,22 +17,16 @@
             DBservices dbs = new DBservices();
             return dbs.GetAllCourses();
         }
-
-        public static List<Object> GetAllCoursesBySemesterId(int semesterId)
-        {
-            DBservices dbs = new DBservices();
-            return dbs.GetAllCoursesBySemsterId(semesterId);
-        }
         public static List<int> GetCoursesGrades(int courseID)
         {
             DBservices dbs = new DBservices();
             return dbs.GetCoursesGradesByCourseID(courseID);
         }
 
-        public static bool AddNewCourse(Course c, int semesterId)
+        public static bool AddNewCourse(Course c, int degreeId)
         {
             DBservices dbs = new DBservices();
-            int res = dbs.AddNewCourse(c, semesterId);
+            int res = dbs.AddNewCourse(c, degreeId);
             if(res <= 0)
             {
                 return false;
@@ -46,11 +40,6 @@
         {
             DBservices dbs = new DBservices();
             return dbs.GetCourseByDegreeID(degreeID);
-        }
-        public static List<Course> GetAllCoursesYear(int year)
-        {
-            DBservices dbs = new DBservices();
-            return dbs.GetCourseByYear(year);
         }
 
         public static float GetCourseRating(int courseId)

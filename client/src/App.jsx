@@ -12,9 +12,9 @@ import CourseDestinationForm from "./Components/CourseDestinationForm";
 import LoginScreen from "./Components/LoginScreen";
 import Register from "./Components/Register";
 import { useEffect } from "react";
+import EmailForm from "./Components/EmailForm";
 
 function App() {
-
   return (
     <>
       <AppProvider>
@@ -24,7 +24,6 @@ function App() {
             <Route index element={<Navigate replace to="universities" />} />
             <Route path="login" element={<LoginScreen />} />
             <Route path="register" element={<Register />} />
-
 
             <Route
               path="universities"
