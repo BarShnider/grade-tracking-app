@@ -17,13 +17,6 @@ namespace university_grades_app.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllCoursesByYear/{yearID}")]
-        public List<Course> GetAllCoursesByYear(int yearID)
-        {
-            return Course.GetAllCoursesYear(yearID);
-        }
-
-        [HttpGet]
         [Route("GetAllCoursesGradesByCourseID/{courseID}")]
         public List<int> GetAllCoursesByCourseID(int courseID)
         {
@@ -38,13 +31,6 @@ namespace university_grades_app.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllCoursesBySemesterId/{semesterId}")]
-        public List<Object> GetAllCoursesBySemesterId(int semesterId)
-        {
-            return Course.GetAllCoursesBySemesterId(semesterId);
-        }
-
-        [HttpGet]
         [Route("GetCourseRating/{courseId}")]
         public float GetCourseRating(int courseId)
         {
@@ -53,10 +39,10 @@ namespace university_grades_app.Controllers
 
         // POST api/<CoursesController>
         [HttpPost]
-        [Route("AddNewCourse/{semesterId}")]
-        public void Post([FromBody] Course course, int semesterId)
+        [Route("AddNewCourse/{degreeId}/{course}")]
+        public bool Post(int degreeId, [FromBody] Course c)
         {
-            Course.AddNewCourse(course, semesterId);
+            return Course.AddNewCourse(c, degreeId);
         }
 
         // PUT api/<CoursesController>/5

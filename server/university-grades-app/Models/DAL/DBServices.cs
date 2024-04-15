@@ -65,9 +65,6 @@ public class DBservices
         return cmd;
     }
 
-
-
-
     //--------------------------------------------------------------------------------------------------
     // This method returns all universities
     //--------------------------------------------------------------------------------------------------
@@ -86,11 +83,7 @@ public class DBservices
             // write to log
             throw (ex);
         }
-
-
         cmd = CreateCommandWithStoredProcedure("SP_GetAllUniversities", con, null);             // create the command
-
-
         List<University> univList = new List<University>();
 
         try
@@ -129,6 +122,9 @@ public class DBservices
 
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // This method gets all faculties by universityId
+    //--------------------------------------------------------------------------------------------------
     public List<Faculty> GetAllFacultiesByUniversityId(int universityId)
     {
 
@@ -198,13 +194,8 @@ public class DBservices
             // write to log
             throw (ex);
         }
-
-
         cmd = CreateCommandWithStoredProcedure("SP_GetAllCourses", con, null);             // create the command
-
-
         List<Course> courseList = new List<Course>();
-
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
@@ -241,67 +232,10 @@ public class DBservices
         }
 
     }
-
-    public List<Object> GetAllCoursesBySemsterId(int semesterId)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@semesterId", semesterId);
-        cmd = CreateCommandWithStoredProcedure("GetCoursesBySemsterId", con, paramDic);             // create the command
-
-
-        List<Object> courseList = new List<Object>();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                Course c = new Course();
-                c.CourseId = Convert.ToInt32(dataReader["courseId"].ToString());
-                c.CourseCode = Convert.ToInt32(dataReader["courseCode"].ToString());
-                c.CourseName = dataReader["courseName"].ToString();
-                c.LecturerName = dataReader["lecturerName"].ToString();
-                c.avgGrade = Convert.ToDouble(dataReader["avgGrade"].ToString());
-                c.minGrade = Convert.ToDouble(dataReader["minGrade"].ToString());
-                c.maxGrade = Convert.ToDouble(dataReader["maxGrade"].ToString());
-
-
-                courseList.Add(c);
-            }
-            return courseList;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-
+    
+    //--------------------------------------------------------------------------------------------------
+    // This method gets all degrees by facultyId
+    //--------------------------------------------------------------------------------------------------
     public List<Object> GetAllDegreesByFacultyId(int facultyId)
     {
 
@@ -317,7 +251,6 @@ public class DBservices
             // write to log
             throw (ex);
         }
-
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@facultyId", facultyId);
         cmd = CreateCommandWithStoredProcedure("SP_GetAllDegreesByFacultyId", con, paramDic);             // create the command
@@ -334,9 +267,6 @@ public class DBservices
                 Degree d = new Degree();
                 d.DegreeId = Convert.ToInt32(dataReader["DegreeId"].ToString());
                 d.Name = dataReader["name"].ToString();
-             
-
-
                 degreeList.Add(d);
             }
             return degreeList;
@@ -358,122 +288,9 @@ public class DBservices
 
     }
 
-    public List<Object> GetAllYearsByDegreeId(int degreeId)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@degreeId", degreeId);
-        cmd = CreateCommandWithStoredProcedure("SP_GetYearsByDegreeId", con, paramDic);             // create the command
-
-
-        List<Object> yearList = new List<Object>();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-
-                Year y = new Year();
-
-
-                y.YearId = Convert.ToInt32(dataReader["yearId"].ToString());
-                y.YearNumber = Convert.ToInt32(dataReader["yearNumber"].ToString());
-
-
-                yearList.Add(y);
-            }
-            return yearList;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-
-    public List<Object> GetAllSemestersByYearId(int yearId)
-    {
-
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@yearId", yearId);
-        cmd = CreateCommandWithStoredProcedure("SP_GetAllSemestersByYearId", con, paramDic);             // create the command
-
-
-        List<Object> semesterList = new List<Object>();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-
-                Semester s = new Semester();
-
-
-                s.SemesterId = Convert.ToInt32(dataReader["semesterId"].ToString());
-                s.SemesterNumber = Convert.ToInt32(dataReader["semesterNumber"].ToString());
-
-
-                semesterList.Add(s);
-            }
-            return semesterList;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-
+    //--------------------------------------------------------------------------------------------------
+    // This method gets all comments by courseId
+    //--------------------------------------------------------------------------------------------------
     public List<Comment> GetAllCommentsByCourseId(int courseId)
     {
 
@@ -508,7 +325,6 @@ public class DBservices
 
                 c.CommentId = Convert.ToInt32(dataReader["commentId"].ToString());
                 c.Text = dataReader["CommentText"].ToString();
-                c.Title = dataReader["CommentTitle"].ToString();
                 c.Date = Convert.ToDateTime(dataReader["DateAdded"]);
                 c.WhoCommented = dataReader["UserName"].ToString();
                 c.CommenterId= Convert.ToInt32(dataReader["UserID"].ToString());
@@ -535,6 +351,9 @@ public class DBservices
 
     }
 
+    //--------------------------------------------------------------------------------------------------
+    // This method adds new comment to data
+    //--------------------------------------------------------------------------------------------------
     public int AddComment(int courseId,Comment comment)
     {
 
@@ -554,7 +373,6 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@courseId", courseId);
         paramDic.Add("@userId", comment.CommenterId);
-        paramDic.Add("@title", comment.Title);
         paramDic.Add("@text", comment.Text);
 
 
@@ -582,7 +400,10 @@ public class DBservices
         }
     }
 
-    public int AddNewCourse(Course c, int semesterId)
+    //--------------------------------------------------------------------------------------------------
+    // This method adds new course
+    //--------------------------------------------------------------------------------------------------
+    public int AddNewCourse(Course c, int degreeId)
     {
 
         SqlConnection con;
@@ -605,7 +426,7 @@ public class DBservices
         paramDic.Add("@avgGrade", c.avgGrade);
         paramDic.Add("@maxGrade", c.maxGrade);
         paramDic.Add("@minGrade", c.minGrade);
-        paramDic.Add("@semesterId", semesterId);
+        paramDic.Add("@degreeId", degreeId);
 
         cmd = CreateCommandWithStoredProcedure("SP_AddNewCourse", con, paramDic);             // create the command
 
@@ -1028,7 +849,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This all courses by degree 
     //--------------------------------------------------------------------------------------------------
-    public List<Course> GetCourseByYear(int year)
+    public List<Course> GetCourseByYear(int degree)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -1044,7 +865,7 @@ public class DBservices
         }
 
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@year", year);
+        paramDic.Add("@degreeId", degree);
         cmd = CreateCommandWithStoredProcedure("Get_Course_By_Year", con, paramDic);             // create the command
 
 
@@ -1084,6 +905,10 @@ public class DBservices
             }
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // Get Course Rating 
+    //--------------------------------------------------------------------------------------------------
 
     public float GetCourseRating(int courseId)
     {
