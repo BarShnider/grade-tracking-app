@@ -23,6 +23,12 @@
             return dbs.GetCoursesGradesByCourseID(courseID);
         }
 
+        public static List<Course> GetAllCoursesByString(string courseName)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetCoursesByName(courseName);
+        }
+
         public static bool AddNewCourse(Course c, int degreeId)
         {
             DBservices dbs = new DBservices();

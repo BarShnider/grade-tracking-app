@@ -30,6 +30,14 @@ namespace university_grades_app.Controllers
             return Course.GetAllCourses();
         }
 
+        // GET api/<CoursesController>/5
+        [HttpGet]
+        [Route("GetAllCoursesByName/{CourseName}")]
+        public List<Course> GetCoursesByString(string CourseName)
+        { 
+            return Course.GetAllCoursesByString(CourseName);
+        }
+
         [HttpGet]
         [Route("GetCourseRating/{courseId}")]
         public float GetCourseRating(int courseId)

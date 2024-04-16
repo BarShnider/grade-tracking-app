@@ -71,15 +71,18 @@ namespace university_grades_app.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut()]
+        public int Put([FromBody] User user)
         {
+            return user.EditUser(user);
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{userid}")]
+        public int Delete(int userid)
         {
+            User user=new User();
+            return user.DeleteUserByID(userid);
         }
     }
 }

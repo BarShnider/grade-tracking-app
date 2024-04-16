@@ -1,4 +1,6 @@
-﻿namespace university_grades_app.Models
+﻿using MimeKit.Tnef;
+
+namespace university_grades_app.Models
 {
     public class User
     {
@@ -49,6 +51,18 @@
         {
             DBservices dbs = new DBservices();
             return dbs.UserGradesCourse(userId,courseId, grade);
+        }
+
+        public int EditUser(User user)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.EditUserDetails(user);
+        }
+
+        public int DeleteUserByID(int id)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.DeleteUser(id);
         }
     }
 }

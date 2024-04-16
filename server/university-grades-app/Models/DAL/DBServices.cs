@@ -849,65 +849,6 @@ public class DBservices
             }
         }
     }
-    //--------------------------------------------------------------------------------------------------
-    // This all courses by degree 
-    //--------------------------------------------------------------------------------------------------
-    public List<Course> GetCourseByYear(int degree)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        Dictionary<string, object> paramDic = new Dictionary<string, object>();
-        paramDic.Add("@degreeId", degree);
-        cmd = CreateCommandWithStoredProcedure("Get_Course_By_Year", con, paramDic);             // create the command
-
-
-        List<Course> coursesList = new List<Course>();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                Course c = new Course();
-
-                c.CourseId = Convert.ToInt32(dataReader["courseId"].ToString());
-                c.CourseCode = Convert.ToInt32(dataReader["courseCode"].ToString());
-                c.CourseName = dataReader["courseName"].ToString();
-                c.LecturerName = dataReader["lecturerName"].ToString();
-                c.avgGrade = Convert.ToInt32(dataReader["avgGrade"].ToString());
-                c.minGrade = Convert.ToInt32(dataReader["maxGrade"].ToString());
-                c.maxGrade = Convert.ToInt32(dataReader["minGrade"].ToString());
-                coursesList.Add(c);
-            }
-            return coursesList;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-    }
 
     //--------------------------------------------------------------------------------------------------
     // Get Course Rating 
@@ -1103,6 +1044,156 @@ public class DBservices
                 grades.Add(grade);
             }
             return grades;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    //--------------------------------------------------------------------------------------------------
+    // This method edits users details
+    //--------------------------------------------------------------------------------------------------
+    public int EditUserDetails(User user)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", user.Id);
+        paramDic.Add("@Email", user.Email);
+        paramDic.Add("@userFirstName", user.FirstName);
+        paramDic.Add("@userLastName", user.LastName);
+        paramDic.Add("@userPassword", user.Password);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_EditUser", con, paramDic);             // create the command
+
+        try
+        {
+            //int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // This method deletes user by id
+    //--------------------------------------------------------------------------------------------------
+    public int DeleteUser(int userID)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@UserID", userID);
+
+        cmd = CreateCommandWithStoredProcedure("SP_DeleteUserById", con, paramDic);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    //--------------------------------------------------------------------------------------------------
+    // This all courses by degree 
+    //--------------------------------------------------------------------------------------------------
+    public List<Course> GetCoursesByName(string courseName)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@courseName", courseName);
+        cmd = CreateCommandWithStoredProcedure("SP_Get_Course_By_Name", con, paramDic);             // create the command
+
+
+        List<Course> coursesList = new List<Course>();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                Course c = new Course();
+
+                c.CourseId = Convert.ToInt32(dataReader["courseId"].ToString());
+                c.CourseName = dataReader["courseName"].ToString();
+                coursesList.Add(c);
+            }
+            return coursesList;
         }
         catch (Exception ex)
         {
