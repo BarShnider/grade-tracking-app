@@ -80,7 +80,7 @@ export default function MenuNavbar() {
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
-        sx={{color:"#fff", fontWeight:"600"}}
+        sx={{color:"#fff", fontWeight:"600",textTransform:"none", border:"1px solid #fff"}}
       >
         {connectedUser.email}&nbsp;<AccountCircleIcon />
 

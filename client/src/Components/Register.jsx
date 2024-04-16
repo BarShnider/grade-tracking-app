@@ -5,59 +5,156 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useState } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import {useNavigate} from "react-router-dom";
-function Register() {
-    const [showPassword, setShowPassword] = useState(false);
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
-    const navigate = useNavigate();
-    const handleMouseDownPassword = (event) => {
-      event.preventDefault();
-    };
+import FormHelperText from "@mui/material/FormHelperText";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-    return (
-<div className="login-form">
+function Register() {
+  const BASE_URL = `https://localhost:7204/api`;
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+  const navigate = useNavigate();
+  const regexPatternHebrew = /^[\u0590-\u05FF]+$/; // Hebrew characters pattern
+  const regexPatternPassword = /^(?=.*[!@#$%^&*()_+{}|:"<>?])(?=.*[A-Z])(?=.*\d).{7,12}$/;
+
+  const handleInputChange = (event, setter, regexPattern, errorSetter, errorMessage) => {
+    const newValue = event.target.value;
+    setter(newValue);
+    if (!regexPattern.test(newValue)) {
+      errorSetter(errorMessage);
+    } else {
+      errorSetter("");
+    }
+  };
+
+  const handlePasswordChange = (event) => {
+    const newValue = event.target.value;
+    setPassword(newValue);
+    if (!regexPatternPassword.test(newValue)) {
+      setPasswordError("הסיסמה חייבת להכיל בין 7 ל-12 תווים. יש לוודא שיש לפחות תו אחד מיוחד, אות גדולה ומספר");
+
+
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const handleConfirmPasswordChange = (event) => {
+    const newValue = event.target.value;
+    setConfirmPassword(newValue);
+    if (newValue !== password) {
+      setConfirmPasswordError("הסיסמאות אינן זהות");
+    } else {
+      setConfirmPasswordError("");
+    }
+  };
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => event.preventDefault();
+
+  const  handleSubmit = async () => {
+    // Check for empty fields and set errors accordingly
+    if (!email) setEmailError("נא להזין אימייל");
+    if (!firstName) setFirstNameError("נא להזין שם פרטי");
+    if (!lastName) setLastNameError("נא להזין שם משפחה");
+    if (!password) setPasswordError("נא להזמין סיסמא");
+    if (!confirmPassword) setConfirmPasswordError("נא להזין אימות סיסמא");
+
+    // Check for any existing errors
+    if (!email || !firstName || !lastName || !password || !confirmPassword ||
+        emailError || firstNameError || lastNameError || passwordError || confirmPasswordError) {
+      console.error("Form validation failed.");
+      return; // Stop submission if there are any errors
+    }
+
+    // If no errors, submit the form
+    console.log("Submitting form...");
+    const user = {
+      email,
+      firstName,
+      lastName,
+      password
+    }
+    try {
+      const response = await fetch(`${BASE_URL}/User/Register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(user)
+      });
+
+      const isRegistered = await response.json(); // Expecting a boolean response
+      if (!isRegistered) {
+        setEmailError('האימייל תפוס, נסו אימייל אחר');
+        return;
+      }
+
+      console.log("Registration successful");
+      navigate('/login'); // Navigate to login or success page
+    } catch (error) {
+      console.error("Registration error:", error);
+      alert("Registration failed"); // Consider a more user-friendly error handling
+    }
+    // navigate("/success"); // Redirect or handle form submission
+  };
+
+  return (
+    <div className="login-form">
       <h1 className="login-header">הרשמה</h1>
       <span>יש לך כבר משתמש? <span className="clickable logout-link" onClick={() => navigate("/login")}>התחבר עכשיו!</span></span>
 
       <TextField
-        sx={{ width: "80%",direction: "ltr" }}
-        id="outlined-basic"
-        label="שם משתמש"
-        color={"success"}
+        sx={{ width: "80%", direction: "ltr" }}
+        label="אימייל"
         variant="outlined"
+        value={email}
+        onChange={(e) => handleInputChange(e, setEmail, /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, setEmailError, "כתובת אימייל לא חוקית.")}
+        error={!!emailError}
+        helperText={emailError}
       />
-          <TextField
-        sx={{ width: "80%",direction: "ltr" }}
-        id="outlined-basic"
+      <TextField
+        sx={{ width: "80%", direction: "ltr" }}
         label="שם פרטי"
-        color={"success"}
         variant="outlined"
+        value={firstName}
+        onChange={(e) => handleInputChange(e, setFirstName, regexPatternHebrew, setFirstNameError, "יש להזין אותיות בעברית בלבד.")}
+        error={!!firstNameError}
+        helperText={firstNameError}
       />
-          <TextField
-        sx={{ width: "80%",direction: "ltr" }}
-        id="outlined-basic"
+      <TextField
+        sx={{ width: "80%", direction: "ltr" }}
         label="שם משפחה"
-        color={"success"}
         variant="outlined"
+        value={lastName}
+        onChange={(e) => handleInputChange(e, setLastName, regexPatternHebrew, setLastNameError, "יש להזין אותיות בעברית בלבד.")}
+        error={!!lastNameError}
+        helperText={lastNameError}
       />
-      <FormControl sx={{ width: "80%", direction: "ltr" }} variant="outlined">
-        <InputLabel color="success" htmlFor="outlined-adornment-password">
-          סיסמא
-        </InputLabel>
+            <FormControl error={!!passwordError} sx={{ width: "80%", direction: "ltr" }} variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">סיסמא</InputLabel>
         <OutlinedInput
-          color="success"
-          id="outlined-adornment-password"
+          value={password}
+          onChange={handlePasswordChange}
           type={showPassword ? "text" : "password"}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
+                onClick={() => setShowPassword(!showPassword)}
+                onMouseDown={(event) => event.preventDefault()}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
@@ -65,22 +162,19 @@ function Register() {
           }
           label="סיסמא"
         />
+        <FormHelperText>{passwordError}</FormHelperText>
       </FormControl>
-      <FormControl sx={{ width: "80%", direction: "ltr" }} variant="outlined">
-        <InputLabel color="success" htmlFor="outlined-adornment-password">
-          אימות סיסמא
-        </InputLabel>
+      <FormControl error={!!confirmPasswordError} sx={{ width: "80%", direction: "ltr" }} variant="outlined">
+        <InputLabel htmlFor="confirm-password">אימות סיסמא</InputLabel>
         <OutlinedInput
-          color="success"
-          id="outlined-adornment-password"
+          value={confirmPassword}
+          onChange={handleConfirmPasswordChange}
           type={showPassword ? "text" : "password"}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
+                onClick={() => setShowPassword(!showPassword)}
+                onMouseDown={(event) => event.preventDefault()}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
@@ -88,10 +182,11 @@ function Register() {
           }
           label="אימות סיסמא"
         />
+        <FormHelperText>{confirmPasswordError}</FormHelperText>
       </FormControl>
-      <Button>התחברות</Button>
+      <Button onClick={() => handleSubmit()}>הרשמה</Button>
     </div>
-    )
+  );
 }
 
-export default Register
+export default Register;
