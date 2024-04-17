@@ -60,9 +60,10 @@ namespace university_grades_app.Controllers
         }
 
         // DELETE api/<CoursesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{courseID}")]
+        public int Delete(int courseID)
         {
+            return Course.DeleteCourse(courseID);
         }
     }
 }

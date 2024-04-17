@@ -14,6 +14,11 @@
             DBservices dbs = new DBservices();
             return dbs.GetUniversities();
         }
+        public static int DeleteUniversity(int universityId)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.DeleteUniversityByID(universityId);
+        }
 
 
     }
