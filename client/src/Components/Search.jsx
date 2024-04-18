@@ -44,10 +44,40 @@ const [inputValue, setInputValue] = useState('');
         }
       };
 
-      useEffect(function(){
-        getAllCourses();
-      },[])
+      // useEffect(function(){
+      //   getAllCourses();
+      // },[])
 
+
+      const fetchCoursesByName = async (searchString) => {
+        const BASE_URL = 'https://localhost:7204/api/Courses/GetAllCoursesByName'; // Adjust the base URL based on your actual API URL
+        try {
+            const url = `${BASE_URL}/${encodeURIComponent(searchString)}`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const courses = await response.json();
+            console.log("Fetched courses successfully:", courses);
+            setCourseOptions(courses);
+        } catch (error) {
+            console.error("Error fetching courses:", error);
+            alert("Failed to fetch courses");
+        }
+    };
+
+    useEffect(() => {
+        if (inputValue.trim() !== '') {
+            fetchCoursesByName(inputValue);
+        }
+    }, [inputValue]); // Depend on inputValue to refetch when it changes
   return (
     <div style={{position:"absolute",top:"8px",left:"25px",display:"flex"}}>
         <div onClick={() => handleSearch()} style={{display:"flex",alignItems:"flex-end",justifyContent:"center", cursor:"pointer"}}>

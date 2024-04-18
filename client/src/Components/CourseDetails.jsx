@@ -330,7 +330,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
           />
           <div onClick={() => handleOpen()} className="add-grade-btn">הוסף ציון</div>
         </div>
-        <Typography component="legend"> דירוג ממוצע: {avgRating}</Typography>
+        <Typography component="legend"> דירוג ממוצע: {avgRating.toFixed(1)}</Typography>
         <Rating
           sx={{ direction: "ltr" }}
           name="simple-controlled"

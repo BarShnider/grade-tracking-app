@@ -29,9 +29,16 @@ function Register() {
 
   const navigate = useNavigate();
   const regexPatternHebrew = /^[\u0590-\u05FF]+$/; // Hebrew characters pattern
-  const regexPatternPassword = /^(?=.*[!@#$%^&*()_+{}|:"<>?])(?=.*[A-Z])(?=.*\d).{7,12}$/;
+  const regexPatternPassword =
+    /^(?=.*[!@#$%^&*()_+{}|:"<>?])(?=.*[A-Z])(?=.*\d).{7,12}$/;
 
-  const handleInputChange = (event, setter, regexPattern, errorSetter, errorMessage) => {
+  const handleInputChange = (
+    event,
+    setter,
+    regexPattern,
+    errorSetter,
+    errorMessage
+  ) => {
     const newValue = event.target.value;
     setter(newValue);
     if (!regexPattern.test(newValue)) {
@@ -45,9 +52,9 @@ function Register() {
     const newValue = event.target.value;
     setPassword(newValue);
     if (!regexPatternPassword.test(newValue)) {
-      setPasswordError("הסיסמה חייבת להכיל בין 7 ל-12 תווים. יש לוודא שיש לפחות תו אחד מיוחד, אות גדולה ומספר");
-
-
+      setPasswordError(
+        "הסיסמה חייבת להכיל בין 7 ל-12 תווים. יש לוודא שיש לפחות תו אחד מיוחד, אות גדולה ומספר"
+      );
     } else {
       setPasswordError("");
     }
@@ -65,7 +72,7 @@ function Register() {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => event.preventDefault();
 
-  const  handleSubmit = async () => {
+  const handleSubmit = async () => {
     // Check for empty fields and set errors accordingly
     if (!email) setEmailError("נא להזין אימייל");
     if (!firstName) setFirstNameError("נא להזין שם פרטי");
@@ -74,8 +81,18 @@ function Register() {
     if (!confirmPassword) setConfirmPasswordError("נא להזין אימות סיסמא");
 
     // Check for any existing errors
-    if (!email || !firstName || !lastName || !password || !confirmPassword ||
-        emailError || firstNameError || lastNameError || passwordError || confirmPasswordError) {
+    if (
+      !email ||
+      !firstName ||
+      !lastName ||
+      !password ||
+      !confirmPassword ||
+      emailError ||
+      firstNameError ||
+      lastNameError ||
+      passwordError ||
+      confirmPasswordError
+    ) {
       console.error("Form validation failed.");
       return; // Stop submission if there are any errors
     }
@@ -86,25 +103,25 @@ function Register() {
       email,
       firstName,
       lastName,
-      password
-    }
+      password,
+    };
     try {
       const response = await fetch(`${BASE_URL}/User/Register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
 
       const isRegistered = await response.json(); // Expecting a boolean response
       if (!isRegistered) {
-        setEmailError('האימייל תפוס, נסו אימייל אחר');
+        setEmailError("האימייל תפוס, נסו אימייל אחר");
         return;
       }
 
       console.log("Registration successful");
-      navigate('/login'); // Navigate to login or success page
+      navigate("/login"); // Navigate to login or success page
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed"); // Consider a more user-friendly error handling
@@ -115,23 +132,49 @@ function Register() {
   return (
     <div className="login-form">
       <h1 className="login-header">הרשמה</h1>
-      <span>יש לך כבר משתמש? <span className="clickable logout-link" onClick={() => navigate("/login")}>התחבר עכשיו!</span></span>
+      <span>
+        יש לך כבר משתמש?{" "}
+        <span
+          className="clickable logout-link"
+          onClick={() => navigate("/login")}
+        >
+          התחבר עכשיו!
+        </span>
+      </span>
 
       <TextField
         sx={{ width: "80%", direction: "ltr" }}
         label="אימייל"
         variant="outlined"
+        color="success"
         value={email}
-        onChange={(e) => handleInputChange(e, setEmail, /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, setEmailError, "כתובת אימייל לא חוקית.")}
+        onChange={(e) =>
+          handleInputChange(
+            e,
+            setEmail,
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            setEmailError,
+            "כתובת אימייל לא חוקית."
+          )
+        }
         error={!!emailError}
         helperText={emailError}
       />
       <TextField
         sx={{ width: "80%", direction: "ltr" }}
         label="שם פרטי"
+        color="success"
         variant="outlined"
         value={firstName}
-        onChange={(e) => handleInputChange(e, setFirstName, regexPatternHebrew, setFirstNameError, "יש להזין אותיות בעברית בלבד.")}
+        onChange={(e) =>
+          handleInputChange(
+            e,
+            setFirstName,
+            regexPatternHebrew,
+            setFirstNameError,
+            "יש להזין אותיות בעברית בלבד."
+          )
+        }
         error={!!firstNameError}
         helperText={firstNameError}
       />
@@ -139,16 +182,32 @@ function Register() {
         sx={{ width: "80%", direction: "ltr" }}
         label="שם משפחה"
         variant="outlined"
+        color="success"
         value={lastName}
-        onChange={(e) => handleInputChange(e, setLastName, regexPatternHebrew, setLastNameError, "יש להזין אותיות בעברית בלבד.")}
+        onChange={(e) =>
+          handleInputChange(
+            e,
+            setLastName,
+            regexPatternHebrew,
+            setLastNameError,
+            "יש להזין אותיות בעברית בלבד."
+          )
+        }
         error={!!lastNameError}
         helperText={lastNameError}
       />
-            <FormControl error={!!passwordError} sx={{ width: "80%", direction: "ltr" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">סיסמא</InputLabel>
+      <FormControl
+        error={!!passwordError}
+        sx={{ width: "80%", direction: "ltr" }}
+        variant="outlined"
+      >
+        <InputLabel color="success" htmlFor="outlined-adornment-password">
+          סיסמא
+        </InputLabel>
         <OutlinedInput
           value={password}
           onChange={handlePasswordChange}
+          color="success"
           type={showPassword ? "text" : "password"}
           endAdornment={
             <InputAdornment position="end">
@@ -164,12 +223,19 @@ function Register() {
         />
         <FormHelperText>{passwordError}</FormHelperText>
       </FormControl>
-      <FormControl error={!!confirmPasswordError} sx={{ width: "80%", direction: "ltr" }} variant="outlined">
-        <InputLabel htmlFor="confirm-password">אימות סיסמא</InputLabel>
+      <FormControl
+        error={!!confirmPasswordError}
+        sx={{ width: "80%", direction: "ltr" }}
+        variant="outlined"
+      >
+        <InputLabel color="success" htmlFor="confirm-password">
+          אימות סיסמא
+        </InputLabel>
         <OutlinedInput
           value={confirmPassword}
           onChange={handleConfirmPasswordChange}
           type={showPassword ? "text" : "password"}
+          color="success"
           endAdornment={
             <InputAdornment position="end">
               <IconButton

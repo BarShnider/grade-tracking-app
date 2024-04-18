@@ -13,6 +13,7 @@ import LoginScreen from "./Components/LoginScreen";
 import Register from "./Components/Register";
 import { useEffect } from "react";
 import EditDetails from "./Components/EditDetails";
+import AdminPanel from "./Components/AdminPanel";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="login" element={<LoginScreen />} />
             <Route path="register" element={<Register />} />
             <Route path="edit" element={<EditDetails />} />
+            <Route path="admin" element={<AdminPanel />} />
 
             <Route
               path="universities"
