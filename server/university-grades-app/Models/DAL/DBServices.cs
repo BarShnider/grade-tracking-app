@@ -769,10 +769,6 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@userMail", user.Email);
         paramDic.Add("@userPassword", user.Password);
-
-
-
-
         cmd = CreateCommandWithStoredProcedure("CheckUser", con, paramDic);             // create the command
 
         try
@@ -1450,6 +1446,62 @@ public class DBservices
             }
         }
 
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // This method returns all users
+    //--------------------------------------------------------------------------------------------------
+
+    public List<User> GetAllUsers()
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        cmd = CreateCommandWithStoredProcedure("SP_Get_All_Users", con, null);             // create the command
+
+
+        List<User> users = new List<User>();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                User u = new User();
+
+                u.Id = Convert.ToInt32(dataReader["UserID"].ToString());
+                u.Email = dataReader["UserName"].ToString();
+                u.Password= dataReader["Password"].ToString();
+                u.FirstName= dataReader["FirstName"].ToString();
+                u.LastName= dataReader["LastName"].ToString();
+                users.Add(u);
+            }
+            return users;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
     }
 }
 

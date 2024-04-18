@@ -9,16 +9,19 @@ import { useState } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useUniversities } from "../contexts/AppContext";
-import { Link, NavLink, useNavigate } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import FormHelperText from '@mui/material/FormHelperText';
 
 
 function LoginScreen() {
-    const BASE_URL = `https://localhost:7204/api`;
-    const { connectedUser, setConnectedUser } = useUniversities();
-    const [showPassword, setShowPassword] = useState(false);
+  const BASE_URL = `https://localhost:7204/api`;
+  const { connectedUser, setConnectedUser } = useUniversities();
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -26,45 +29,50 @@ function LoginScreen() {
     event.preventDefault();
   };
 
-  function loginAsGuest(){
-    setConnectedUser({id:2, email:"אורח",password:"" })
-    navigate("/universities")
+  function loginAsGuest() {
+    setConnectedUser({ id: 2, email: "אורח", password: "" });
+    navigate("/universities");
   }
 
   async function login() {
     try {
       const user = {
         Email: email, // Assuming your backend expects a Username field
-        Password: password,  // Assuming your backend expects a Password field
+        Password: password, // Assuming your backend expects a Password field
         FirstName: "OptionalFirstName", // Add a default or form-controlled value
-        LastName: "OptionalLastName"   // Add a default or form-controlled value
+        LastName: "OptionalLastName", // Add a default or form-controlled value
       };
-  
-      const response = await fetch(`${BASE_URL}/User/Login`, { 
+
+      const response = await fetch(`${BASE_URL}/User/Login`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(user)
+        body: JSON.stringify(user),
       });
-      console.log(response)
+      console.log(response);
       if (!response.ok) {
-        throw new Error('Failed to login');
+        throw new Error("Failed to login");
       }
-      
+
       const data = await response.json(); // Or handle the response as needed
-      if(data.id !== 0){
-      console.log("Login successful", data);
-      setConnectedUser(data);
-      sessionStorage.setItem("connectedUser",JSON.stringify(data))
-      navigate('/universities'); // If using react-router-dom for navigation
-      }
-      else{
-        alert("login failed, no user")
+      if (data.id !== -1 && data.id !== -2) {
+        console.log("Login successful", data);
+        setConnectedUser(data);
+        sessionStorage.setItem("connectedUser", JSON.stringify(data));
+        navigate("/universities"); // If using react-router-dom for navigation
+      } else {
+        if (data.id === -1) {
+          setEmailError("מייל לא קיים");
+          setPasswordError("");
+        } else {
+          setEmailError("");
+          setPasswordError("סיסמה שגויה");
+        }
+        //alert("login failed, no user")
       }
       // Here you might want to update your app context or perform a redirect, e.g.:
-    //   setConnectedUser(data);
-  
+      //   setConnectedUser(data);
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed"); // Consider a more user-friendly error handling
@@ -74,14 +82,21 @@ function LoginScreen() {
     <div className="login-form">
       <h1 className="login-header">התחברות</h1>
       <TextField
-        sx={{ width: "80%",direction: "ltr" }}
+        sx={{ width: "80%", direction: "ltr" }}
         id="outlined-basic"
         label="שם משתמש"
         color={"success"}
         variant="outlined"
+        error={!!emailError}
+        helperText={emailError}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <FormControl sx={{ width: "80%", direction: "ltr" }} variant="outlined">
+
+      <FormControl
+        sx={{ width: "80%", direction: "ltr" }}
+        variant="outlined"
+        error={!!passwordError}
+      >
         <InputLabel color="success" htmlFor="outlined-adornment-password">
           סיסמא
         </InputLabel>
@@ -104,9 +119,21 @@ function LoginScreen() {
           }
           label="סיסמא"
         />
+        <FormHelperText>{passwordError}</FormHelperText>
       </FormControl>
-      <span>עדיין לא רשום? <span className="clickable logout-link" onClick={() => navigate("/register")}>הרשם עכשיו!</span></span>
-       <span className="clickable logout-link" onClick={() => loginAsGuest()}>התחבר כאורח</span>
+
+      <span>
+        עדיין לא רשום?{" "}
+        <span
+          className="clickable logout-link"
+          onClick={() => navigate("/register")}
+        >
+          הרשם עכשיו!
+        </span>
+      </span>
+      <span className="clickable logout-link" onClick={() => loginAsGuest()}>
+        התחבר כאורח
+      </span>
       <Button onClick={() => login()}>התחבר</Button>
     </div>
   );

@@ -28,11 +28,31 @@ namespace university_grades_app.Models
         public User Login()
         {
             DBservices dbs = new DBservices();
+            if (dbs.CheckUserExistEmail(this.Email) == 0) {
+                User newUser = new User()
+                {
+                    Id = -1,
+                    Email = "",
+                    Password = "",
+                    FirstName = "",
+                    LastName = ""
+                };
+                return newUser;
+            }
             int numCheck = dbs.LoginUser(this);
-
-                return dbs.GetUserById(numCheck);
-      
-
+            if(numCheck == 0)
+            {
+                User newUser = new User()
+                {
+                    Id = -2,
+                    Email = "",
+                    Password = "",
+                    FirstName = "",
+                    LastName = ""
+                };
+                return newUser;
+            }
+            return dbs.GetUserById(numCheck);
         }
 
         public static int UserRatesCourse(int userId, int courseId,float rating)

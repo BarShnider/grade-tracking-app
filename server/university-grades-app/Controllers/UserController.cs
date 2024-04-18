@@ -11,9 +11,11 @@ namespace university_grades_app.Controllers
     {
         // GET: api/<UserController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Route("GetAllUsers")]
+        public List<User> GetAllUsers()
         {
-            return new string[] { "value1", "value2" };
+            DBservices dbs = new DBservices();
+            return dbs.GetAllUsers();
         }
 
         // GET api/<UserController>/5
@@ -57,8 +59,7 @@ namespace university_grades_app.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public User Login(User user
-            )
+        public User Login(User user)
         {
             try
             {
