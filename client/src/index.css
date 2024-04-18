@@ -537,3 +537,9 @@ a {
 .container-visible {
   transform: translateX(0%);
 }
+
+.admin-tables {
+  width: 80%;
+  margin: auto;
+  direction: ltr;
+}

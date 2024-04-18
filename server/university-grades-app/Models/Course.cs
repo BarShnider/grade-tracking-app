@@ -59,6 +59,12 @@
             return dbs.DeleteCourseByID(courseID);
         }
 
+        public static List<dynamic> GetAllCoursesWithUniversityFacultyDegree()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetAllCoursesWithUniversityFacultyDegree();
+        }
+
 
     }
 }

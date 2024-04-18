@@ -9,6 +9,8 @@ using System.Text;
 using System.Globalization;
 using System.ComponentModel.Design;
 using System.Xml.Linq;
+using System.Dynamic;
+
 
 /// <summary>
 /// DBServices is a class created by me to provides some DataBase Services
@@ -1392,6 +1394,62 @@ public class DBservices
                 con.Close();
             }
         }
+    }
+
+    public List<dynamic> GetAllCoursesWithUniversityFacultyDegree()
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        cmd = CreateCommandWithStoredProcedure("SP_GetALLCoursesWithDegreeFacultyUniversity", con, null);             // create the command
+        List<dynamic> courseList = new List<dynamic>();
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                dynamic course = new ExpandoObject();
+                course.CourseId = Convert.ToInt32(dataReader["courseId"]);
+                course.CourseCode = dataReader["courseCode"].ToString();
+                course.CourseName = dataReader["courseName"].ToString();
+                course.LecturerName = dataReader["lecturerName"].ToString();
+                course.UniversityName = dataReader["UnivName"].ToString();
+                course.FacultyName = dataReader["FacName"].ToString();
+                course.DegreeName = dataReader["DegName"].ToString();
+
+
+
+
+                courseList.Add(course);
+            }
+            return courseList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
     }
 }
 

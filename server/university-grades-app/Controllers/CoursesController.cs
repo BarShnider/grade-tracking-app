@@ -45,6 +45,13 @@ namespace university_grades_app.Controllers
             return Course.GetCourseRating(courseId);
         }
 
+        [HttpGet]
+        [Route("GetAllCoursesWithUniversityFacultyDegree")]
+        public List<dynamic> GetAllCoursesWithUniversityFacultyDegree()
+        {
+            return Course.GetAllCoursesWithUniversityFacultyDegree();
+        }
+
         // POST api/<CoursesController>
         [HttpPost]
         [Route("AddNewCourse/{degreeId}/{course}")]
