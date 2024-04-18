@@ -769,6 +769,10 @@ public class DBservices
         Dictionary<string, object> paramDic = new Dictionary<string, object>();
         paramDic.Add("@userMail", user.Email);
         paramDic.Add("@userPassword", user.Password);
+
+
+
+
         cmd = CreateCommandWithStoredProcedure("CheckUser", con, paramDic);             // create the command
 
         try
@@ -1209,6 +1213,62 @@ public class DBservices
         }
     }
 
+    public List<dynamic> GetAllCoursesWithUniversityFacultyDegree()
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        cmd = CreateCommandWithStoredProcedure("SP_GetALLCoursesWithDegreeFacultyUniversity", con, null);             // create the command
+        List<dynamic> courseList = new List<dynamic>();
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                dynamic course = new ExpandoObject();
+                course.CourseId = Convert.ToInt32(dataReader["courseId"]);
+                course.CourseCode = dataReader["courseCode"].ToString();
+                course.CourseName = dataReader["courseName"].ToString();
+                course.LecturerName = dataReader["lecturerName"].ToString();
+                course.UniversityName = dataReader["UnivName"].ToString();
+                course.FacultyName = dataReader["FacName"].ToString();
+                course.DegreeName = dataReader["DegName"].ToString();
+
+
+
+
+                courseList.Add(course);
+            }
+            return courseList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
     //--------------------------------------------------------------------------------------------------
     // This method deletes course by id
     //--------------------------------------------------------------------------------------------------
@@ -1392,117 +1452,7 @@ public class DBservices
         }
     }
 
-    public List<dynamic> GetAllCoursesWithUniversityFacultyDegree()
-    {
 
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-        cmd = CreateCommandWithStoredProcedure("SP_GetALLCoursesWithDegreeFacultyUniversity", con, null);             // create the command
-        List<dynamic> courseList = new List<dynamic>();
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                dynamic course = new ExpandoObject();
-                course.CourseId = Convert.ToInt32(dataReader["courseId"]);
-                course.CourseCode = dataReader["courseCode"].ToString();
-                course.CourseName = dataReader["courseName"].ToString();
-                course.LecturerName = dataReader["lecturerName"].ToString();
-                course.UniversityName = dataReader["UnivName"].ToString();
-                course.FacultyName = dataReader["FacName"].ToString();
-                course.DegreeName = dataReader["DegName"].ToString();
-
-
-
-
-                courseList.Add(course);
-            }
-            return courseList;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-
-    //--------------------------------------------------------------------------------------------------
-    // This method returns all users
-    //--------------------------------------------------------------------------------------------------
-
-    public List<User> GetAllUsers()
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-        cmd = CreateCommandWithStoredProcedure("SP_Get_All_Users", con, null);             // create the command
-
-
-        List<User> users = new List<User>();
-
-        try
-        {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-
-            while (dataReader.Read())
-            {
-                User u = new User();
-
-                u.Id = Convert.ToInt32(dataReader["UserID"].ToString());
-                u.Email = dataReader["UserName"].ToString();
-                u.Password= dataReader["Password"].ToString();
-                u.FirstName= dataReader["FirstName"].ToString();
-                u.LastName= dataReader["LastName"].ToString();
-                users.Add(u);
-            }
-            return users;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-    }
 }
 
 
