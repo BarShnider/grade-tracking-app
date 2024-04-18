@@ -279,7 +279,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
           </Typography>
           <TextField
           id="outlined-number"
-          label="Number"
+          label="הזן ציון"
           type="number"
           value={number}
           onChange={handleChange}

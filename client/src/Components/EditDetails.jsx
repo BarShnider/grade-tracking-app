@@ -57,7 +57,7 @@ function EditDetails() {
       />
       <FormControl sx={{ width: "80%", direction: "ltr" }} variant="outlined">
         <InputLabel color="success" htmlFor="outlined-adornment-password">
-          סיסמא
+          סיסמה חדשה (עדכן אם יש צורך)
         </InputLabel>
         <OutlinedInput
           color="success"
@@ -75,12 +75,12 @@ function EditDetails() {
               </IconButton>
             </InputAdornment>
           }
-          label="סיסמא"
+          label="סיסמה חדשה (עדכן אם יש צורך)"
         />
       </FormControl>
       <FormControl sx={{ width: "80%", direction: "ltr" }} variant="outlined">
         <InputLabel color="success" htmlFor="outlined-adornment-password">
-          אימות סיסמא
+        אימות סיסמא חדשה
         </InputLabel>
         <OutlinedInput
           color="success"
@@ -98,10 +98,10 @@ function EditDetails() {
               </IconButton>
             </InputAdornment>
           }
-          label="אימות סיסמא"
+          label="אימות סיסמה חדשה"
         />
       </FormControl>
-      <Button>התחברות</Button>
+      <Button>עדכן</Button>
     </div>
   );
 }

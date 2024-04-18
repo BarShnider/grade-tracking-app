@@ -77,7 +77,7 @@ function Register() {
     if (!email) setEmailError("נא להזין אימייל");
     if (!firstName) setFirstNameError("נא להזין שם פרטי");
     if (!lastName) setLastNameError("נא להזין שם משפחה");
-    if (!password) setPasswordError("נא להזמין סיסמא");
+    if (!password) setPasswordError("נא להזין סיסמא");
     if (!confirmPassword) setConfirmPasswordError("נא להזין אימות סיסמא");
 
     // Check for any existing errors
