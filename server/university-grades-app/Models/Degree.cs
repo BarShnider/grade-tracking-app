@@ -10,5 +10,11 @@
             DBservices dbs = new DBservices();
             return dbs.GetAllDegreesByFacultyId(facultyId);
         }
+
+        public static int DeleteDegree(int degreeId)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.DeleteDegreeById(degreeId);
+        }
     }
 }

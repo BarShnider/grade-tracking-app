@@ -53,6 +53,11 @@
             DBservices dbs = new DBservices();
             return dbs.GetCourseRating(courseId);
         }
+        public static int DeleteCourse(int courseID)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.DeleteCourseByID(courseID);
+        }
 
 
     }

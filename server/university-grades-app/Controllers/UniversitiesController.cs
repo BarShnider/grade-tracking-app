@@ -37,9 +37,10 @@ namespace university_grades_app.Controllers
         }
 
         // DELETE api/<TestController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{universityID}")]
+        public int Delete(int universityID)
         {
+            return University.DeleteUniversity(universityID);
         }
     }
 }
