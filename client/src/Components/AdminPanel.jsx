@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import EditUserModal from "./EditUserModal";
 import EditUniversitiesModal from "./EditUniversitiesModal";
 import EditCourseModal from "./EditCourseModal";
+import EditFacultyModal from "./EditFacultyModal";
+import EditDegreeModal from "./EditDegreeModal";
 const BASE_URL = `https://localhost:7204/api`;
 
 function AdminPanel() {
@@ -24,6 +26,10 @@ function AdminPanel() {
   const [editingUniversity, setEditingUniversity] = useState(null);
   const [isCourseModalOpen,setIsCourseModalOpen] = useState(false)
   const [editingCourse, setEditingCourse] = useState(null);
+  const [isFacultyModalOpen,setIsFacultyModalOpen] = useState(false)
+  const [editingFaculty, setEditingFaculty] = useState(null);
+  const [isDegreeModalOpen,setIsDegreeModalOpen] = useState(false)
+  const [editingDegree, setEditingDegree] = useState(null);
 
   const univColumns = [
     { field: "universityId", headerName: "ID", width: 90 },
@@ -179,7 +185,7 @@ function AdminPanel() {
         <>
           <IconButton
             sx={{ width: "30px", height: "30px" }}
-            onClick={() => console.log("clicked edit", params.row)}
+            onClick={() => openFacultyModal(params.row)}
             aria-label="edit"
             color="secondery"
             size="small"
@@ -228,7 +234,7 @@ function AdminPanel() {
         <>
           <IconButton
             sx={{ width: "30px", height: "30px" }}
-            onClick={() => console.log("clicked edit", params.row)}
+            onClick={() => openDegreeModal(params.row)}
             aria-label="edit"
             color="secondery"
             size="small"
@@ -426,6 +432,14 @@ function AdminPanel() {
     setEditingCourse(course);
     setIsCourseModalOpen(true);
   };
+  const openFacultyModal = (faculty) => {
+    setEditingFaculty(faculty);
+    setIsFacultyModalOpen(true);
+  };
+  const openDegreeModal = (degree) => {
+    setEditingDegree(degree);
+    setIsDegreeModalOpen(true);
+  };
 
   useEffect(function () {
     getCourses();
@@ -466,6 +480,22 @@ function AdminPanel() {
           setIsCourseModalOpen={setIsCourseModalOpen}
           courseData={editingCourse}
           onClose={() => setIsCourseModalOpen(false)}
+        />
+      )}
+      {isFacultyModalOpen && editingFaculty && (
+        <EditFacultyModal
+          isOpen={isFacultyModalOpen}
+          setIsFacultyModalOpen={setIsFacultyModalOpen}
+          facultyData={editingFaculty}
+          onClose={() => setIsFacultyModalOpen(false)}
+        />
+      )}
+      {isDegreeModalOpen && editingDegree && (
+        <EditDegreeModal
+          isOpen={isDegreeModalOpen}
+          setIsDegreeModalOpen={setIsDegreeModalOpen}
+          degreeData={editingDegree}
+          onClose={() => setIsDegreeModalOpen(false)}
         />
       )}
       <h1 style={{ textAlign: "center" }}>משתמשים</h1>
