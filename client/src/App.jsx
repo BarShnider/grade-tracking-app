@@ -38,6 +38,7 @@ function App() {
               element={<DegreeYearSemesterScreen />}
             />
             <Route path="universities/:id/next/:num" element={<CourseSelectionScreen />} />
+            <Route path="search/:num" element={<CourseSelectionScreen />} />
 
             {/* <Route
               path="universities/:id/faculties/:facId/next/:num"

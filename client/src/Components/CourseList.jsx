@@ -76,6 +76,9 @@ export default function CourseList({ list }) {
     } else if (type === "degree") {
       query = `GetAllCoursesByDegree/${id}`;
     }
+    else if (type === "sq") {
+      query = `GetAllCoursesByName/${id}`;
+    }
 
     if (query) {
       setIsLoading(true);
