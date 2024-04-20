@@ -181,6 +181,60 @@ public class DBservices
         }
     }
 
+    public List<dynamic> GetAllFacultiesWithUniversity()
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_GetAllFacultiesWithUniversity", con, null);             // create the command
+        List<dynamic> facList = new List<dynamic>();
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                dynamic faculty = new ExpandoObject();
+                faculty.FacultyId = Convert.ToInt32(dataReader["facultyId"].ToString());
+                faculty.Name = dataReader["Name"].ToString();
+                faculty.UniversityName = dataReader["UnivName"].ToString();
+
+
+
+                facList.Add(faculty);
+            }
+            return facList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
     public List<Course> GetAllCourses()
     {
 
@@ -270,6 +324,59 @@ public class DBservices
                 d.DegreeId = Convert.ToInt32(dataReader["DegreeId"].ToString());
                 d.Name = dataReader["name"].ToString();
                 degreeList.Add(d);
+            }
+            return degreeList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    public List<dynamic> GetDegreesWithUniversityFaculty()
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+        cmd = CreateCommandWithStoredProcedure("SP_GetDegreesWithUniversityFaculty", con, null);             // create the command
+
+
+        List<Object> degreeList = new List<Object>();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            while (dataReader.Read())
+            {
+                dynamic degree = new ExpandoObject();
+                degree.DegreeId = Convert.ToInt32(dataReader["DegreeId"].ToString());
+                degree.Name = dataReader["name"].ToString();
+                degree.UniversityName = dataReader["UnivName"].ToString();
+                degree.FacultyName = dataReader["FacultyName"].ToString();
+
+                degreeList.Add(degree);
             }
             return degreeList;
         }
@@ -835,6 +942,59 @@ public class DBservices
 
             }
             return u;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    public List<User> GetAllUsers()
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        cmd = CreateCommandWithStoredProcedure("SP_Get_All_Users", con, null);             // create the command
+
+
+        List<Course> coursesList = new List<Course>();
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            List<User> userList = new List<User>();
+            while (dataReader.Read())
+            {
+            User u = new User();
+                u.Id = Convert.ToInt32(dataReader["UserId"].ToString());
+                u.Email = dataReader["UserName"].ToString();
+                u.FirstName = dataReader["FirstName"].ToString();
+                u.LastName = dataReader["LastName"].ToString();
+                userList.Add(u);
+
+            }
+            return userList;
         }
         catch (Exception ex)
         {

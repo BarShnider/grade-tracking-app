@@ -84,5 +84,12 @@ namespace university_grades_app.Models
             DBservices dbs = new DBservices();
             return dbs.DeleteUser(id);
         }
+
+        public static List<User> GetAllUsers()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetAllUsers();
+        }
+
     }
 }

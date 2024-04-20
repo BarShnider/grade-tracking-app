@@ -16,5 +16,12 @@
             DBservices dbs = new DBservices();
             return dbs.DeleteDegreeById(degreeId);
         }
+
+
+        public static List<dynamic> GetDegreesWithUniversityFaculty()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.GetDegreesWithUniversityFaculty();
+        }
     }
 }

@@ -22,6 +22,13 @@ namespace university_grades_app.Controllers
             return Degree.GetAllDegreesByFacultyId(facultyId);
         }
 
+        [HttpGet]
+        [Route("GetDegreesWithUniversityFaculty")]
+        public IEnumerable<dynamic> GetDegreesWithUniversityFaculty()
+        {
+            return Degree.GetDegreesWithUniversityFaculty();
+        }
+
         // GET api/<DegreesController>/5
         [HttpGet("{id}")]
         public string Get(int id)

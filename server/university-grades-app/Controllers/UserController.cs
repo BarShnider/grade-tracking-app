@@ -14,8 +14,7 @@ namespace university_grades_app.Controllers
         [Route("GetAllUsers")]
         public List<User> GetAllUsers()
         {
-            DBservices dbs = new DBservices();
-            return dbs.GetAllUsers();
+            return university_grades_app.Models.User.GetAllUsers();
         }
 
         // GET api/<UserController>/5
