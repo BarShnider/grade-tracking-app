@@ -9,6 +9,7 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import EditUserModal from "./EditUserModal";
 import EditUniversitiesModal from "./EditUniversitiesModal";
+import EditCourseModal from "./EditCourseModal";
 const BASE_URL = `https://localhost:7204/api`;
 
 function AdminPanel() {
@@ -21,6 +22,8 @@ function AdminPanel() {
   const [editingUser, setEditingUser] = useState(null);
   const [isUniversitiesModalOpen,setIsUniversitiesModalOpen] = useState(false)
   const [editingUniversity, setEditingUniversity] = useState(null);
+  const [isCourseModalOpen,setIsCourseModalOpen] = useState(false)
+  const [editingCourse, setEditingCourse] = useState(null);
 
   const univColumns = [
     { field: "universityId", headerName: "ID", width: 90 },
@@ -104,7 +107,7 @@ function AdminPanel() {
         <>
           <IconButton
             sx={{ width: "30px", height: "30px" }}
-            onClick={() => console.log("clicked edit", params.row)}
+            onClick={() => openCourseModal(params.row)}
             aria-label="edit"
             color="secondery"
             size="small"
@@ -419,6 +422,10 @@ function AdminPanel() {
     setEditingUniversity(university);
     setIsUniversitiesModalOpen(true);
   };
+  const openCourseModal = (course) => {
+    setEditingCourse(course);
+    setIsCourseModalOpen(true);
+  };
 
   useEffect(function () {
     getCourses();
@@ -443,6 +450,22 @@ function AdminPanel() {
           setIsUniversitiesModalOpen={setIsUniversitiesModalOpen}
           universityData={editingUniversity}
           onClose={() => setIsUniversitiesModalOpen(false)}
+        />
+      )}
+      {isUniversitiesModalOpen && editingUniversity && (
+        <EditUniversitiesModal
+          isOpen={isUniversitiesModalOpen}
+          setIsUniversitiesModalOpen={setIsUniversitiesModalOpen}
+          universityData={editingUniversity}
+          onClose={() => setIsUniversitiesModalOpen(false)}
+        />
+      )}
+      {isCourseModalOpen && editingCourse && (
+        <EditCourseModal
+          isOpen={isCourseModalOpen}
+          setIsCourseModalOpen={setIsCourseModalOpen}
+          courseData={editingCourse}
+          onClose={() => setIsCourseModalOpen(false)}
         />
       )}
       <h1 style={{ textAlign: "center" }}>משתמשים</h1>
