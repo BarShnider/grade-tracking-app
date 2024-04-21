@@ -71,10 +71,10 @@ namespace university_grades_app.Controllers
         }
 
         // PUT api/<UserController>/5
-        [HttpPut()]
+        [HttpPut("EditUser")]
         public int Put([FromBody] User user)
         {
-            return user.EditUser(user);
+            return user.EditUser();
         }
 
         // DELETE api/<UserController>/5

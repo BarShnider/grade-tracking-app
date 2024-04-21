@@ -73,10 +73,10 @@ namespace university_grades_app.Models
             return dbs.UserGradesCourse(userId,courseId, grade);
         }
 
-        public int EditUser(User user)
+        public int EditUser()
         {
             DBservices dbs = new DBservices();
-            return dbs.EditUserDetails(user);
+            return dbs.EditUserDetails(this);
         }
 
         public int DeleteUserByID(int id)                                      

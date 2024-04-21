@@ -29,8 +29,7 @@ function Register() {
 
   const navigate = useNavigate();
   const regexPatternHebrew = /^[\u0590-\u05FF]+$/; // Hebrew characters pattern
-  const regexPatternPassword =
-    /^(?=.*[!@#$%^&*()_+{}|:"<>?])(?=.*[A-Z])(?=.*\d).{7,12}$/;
+  const regexPatternPassword =/^(?=.*[!@#$%^&*()_+{}|:"<>?])(?=.*[A-Z])(?=.*\d).{7,12}$/;
 
   const handleInputChange = (
     event,
@@ -223,6 +222,7 @@ function Register() {
         />
         <FormHelperText>{passwordError}</FormHelperText>
       </FormControl>
+      
       <FormControl
         error={!!confirmPasswordError}
         sx={{ width: "80%", direction: "ltr" }}
