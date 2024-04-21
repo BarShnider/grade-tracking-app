@@ -23,5 +23,11 @@
             DBservices dbs = new DBservices();
             return dbs.GetDegreesWithUniversityFaculty();
         }
+
+        public int EditDegree()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.EditDegreeDBS(this);
+        }
     }
 }

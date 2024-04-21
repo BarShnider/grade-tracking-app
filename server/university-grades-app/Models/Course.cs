@@ -8,9 +8,6 @@
 
         public string CourseName { get; set; }
         public string LecturerName { get; set; }
-        public double avgGrade { get; set; }
-        public double minGrade { get; set; }
-        public double maxGrade { get; set; }
 
         public static List<Course> GetAllCourses()
         {
@@ -65,6 +62,11 @@
             return dbs.GetAllCoursesWithUniversityFacultyDegree();
         }
 
+        public int EditCourse()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.EditCourseDBS(this);
+        }
 
     }
 }

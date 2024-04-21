@@ -20,6 +20,11 @@
             return dbs.DeleteUniversityByID(universityId);
         }
 
+        public int EditUniversity()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.EditUniversityDBS(this);
+        }
 
     }
 }

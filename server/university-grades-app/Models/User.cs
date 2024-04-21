@@ -79,7 +79,7 @@ namespace university_grades_app.Models
             return dbs.EditUserDetails(user);
         }
 
-        public int DeleteUserByID(int id)
+        public int DeleteUserByID(int id)                                      
         {
             DBservices dbs = new DBservices();
             return dbs.DeleteUser(id);

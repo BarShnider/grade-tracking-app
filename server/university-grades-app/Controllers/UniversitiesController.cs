@@ -31,9 +31,10 @@ namespace university_grades_app.Controllers
         }
 
         // PUT api/<TestController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("EditUniversity")]
+        public int Put([FromBody] University university)
         {
+            return university.EditUniversity();
         }
 
         // DELETE api/<TestController>/5

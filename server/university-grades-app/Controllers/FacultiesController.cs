@@ -38,9 +38,10 @@ namespace university_grades_app.Controllers
         }
 
         // PUT api/<FacultiesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("EditFaculty")]
+        public int Put([FromBody] Faculty faculty)
         {
+            return faculty.EditFaculty();
         }
 
         // DELETE api/<FacultiesController>/5

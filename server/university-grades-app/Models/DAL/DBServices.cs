@@ -263,10 +263,6 @@ public class DBservices
                 c.CourseCode = Convert.ToInt32(dataReader["courseCode"].ToString());
                 c.CourseName = dataReader["courseName"].ToString();
                 c.LecturerName = dataReader["lecturerName"].ToString();
-                c.avgGrade = Convert.ToDouble(dataReader["avgGrade"].ToString());
-                c.minGrade = Convert.ToDouble(dataReader["minGrade"].ToString());
-                c.maxGrade = Convert.ToDouble(dataReader["maxGrade"].ToString());
-
 
                 courseList.Add(c);
             }
@@ -532,9 +528,6 @@ public class DBservices
         paramDic.Add("@courseCode", c.CourseCode);
         paramDic.Add("@courseName", c.CourseName);
         paramDic.Add("@lecturerName", c.LecturerName);
-        paramDic.Add("@avgGrade", c.avgGrade);
-        paramDic.Add("@maxGrade", c.maxGrade);
-        paramDic.Add("@minGrade", c.minGrade);
         paramDic.Add("@degreeId", degreeId);
 
         cmd = CreateCommandWithStoredProcedure("SP_AddNewCourse", con, paramDic);             // create the command
@@ -832,9 +825,6 @@ public class DBservices
                 c.CourseCode = Convert.ToInt32(dataReader["courseCode"].ToString());
                 c.CourseName = dataReader["courseName"].ToString();
                 c.LecturerName = dataReader["lecturerName"].ToString();
-                c.avgGrade = Convert.ToInt32(dataReader["avgGrade"].ToString());
-                c.minGrade = Convert.ToInt32(dataReader["maxGrade"].ToString());
-                c.maxGrade = Convert.ToInt32(dataReader["minGrade"].ToString());
                 coursesList.Add(c);
             }
             return coursesList;
@@ -1611,6 +1601,204 @@ public class DBservices
             }
         }
     }
+
+    //--------------------------------------------------------------------------------------------------
+    // This method edits course
+    //--------------------------------------------------------------------------------------------------
+    public int EditCourseDBS(Course course)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@courseID", course.CourseId);
+        paramDic.Add("@courseCode", course.CourseCode);
+        paramDic.Add("@courseName", course.CourseName);
+        paramDic.Add("@lecturerName", course.LecturerName);
+
+        cmd = CreateCommandWithStoredProcedure("SP_UpdateCourseDetails", con, paramDic);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // This method edits course
+    //--------------------------------------------------------------------------------------------------
+    public int EditDegreeDBS(Degree degree)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@degreeID", degree.DegreeId);
+        paramDic.Add("@degreeName", degree.Name);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_UpdateDegreeDetails", con, paramDic);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    
+    //--------------------------------------------------------------------------------------------------
+    // This method edits faculty
+    //--------------------------------------------------------------------------------------------------
+    public int EditFacultyDBS(Faculty faculty)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@facultyID", faculty.FacultyId);
+        paramDic.Add("@facultyName", faculty.Name);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_UpdateFacultyDetails", con, paramDic);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    // This method edits faculty
+    //--------------------------------------------------------------------------------------------------
+    public int EditUniversityDBS(University university)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        Dictionary<string, object> paramDic = new Dictionary<string, object>();
+        paramDic.Add("@universityId", university.UniversityId);
+        paramDic.Add("@universityName", university.Name);
+        paramDic.Add("@universityLocation", university.Location);
+        paramDic.Add("@universityYear", university.EstablishedYear);
+        paramDic.Add("@universityWebsite", university.Website);
+        paramDic.Add("@universityImageUrl", university.imageUrl);
+
+
+        cmd = CreateCommandWithStoredProcedure("SP_UpdateUniversityDetails", con, paramDic);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
 
 
 }
