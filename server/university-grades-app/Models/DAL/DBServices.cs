@@ -1770,7 +1770,6 @@ public class DBservices
         paramDic.Add("@universityId", university.UniversityId);
         paramDic.Add("@universityName", university.Name);
         paramDic.Add("@universityLocation", university.Location);
-        paramDic.Add("@universityYear", university.EstablishedYear);
         paramDic.Add("@universityWebsite", university.Website);
         paramDic.Add("@universityImageUrl", university.imageUrl);
 
