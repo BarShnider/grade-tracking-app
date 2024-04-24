@@ -3,11 +3,10 @@ import Button from "./Button";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useUniversities } from "../contexts/AppContext";
-import { TailSpin } from  'react-loader-spinner'
 
 
 
-export default function CourseList({ list }) {
+export default function CourseList() {
   const [courses, setCourses] = useState([])
   const {num} = useParams()
   const {setSelectedCourse, selectedCourse, BASE_URL} = useUniversities()

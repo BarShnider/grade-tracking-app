@@ -1,4 +1,3 @@
-import Navbar from "./Navbar";
 import { Link, useParams } from "react-router-dom";
 import ButtonsContainer from "./ButtonsContainer";
 import DegreeYearSemesterContainer from "./DegreeYearSemesterContainer";
@@ -19,9 +18,7 @@ export default function DegreeYearSemesterScreen() {
   // generateHebrewLettersByIndex(0)
   const { connectedUser, getFacultiesByUniversityId ,loadingUser,faculties, BASE_URL} = useUniversities();
   const [degrees, setDegrees] = useState([]);
-  const [semesters, setSemesters] = useState([]);
-  const [years, setYears] = useState([]);
-  const { facId,id } = useParams();
+  const {id } = useParams();
   const [selectedFaculty, setSelectedFaculty] = useState(null);
   const [selectedDegree, setSelectedDegree] = useState(null);
   const [selectedYear, setSelectedYear] = useState(null);
@@ -46,17 +43,6 @@ export default function DegreeYearSemesterScreen() {
     setSelectedDegree(newSelectedDegree);
   }
 
-  function handleYearClick(year) {
-    const newSelectedYear = selectedYear === year ? null : year;
-    setSelectedYear(newSelectedYear);
-  }
-
-  function handleSemesterClick(semester) {
-    const newSelectedSemester = selectedSemester === semester ? null : semester;
-    console.log(newSelectedSemester)
-    setSelectedSemester(newSelectedSemester);
-    console.log(selectedSemester)
-  }
 
   function handleFacultyClick(faculty) {
     const newSelectedFaculty = selectedFaculty === faculty ? null : faculty;

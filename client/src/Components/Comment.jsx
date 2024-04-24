@@ -5,7 +5,7 @@ import DoneIcon from '@mui/icons-material/Done';
 import { useState } from 'react';
 import { useUniversities } from '../contexts/AppContext';
 
-function Comment({username,title,text,commenterId, commentId,setComments}) {
+function Comment({username,text,commenterId, commentId,setComments}) {
     const [isEditMode,setIsEditMode] = useState(false);
     const {connectedUser, BASE_URL} = useUniversities()
     const [newText,setNewText] = useState("")
