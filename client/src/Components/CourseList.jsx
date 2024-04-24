@@ -5,13 +5,12 @@ import { useParams } from "react-router-dom";
 import { useUniversities } from "../contexts/AppContext";
 import { TailSpin } from  'react-loader-spinner'
 
-const BASE_URL = `https://localhost:7204/api`;
 
 
 export default function CourseList({ list }) {
   const [courses, setCourses] = useState([])
   const {num} = useParams()
-  const {setSelectedCourse, selectedCourse} = useUniversities()
+  const {setSelectedCourse, selectedCourse, BASE_URL} = useUniversities()
   const [isLoading, setIsLoading] = useState(false)
   const [query,setQuery] = useState("")
   function onSelectedCourse(course){

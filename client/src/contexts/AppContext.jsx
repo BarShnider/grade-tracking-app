@@ -3,6 +3,7 @@ import {createContext, useContext, useEffect, useState } from "react";
 const AppContext = createContext();
 
 function AppProvider({ children }) {
+  
   const [universities, setUniversities] = useState([]);
   const [faculties, setFaculties] = useState([])
   const [isLoading, setIsLoading] = useState(false);
@@ -70,7 +71,7 @@ function AppProvider({ children }) {
     }
   }, [connectedUser]);
 
-  return <AppContext.Provider value={{universities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{BASE_URL,universities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
 }
 
 

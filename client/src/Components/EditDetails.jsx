@@ -13,9 +13,8 @@ import { useUniversities } from "../contexts/AppContext";
 import FormHelperText from "@mui/material/FormHelperText";
 
 function EditDetails() {
-  const BASE_URL = `https://localhost:7204/api`;
   const [showPassword, setShowPassword] = useState(false);
-  const { connectedUser, setConnectedUser } = useUniversities();
+  const { connectedUser, setConnectedUser, BASE_URL } = useUniversities();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const navigate = useNavigate();
 

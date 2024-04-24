@@ -4,11 +4,13 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUniversities } from '../contexts/AppContext';
 
 export default function Search() {
 const [courseOptions, setCourseOptions] = useState([]);
 const [value, setValue] = useState(courseOptions[0]);
 const [inputValue, setInputValue] = useState('');
+const {BASE_URL} = useUniversities();
 const navigate = useNavigate();
     const defaultProps = {
         options: courseOptions,
@@ -25,9 +27,8 @@ const navigate = useNavigate();
   }
     
       const getAllCourses = async () => {
-        const BASE_URL = 'https://localhost:7204/api/Courses'; // Adjust the base URL based on your actual API URL
         try {
-          const response = await fetch(`${BASE_URL}`, {
+          const response = await fetch(`${BASE_URL}/Courses`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'
@@ -55,9 +56,8 @@ const navigate = useNavigate();
 
 
       const fetchCoursesByName = async (searchString) => {
-        const BASE_URL = 'https://localhost:7204/api/Courses/GetAllCoursesByName'; // Adjust the base URL based on your actual API URL
         try {
-            const url = `${BASE_URL}/${encodeURIComponent(searchString)}`;
+            const url = `${BASE_URL}/Courses/GetAllCoursesByName/${encodeURIComponent(searchString)}`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {

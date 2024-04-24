@@ -7,7 +7,6 @@ import NextButton from "./NextButton";
 import { useState, useEffect } from "react";
 import { useUniversities } from "../contexts/AppContext";
 import {useNavigate} from 'react-router-dom'
-const BASE_URL = `https://localhost:7204/api`;
 
 function generateHebrewLettersByIndex(index) {
   const startCodePoint = 0x05d0;
@@ -18,7 +17,7 @@ function generateHebrewLettersByIndex(index) {
 
 export default function DegreeYearSemesterScreen() {
   // generateHebrewLettersByIndex(0)
-  const { connectedUser, getFacultiesByUniversityId ,loadingUser,faculties} = useUniversities();
+  const { connectedUser, getFacultiesByUniversityId ,loadingUser,faculties, BASE_URL} = useUniversities();
   const [degrees, setDegrees] = useState([]);
   const [semesters, setSemesters] = useState([]);
   const [years, setYears] = useState([]);

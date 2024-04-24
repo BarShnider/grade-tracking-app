@@ -15,11 +15,10 @@ function generateHebrewLettersByIndex(index) {
 }
 
 
-const BASE_URL = `https://localhost:7204/api`;
 
 
 function CourseDestinationForm() {
-  const { universities, newCourse,setNewCourse } = useUniversities();
+  const { universities, newCourse,setNewCourse, BASE_URL } = useUniversities();
   const [selectedUniv,setSelectedUniv] = useState(null)
   const [selectedFaculty,setSelectedFaculty] = useState(null)
   const [selectedDegree,setSelectedDegree] = useState(null)

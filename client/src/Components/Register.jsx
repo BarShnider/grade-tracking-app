@@ -10,10 +10,10 @@ import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUniversities } from "../contexts/AppContext";
 
 function Register() {
-  const BASE_URL = `https://localhost:7204/api`;
-
+const {BASE_URL} = useUniversities();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");

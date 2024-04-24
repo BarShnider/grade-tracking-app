@@ -12,10 +12,9 @@ import EditUniversitiesModal from "./EditUniversitiesModal";
 import EditCourseModal from "./EditCourseModal";
 import EditFacultyModal from "./EditFacultyModal";
 import EditDegreeModal from "./EditDegreeModal";
-const BASE_URL = `https://localhost:7204/api`;
 
 function AdminPanel() {
-  const { universities } = useUniversities();
+  const { universities, BASE_URL } = useUniversities();
   const [courses, setCourses] = useState([]);
   const [faculties, setFaculties] = useState([]);
   const [degrees, setDegrees] = useState([]);

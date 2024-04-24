@@ -14,8 +14,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 
 
 function LoginScreen() {
-  const BASE_URL = `https://localhost:7204/api`;
-  const { connectedUser, setConnectedUser } = useUniversities();
+  const { connectedUser, setConnectedUser, BASE_URL } = useUniversities();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

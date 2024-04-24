@@ -7,9 +7,10 @@ import Button from '@mui/material/Button';
 import { useState } from "react";
 
 function EditCourseModal({courseData, isOpen, setIsCourseModalOpen}) {
-    // const handleOpen = () => setOpen(true);
     const handleClose = () => setIsCourseModalOpen(false);
-//   console.log(userData)
+    const [courseName, setCourseName] = useState(courseData.CourseName)
+    const [courseCode, setCourseCode] = useState(courseData.CourseCode)
+    const [lecturerName, setLecturerName] = useState(courseData.LecturerName)
     return (
 <Modal
         open={isOpen}
@@ -27,6 +28,7 @@ function EditCourseModal({courseData, isOpen, setIsCourseModalOpen}) {
   color={"success"}
   variant="outlined"
   value={courseData.CourseName}
+  onChange={(e) => setCourseName(e.target.value) }
 
 />
 <TextField
@@ -36,7 +38,7 @@ function EditCourseModal({courseData, isOpen, setIsCourseModalOpen}) {
   color={"success"}
   variant="outlined"
   value={courseData.CourseCode}
-
+onChange={(e) => setCourseCode(e.target.value) }
 />
 
 <TextField
@@ -46,11 +48,11 @@ function EditCourseModal({courseData, isOpen, setIsCourseModalOpen}) {
   color={"success"}
   variant="outlined"
   value={courseData.LecturerName}
-
+onChange={(e) => setLecturerName(e.target.value) }
 />
 
 
-                      <Button variant="outlined" color="success">עדכן</Button>
+                      <Button onClick={() => console.log(courseName, courseCode, lecturerName)} variant="outlined" color="success">עדכן</Button>
 
         </Box>
       </Modal>

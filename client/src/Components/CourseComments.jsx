@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import Comment from "./Comment";
 import { useUniversities } from "../contexts/AppContext";
-const BASE_URL = `https://localhost:7204/api`;
 
 function CourseComments() {
-  const { selectedCourse, setIsLoading, isLoading,connectedUser } = useUniversities();
+  const { selectedCourse, setIsLoading, isLoading,connectedUser, BASE_URL } = useUniversities();
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("")
   const [commentTitle, setCommentTitle] = useState("כותרתתת")

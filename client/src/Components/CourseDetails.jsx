@@ -13,6 +13,15 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button';
 
+function generateRandomArray() {
+  const size = 500; // The size of the array
+  const max = 100; // Maximum value for the random numbers
+
+  // Create an array of the specified size and fill it with random numbers
+  const randomArray = Array.from({ length: size }, () => Math.floor(Math.random() * (max + 1)));
+
+  return randomArray;
+}
 
 export default function CourseDetails() {
   const { selectedCourse, connectedUser } = useUniversities();
@@ -115,6 +124,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
 
       const courseGrades = await response.json(); // Expecting the response to be a list of integers
       console.log("Fetched course grades successfully", courseGrades);
+      // setGrades(generateRandomArray()) // SET THIS TO SHOW COURSE FULL OF GRADES
       setGrades(courseGrades)
       return courseGrades; // Return the grades or handle as needed
     } catch (error) {

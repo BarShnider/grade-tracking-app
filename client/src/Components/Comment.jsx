@@ -4,11 +4,10 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DoneIcon from '@mui/icons-material/Done';
 import { useState } from 'react';
 import { useUniversities } from '../contexts/AppContext';
-const BASE_URL = `https://localhost:7204/api`;
 
 function Comment({username,title,text,commenterId, commentId,setComments}) {
     const [isEditMode,setIsEditMode] = useState(false);
-    const {connectedUser} = useUniversities()
+    const {connectedUser, BASE_URL} = useUniversities()
     const [newText,setNewText] = useState("")
 
 

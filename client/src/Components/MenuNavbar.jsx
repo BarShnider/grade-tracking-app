@@ -82,7 +82,7 @@ export default function MenuNavbar() {
         onClick={handleToggle}
         sx={{color:"#fff", fontWeight:"600",textTransform:"none", border:"1px solid #fff"}}
       >
-        {connectedUser.email}&nbsp;<AccountCircleIcon />
+        {connectedUser.firstName + " " + connectedUser.lastName}&nbsp;<AccountCircleIcon />
 
       </Button>
       <Popper
