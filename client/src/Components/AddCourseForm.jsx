@@ -50,18 +50,12 @@ function AddCourseForm({handleNewCourse}) {
                     <input className="course-name" type="text" onChange={(e) => setLecturerName(e.target.value)} />
                 </div>
                 <div className="add-form-item">
-                    <label htmlFor="course-name">ממוצע קורס:</label>
-                    <input className="course-name" type="number" onChange={(e) => setAvgGrade(e.target.value)} min='0' max='100' />
-
+                    <label htmlFor="course-name">שם המרצה:</label>
+                    <select name="" id=""><option value=""></option></select>
                 </div>
                 <div className="add-form-item">
-                    <label htmlFor="course-name">ציון הכי גבוה:</label>
-                    <input className="course-name" type="number" onChange={(e) => setMaxGrade(e.target.value)} min='0' max='100' />
-                    
-                </div>
-                <div className="add-form-item">
-                    <label htmlFor="course-name">ציון הכי נמוך:</label>
-                    <input className="course-name" type="number" onChange={(e) => setMinGrade(e.target.value)} min='0' max='100' />
+                    <label htmlFor="course-name">שם המרצה:</label>
+                    <select name="" id=""><option value=""></option></select>
                 </div>
                 <div className="back-next-container">
                     {/* <Button>חזור</Button> */}
