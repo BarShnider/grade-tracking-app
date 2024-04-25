@@ -11,7 +11,6 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen }) {
   const handleClose = () => setIsDegreeModalOpen(false);
 
   const { BASE_URL } = useUniversities();
-
   const [name, setName] = useState(degreeData.Name);
   const [nameError, setNameError] = useState("");
 
@@ -24,7 +23,6 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen }) {
   };
 
   const handleSubmit = async () => {
-    console.log(degreeData);
     if (nameError === "") {
       let degreeId = degreeData.DegreeId;
       const degree = {
