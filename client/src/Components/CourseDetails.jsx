@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { CircularProgressbarWithChildren } from "react-circular-progressbar"; // https://www.npmjs.com/package/react-circular-progressbar#react-circular-progressbar
 import "react-circular-progressbar/dist/styles.css";
 import { useUniversities } from "../contexts/AppContext";
 import "animate.css";
@@ -7,7 +6,6 @@ import CourseComments from "./CourseComments";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import * as React from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal'

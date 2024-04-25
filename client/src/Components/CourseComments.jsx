@@ -3,7 +3,7 @@ import Comment from "./Comment";
 import { useUniversities } from "../contexts/AppContext";
 
 function CourseComments() {
-  const { selectedCourse, setIsLoading, isLoading,connectedUser, BASE_URL } = useUniversities();
+  const { selectedCourse,connectedUser, BASE_URL } = useUniversities();
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("")
   const [commentTitle, setCommentTitle] = useState("כותרתתת")

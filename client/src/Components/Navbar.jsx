@@ -1,10 +1,9 @@
-import { Link, NavLink, useNavigate } from "react-router-dom"
+import {  NavLink, useNavigate } from "react-router-dom"
 import { useUniversities } from "../contexts/AppContext";
-import { useEffect } from "react";
 import MenuNavbar from "./MenuNavbar";
 import Search from "./Search";
 
-export default function Navbar({setActiveScreen}) {
+export default function Navbar() {
   const {connectedUser, setConnectedUser} = useUniversities()
   const navigate = useNavigate()
 

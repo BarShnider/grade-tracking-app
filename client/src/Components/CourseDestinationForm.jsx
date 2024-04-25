@@ -1,7 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUniversities } from "../contexts/AppContext";
 import Button from "./Button";
-import Select from 'react-select'
 import { useEffect, useState } from "react";
 import SmallButton from "./SmallButton";
 import ModalAddUniversity from "./ModalAddUniversity";
