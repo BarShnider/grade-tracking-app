@@ -4,11 +4,56 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
+import { useState } from "react";
+import { useUniversities } from "../contexts/AppContext";
 
 function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen }) {
-  // const handleOpen = () => setOpen(true);
   const handleClose = () => setIsDegreeModalOpen(false);
-  //   console.log(facultyData)
+
+  const { BASE_URL } = useUniversities();
+
+  const [name, setName] = useState(degreeData.Name);
+  const [nameError, setNameError] = useState("");
+
+  const handleName = () => {
+    if (name === "") {
+      setNameError("שדה חובה*");
+    } else {
+      setNameError("");
+    }
+  };
+
+  const handleSubmit = async () => {
+    console.log(degreeData);
+    if (nameError === "") {
+      let degreeId = degreeData.DegreeId;
+      const degree = {
+        degreeId,
+        name,
+      };
+      try {
+        const response = await fetch(`${BASE_URL}/Degrees/EditDegree`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(degree),
+        });
+        const isEdited = await response.json();
+        if (isEdited === 0) {
+          alert("didnt update");
+          return;
+        } else {
+          console.log("Edit details successful");
+          handleClose();
+        }
+      } catch (error) {
+        console.error("Edit error:", error);
+        alert("Edit failed"); // Consider a more user-friendly error handling
+      }
+    }
+  };
+
   return (
     <Modal
       open={isOpen}
@@ -44,10 +89,18 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen }) {
           label="שם התואר"
           color={"success"}
           variant="outlined"
-          value={degreeData.Name}
+          onBlur={handleName}
+          value={name}
+          error={!!nameError}
+          helperText={nameError}
+          onChange={(e) => setName(e.target.value)}
         />
 
-        <Button variant="outlined" color="success">
+        <Button
+          variant="outlined"
+          color="success"
+          onClick={() => handleSubmit()}
+        >
           עדכן
         </Button>
       </Box>
