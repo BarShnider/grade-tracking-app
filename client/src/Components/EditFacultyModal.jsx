@@ -4,15 +4,25 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen }) {
-  const handleClose = () => setIsFacultyModalOpen(false);
-  const [name, setName] = useState(facultyData.Name);
-  const [nameError, setNameError] = useState("");
-
+function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen, isAddNew }) {
   const { BASE_URL } = useUniversities();
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const handleClose = () => setIsFacultyModalOpen(false);
+
+  useEffect(() => {
+    if (isAddNew) {
+      // Reset all fields if adding new university
+      setName("");
+    } else if (facultyData) {
+      // Populate fields with existing data if editing
+      setName(facultyData.name || "");
+    }
+  }, [isAddNew, facultyData]);
+
 
   const handleError = () => {
     if (name === "") {
@@ -79,7 +89,7 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen }) {
           textAlign: "center",
         }}
       >
-        <h1 className="login-header">עריכת פרטים</h1>
+        <h1 className="login-header">{isAddNew? "הוספת פקולטה": "עריכת פרטים"}</h1>
 
         <TextField
           sx={{ width: "80%", direction: "ltr" }}
@@ -97,7 +107,7 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen }) {
         <Button
           variant="outlined"
           color="success"
-          onClick={() => handleSubmit()}
+          onClick={isAddNew? () => console.log(name):() => handleSubmit()}
         >
           עדכן
         </Button>

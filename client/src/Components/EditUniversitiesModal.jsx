@@ -12,17 +12,35 @@ function EditUniversitiesModal({
   universityData,
   isOpen,
   setIsUniversitiesModalOpen,
+  isAddNew
 }) {
   const handleClose = () => setIsUniversitiesModalOpen(false);
   const { BASE_URL } = useUniversities();
   const navigate = useNavigate();
 
-  const [universityId, setUniversityId] = useState(universityData.universityId);
-  const [name, setName] = useState(universityData.name);
-  const [location, setLocatin] = useState(universityData.location);
-  const [website, setWebsite] = useState(universityData.website);
-  const [imageUrl, setImageUrl] = useState(universityData.imageUrl);
-  useEffect(() => {}, [name, location, imageUrl, website]);
+  const [universityId, setUniversityId] = useState("");
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [website, setWebsite] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    if (isAddNew) {
+      // Reset all fields if adding new university
+      setUniversityId("");
+      setName("");
+      setLocation("");
+      setWebsite("");
+      setImageUrl("");
+    } else if (universityData) {
+      // Populate fields with existing data if editing
+      setUniversityId(universityData.universityId || "");
+      setName(universityData.name || "");
+      setLocation(universityData.location || "");
+      setWebsite(universityData.website || "");
+      setImageUrl(universityData.imageUrl || "");
+    }
+  }, [isAddNew, universityData]);
 
   const [nameError, setNameError] = useState("");
   const [locationError, setLocationError] = useState("");
@@ -39,7 +57,7 @@ function EditUniversitiesModal({
   };
 
   const handleLocation = (location) => {
-    setLocatin(location);
+    setLocation(location);
     if (location === "") {
       setLocationError("שדה חובה*");
       return 0;
@@ -140,7 +158,7 @@ function EditUniversitiesModal({
           textAlign: "center",
         }}
       >
-        <h1 className="login-header">עריכת פרטים</h1>
+        <h1 className="login-header">{isAddNew?"הוסף מוסד לימוד" :"עריכת פרטים"}</h1>
 
         <TextField
           sx={{ width: "80%", direction: "ltr" }}
@@ -190,9 +208,9 @@ function EditUniversitiesModal({
         <Button
           variant="outlined"
           color="success"
-          onClick={() => handleEditUniv()}
+          onClick={isAddNew? () => console.log(universityId,name,location,website,imageUrl) :() => handleEditUniv()}
         >
-          עדכן
+          {isAddNew? "הוסף": "עדכן"}
         </Button>
       </Box>
     </Modal>

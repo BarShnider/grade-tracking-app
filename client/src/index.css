@@ -602,3 +602,28 @@ a {
   box-shadow: 3px 3px 2px rgba(34, 34, 34, 0.1);
 
 }
+
+.course-preview {
+  background-color: var(--main-darkgreen);
+  height: 80vh;
+  width: 40%;
+  border-radius: 10px 0px 0px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Ensures padding inside the container */
+  box-sizing: border-box; /* Includes padding in the width calculation */
+}
+.course-preview {
+  min-height: 500px; /* Minimum height to maintain a base size */
+  max-height: 80vh; /* Maximum height relative to the viewport */
+}
+
+@media (max-width: 768px) {
+  .course-preview {
+    width: 100%; /* Full width on smaller screens */
+    padding: 10px;
+  }
+}
+
