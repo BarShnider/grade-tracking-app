@@ -1896,7 +1896,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method adds university
     //--------------------------------------------------------------------------------------------------
-    public int AddNewUniversity(University univ)
+    public University AddNewUniversity(University univ)
     {
 
         SqlConnection con;
@@ -1920,12 +1920,20 @@ public class DBservices
         paramDic.Add("@image", univ.imageUrl);
 
         cmd = CreateCommandWithStoredProcedure("SP_AddNewUniversity", con, paramDic);             // create the command
-
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
-            return numEffected;
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            University university = new University();
+            while (dataReader.Read())
+            {
+                university.UniversityId = Convert.ToInt32(dataReader["UniversityID"]);
+                university.Name = dataReader["Name"].ToString();
+                university.Location = dataReader["Location"].ToString();
+                university.EstablishedYear = Convert.ToInt32(dataReader["EstablishedYear"]);
+                university.Website = dataReader["Website"].ToString();
+                university.imageUrl = dataReader["Image"].ToString();
+            }
+            return university;
         }
         catch (Exception ex)
         {

@@ -26,7 +26,7 @@ namespace university_grades_app.Controllers
 
         // POST api/<TestController>
         [HttpPost]
-        public int Post([FromBody] University univ)
+        public University Post([FromBody] University univ)
         {
             return univ.AddUniversity();
         }

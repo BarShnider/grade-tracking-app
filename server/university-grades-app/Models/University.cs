@@ -26,7 +26,7 @@
             return dbs.EditUniversityDBS(this);
         }
 
-        public int AddUniversity()
+        public University AddUniversity()
         {
             DBservices dbs = new DBservices();
             return dbs.AddNewUniversity(this);
