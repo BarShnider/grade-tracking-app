@@ -38,8 +38,9 @@ namespace university_grades_app.Controllers
 
         // POST api/<DegreesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public int Post(int facultyID , String degreeName)
         {
+            return Degree.AddDegree(facultyID, degreeName);
         }
 
         // PUT api/<DegreesController>/5

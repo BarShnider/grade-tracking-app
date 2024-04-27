@@ -20,13 +20,13 @@ function AdminPanel() {
   const [users, setUsers] = useState([]);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
-  const [isUniversitiesModalOpen,setIsUniversitiesModalOpen] = useState(false)
+  const [isUniversitiesModalOpen, setIsUniversitiesModalOpen] = useState(false);
   const [editingUniversity, setEditingUniversity] = useState(null);
-  const [isCourseModalOpen,setIsCourseModalOpen] = useState(false)
+  const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [editingCourse, setEditingCourse] = useState(null);
-  const [isFacultyModalOpen,setIsFacultyModalOpen] = useState(false)
+  const [isFacultyModalOpen, setIsFacultyModalOpen] = useState(false);
   const [editingFaculty, setEditingFaculty] = useState(null);
-  const [isDegreeModalOpen,setIsDegreeModalOpen] = useState(false)
+  const [isDegreeModalOpen, setIsDegreeModalOpen] = useState(false);
   const [editingDegree, setEditingDegree] = useState(null);
 
   const univColumns = [
@@ -50,7 +50,7 @@ function AdminPanel() {
           </IconButton>
           <IconButton
             sx={{ width: "30px", height: "30px" }}
-            onClick={() => console.log(params.row)}
+            onClick={() => deleteUniversity(params.row.universityId)}
             aria-label="delete"
             color="secondery"
             size="small"
@@ -122,7 +122,7 @@ function AdminPanel() {
           </IconButton>
           <IconButton
             sx={{ width: "30px", height: "30px" }}
-            onClick={() => console.log(params.row)}
+            onClick={() => deleteCourse(params.row.CourseId)}
             aria-label="delete"
             color="secondery"
             size="small"
@@ -194,7 +194,7 @@ function AdminPanel() {
           </IconButton>
           <IconButton
             sx={{ width: "30px", height: "30px" }}
-            onClick={() => console.log(params.row)}
+            onClick={() => deleteFaculty(params.row.FacultyId)}
             aria-label="delete"
             color="secondery"
             size="small"
@@ -243,7 +243,7 @@ function AdminPanel() {
           </IconButton>
           <IconButton
             sx={{ width: "30px", height: "30px" }}
-            onClick={() => console.log(params.row)}
+            onClick={() => deleteDegree(params.row.DegreeId)}
             aria-label="delete"
             color="secondery"
             size="small"
@@ -398,6 +398,26 @@ function AdminPanel() {
       .finally(() => {});
   };
 
+  async function deleteUniversity(universityID) {
+    try {
+      const response = await fetch(`${BASE_URL}/Universities/${universityID}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the user");
+      }
+
+      // Update local state or trigger a re-fetch of the data
+      setUsers((currentUniv) =>
+      currentUniv.filter((univ) => univ.universityId !== universityID)
+      );
+    } catch (error) {
+      console.error("There was an error deleting the user:", error);
+      alert("There was an error deleting the user.");
+    }
+  }
+
   async function deleteUser(userId) {
     try {
       const response = await fetch(`${BASE_URL}/User/${userId}`, {
@@ -415,6 +435,66 @@ function AdminPanel() {
     } catch (error) {
       console.error("There was an error deleting the user:", error);
       alert("There was an error deleting the user.");
+    }
+  }
+
+  async function deleteCourse(courseID) {
+    try {
+      const response = await fetch(`${BASE_URL}/Courses/${courseID}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the course");
+      }
+
+      // Update local state or trigger a re-fetch of the data
+      setCourses((currentCourses) =>
+        currentCourses.filter((course) => course.id !== courseID)
+      );
+    } catch (error) {
+      console.error("There was an error deleting the course:", error);
+      alert("There was an error deleting the course.");
+    }
+  }
+
+  async function deleteDegree(degreeID) {
+    try {
+      const response = await fetch(`${BASE_URL}/Degrees/${degreeID}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the degree");
+      }
+
+      // Update local state or trigger a re-fetch of the data
+      setCourses((currentDegrees) =>
+        currentDegrees.filter((degree) => degree.id !== degreeID)
+      );
+    } catch (error) {
+      console.error("There was an error deleting the degree:", error);
+      alert("There was an error deleting the degree.");
+    }
+  }
+
+  async function deleteFaculty(facultyId) {
+    try {
+      const response = await fetch(`${BASE_URL}/Faculties/${facultyId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete the degree");
+      }
+
+      // Update local state or trigger a re-fetch of the data
+      setCourses((currentFaculties) =>
+        currentFaculties.filter((faculty) => faculty.id !== facultyId)
+      );
+    } catch (error) {
+      console.error("There was an error deleting the degree:", error);
+      alert("There was an error deleting the degree.");
     }
   }
 

@@ -26,5 +26,11 @@
             return dbs.EditUniversityDBS(this);
         }
 
+        public int AddUniversity()
+        {
+            DBservices dbs = new DBservices();
+            return dbs.AddNewUniversity(this);
+        }
+
     }
 }

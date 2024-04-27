@@ -26,8 +26,9 @@ namespace university_grades_app.Controllers
 
         // POST api/<TestController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public int Post([FromBody] University univ)
         {
+            return univ.AddUniversity();
         }
 
         // PUT api/<TestController>/5
