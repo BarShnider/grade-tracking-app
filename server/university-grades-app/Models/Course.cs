@@ -8,6 +8,7 @@
 
         public string CourseName { get; set; }
         public string LecturerName { get; set; }
+        public bool IsMandatory { get; set; }
 
         public static List<Course> GetAllCourses()
         {

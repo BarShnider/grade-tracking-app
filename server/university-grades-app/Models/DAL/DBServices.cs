@@ -528,6 +528,7 @@ public class DBservices
         paramDic.Add("@courseCode", c.CourseCode);
         paramDic.Add("@courseName", c.CourseName);
         paramDic.Add("@lecturerName", c.LecturerName);
+        paramDic.Add("@IsMandatory", c.IsMandatory);
         paramDic.Add("@degreeId", degreeId);
 
         cmd = CreateCommandWithStoredProcedure("SP_AddNewCourse", con, paramDic);             // create the command
