@@ -12,6 +12,7 @@ function EditUniversitiesModal({
   universityData,
   isOpen,
   setIsUniversitiesModalOpen,
+  setUniversities,
   isAddNew
 }) {
   const handleClose = () => setIsUniversitiesModalOpen(false);
@@ -89,6 +90,46 @@ function EditUniversitiesModal({
     }
   };
 
+  const addUniversity = async () => {
+    if (!name || !location || !website || !imageUrl) {
+        // You can also handle individual error states here if you prefer.
+        alert('Please fill all fields correctly.');
+        return;
+    }
+
+    const university = {
+        name,
+        location,
+        website,
+        imageUrl,
+        establishedYear: 0,  // Assuming this is a required field but not managed in the form
+    };
+
+    try {
+        const response = await fetch(`${BASE_URL}/Universities`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(university),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('University added successfully', result);
+            setUniversities(prev=> [...prev, result])
+            handleClose();
+            // Optionally reset state or trigger a re-fetch/update of university list
+        } else {
+            throw new Error('Failed to add university');
+        }
+    } catch (error) {
+        console.error('Error adding university:', error);
+        alert('Failed to add university');
+    }
+};
+
+
   const handleEditUniv = async () => {
     if (
       logoError === "" &&
@@ -97,7 +138,8 @@ function EditUniversitiesModal({
       websiteError === ""
     ) {
       let establishedYear = 0;
-      const univ = {
+      let universityId = universityData.universityId;
+      const updatedUniv = {
         universityId,
         name,
         location,
@@ -113,7 +155,7 @@ function EditUniversitiesModal({
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(univ),
+            body: JSON.stringify(updatedUniv),
           }
         );
         const isEdited = await response.json();
@@ -122,6 +164,12 @@ function EditUniversitiesModal({
           return;
         } else {
           console.log("Edit details successful");
+          setUniversities(prevUniversities => prevUniversities.map(university => {
+            if (university.universityId === universityId) {
+              return { ...university, ...updatedUniv }; // Merge the updated details into the existing course
+            }
+            return university;
+          }));
           handleClose();
         }
       } catch (error) {
@@ -208,7 +256,7 @@ function EditUniversitiesModal({
         <Button
           variant="outlined"
           color="success"
-          onClick={isAddNew? () => console.log(universityId,name,location,website,imageUrl) :() => handleEditUniv()}
+          onClick={isAddNew? () => addUniversity() :() => handleEditUniv()}
         >
           {isAddNew? "הוסף": "עדכן"}
         </Button>

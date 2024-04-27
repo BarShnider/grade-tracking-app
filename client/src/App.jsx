@@ -12,12 +12,14 @@ import LoginScreen from "./Components/LoginScreen";
 import Register from "./Components/Register";
 import EditDetails from "./Components/EditDetails";
 import AdminPanel from "./Components/AdminPanel";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <>
       <AppProvider>
         <BrowserRouter>
+        <Toaster />
           <Navbar />
           <Routes>
             <Route index element={<Navigate replace to="universities" />} />

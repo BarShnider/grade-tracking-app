@@ -17,6 +17,7 @@ body {
 }
 
 .button {
+  position: relative; /* Needed for absolute positioning of the badge */
   direction: rtl;
   font-size: 32px;
   padding: 10px 30px;
@@ -627,3 +628,23 @@ a {
   }
 }
 
+.badge {
+  position: absolute;
+  top: 7px; /* Adjust as needed */
+  left: -23px; /* Adjust as needed */
+  color: white;
+  border-radius: 15px;
+  padding: 0px 18px;
+  font-size: 16px;
+  transform: rotate(-45deg); /* Rotate the badge */
+
+}
+
+.mandatory{
+  background-color: #96bf8b; /* Red badge for mandatory */
+}
+
+.not-mandatory {
+  background-color: #91a3cc;
+
+}

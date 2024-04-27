@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen, isAddNew }) {
+function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen,setFaculties,selectedUniversity ,isAddNew }) {
   const { BASE_URL } = useUniversities();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
@@ -18,8 +18,9 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen, isAddNew
       // Reset all fields if adding new university
       setName("");
     } else if (facultyData) {
+      console.log(facultyData)
       // Populate fields with existing data if editing
-      setName(facultyData.name || "");
+      setName(facultyData.Name || "");
     }
   }, [isAddNew, facultyData]);
 
@@ -35,9 +36,9 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen, isAddNew
   const handleSubmit = async () => {
     if (nameError === "") {
       let facultyId = facultyData.FacultyId;
-      const faculty = {
-        facultyId,
-        name,
+      const updatedFaculty = {
+        FacultyId: facultyId,
+        Name: name,
       };
       try {
         const response = await fetch(`${BASE_URL}/Faculties/EditFaculty`, {
@@ -45,7 +46,7 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen, isAddNew
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(faculty),
+          body: JSON.stringify(updatedFaculty),
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
@@ -53,6 +54,12 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen, isAddNew
           return;
         } else {
           console.log("Edit details successful");
+          setFaculties(prevFaculties => prevFaculties.map(faculty => {
+            if (faculty.FacultyId === facultyId) {
+              return { ...faculty, ...updatedFaculty }; // Merge the updated details into the existing course
+            }
+            return faculty;
+          }));
           handleClose();
         }
       } catch (error) {
@@ -62,6 +69,37 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen, isAddNew
     }
   };
 
+  const addFaculty = async () => {
+    if (!name) {
+        // You can also handle individual error states here if you prefer.
+        alert('Please fill all fields correctly.');
+        return;
+    }
+
+ // Assuming this is a required field but not managed in the form
+
+    try {
+        const response = await fetch(`${BASE_URL}/Faculties/AddFaculty/${selectedUniversity}/${name}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Faculty added successfully', result);
+            setFaculties(prev=> [...prev, result])
+            handleClose();
+            // Optionally reset state or trigger a re-fetch/update of university list
+        } else {
+            throw new Error('Failed to add Faculty');
+        }
+    } catch (error) {
+        console.error('Error adding Faculty:', error);
+        alert('Failed to add Faculty');
+    }
+};
   return (
     <Modal
       open={isOpen}
@@ -107,7 +145,7 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen, isAddNew
         <Button
           variant="outlined"
           color="success"
-          onClick={isAddNew? () => console.log(name):() => handleSubmit()}
+          onClick={isAddNew? () => addFaculty():() => handleSubmit()}
         >
           עדכן
         </Button>

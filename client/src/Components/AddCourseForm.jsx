@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useUniversities } from "../contexts/AppContext";
-import toast, { Toaster } from "react-hot-toast";
+import {toast} from "react-hot-toast";
 import EditUniversitiesModal from "./EditUniversitiesModal";
 import EditFacultyModal from "./EditFacultyModal";
 import EditDegreeModal from "./EditDegreeModal";
 
 function AddCourseForm({ handleNewCourse }) {
   //OBJECTS STATES
-  const { newCourse, setNewCourse, universities, BASE_URL } = useUniversities();
+  const { newCourse, setNewCourse, universities,setUniversities, BASE_URL } = useUniversities();
   const [faculties, setFaculties] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [courseName, setCourseName] = useState("");
@@ -32,6 +32,7 @@ function AddCourseForm({ handleNewCourse }) {
   const [isDegreeModalOpen, setIsDegreeModalOpen] = useState(false);
 
   const notify = () => toast.error("נא מלאו את השדות החסרים");
+  const notifyCourseSuccess = () => toast.success("הקורס נוסף בהצלחה!");
 
   const navigate = useNavigate();
 
@@ -81,15 +82,15 @@ function AddCourseForm({ handleNewCourse }) {
     } else {
       setDegreeError("");
     }
-
-    const newAddedCourse = {
-      courseName,
-      courseCode: Number(courseCode),
-      lecturerName,
-      university: Number(selectedUniversity),
-      faculty: Number(selectedFaculty),
-      degree: Number(selectedDegree),
-    };
+    if(isValid){    
+      const newAddedCourse = {
+        courseName,
+         courseCode,
+         lecturerName,
+        selectedDegree,
+         isMandatory
+      };
+    console.log(newAddedCourse)
 
     if (
       courseName !== "" &&
@@ -99,13 +100,15 @@ function AddCourseForm({ handleNewCourse }) {
       selectedFaculty !== "" &&
       selectedDegree !== ""
     ) {
-      setNewCourse(newAddedCourse);
-      // navigate("/addnew/dest-form")
+      // setNewCourse(newAddedCourse);
+      addCourse(selectedDegree,newAddedCourse)
+      notifyCourseSuccess()
+      navigate(`/search/sq-${newAddedCourse.courseName}`)
     } else {
       notify();
     }
 
-    console.log(newAddedCourse);
+  }
   }
 
   useEffect(
@@ -165,6 +168,44 @@ function AddCourseForm({ handleNewCourse }) {
       console.log("success");
     }
   }
+
+  const addCourse = async (degreeId, newCourse) => {
+
+
+    // Ensure degreeId is provided
+    if (!degreeId) {
+        alert('Degree ID is missing');
+        return;
+    }
+
+    try {
+        const response = await fetch(`${BASE_URL}/Courses/AddNewCourse/${degreeId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newCourse),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Course added successfully', result);
+            // setCourses(prev => [...prev, result]); // Assume setCourses is the state updater for the list of courses
+            // handleClose(); // Close modal or any other UI component
+        } else {
+            throw new Error('Failed to add course');
+        }
+    } catch (error) {
+        console.error('Error adding course:', error);
+        alert('Failed to add course');
+    }
+};
+
+  useEffect(function(){
+console.log("universities:", universities)
+console.log("faculties:", faculties)
+console.log("degrees:", degrees)
+  },[universities,faculties,degrees])
 
   useEffect(
     function () {
@@ -326,9 +367,9 @@ function AddCourseForm({ handleNewCourse }) {
         {/* <Button>חזור</Button> */}
         <Button onClick={handleAddCourse}>הבא</Button>
       </div>
-      <Toaster />
       {isUniversitiesModalOpen && (
         <EditUniversitiesModal
+          setUniversities={setUniversities}
           isOpen={isUniversitiesModalOpen}
           setIsUniversitiesModalOpen={setIsUniversitiesModalOpen}
           onClose={() => setIsUniversitiesModalOpen(false)}
@@ -337,6 +378,8 @@ function AddCourseForm({ handleNewCourse }) {
       )}
       {isFacultyModalOpen && (
         <EditFacultyModal
+          selectedUniversity={selectedUniversity}
+          setFaculties={setFaculties}
           isOpen={isFacultyModalOpen}
           setIsFacultyModalOpen={setIsFacultyModalOpen}
           onClose={() => setIsFacultyModalOpen(false)}
@@ -345,6 +388,8 @@ function AddCourseForm({ handleNewCourse }) {
       )}
       {isDegreeModalOpen && (
         <EditDegreeModal
+          selectedFaculty={selectedFaculty}
+          setDegrees={setDegrees}
           isOpen={isDegreeModalOpen}
           setIsDegreeModalOpen={setIsDegreeModalOpen}
           onClose={() => setIsDegreeModalOpen(false)}

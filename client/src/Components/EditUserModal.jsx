@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditUserModal({ userData, isOpen, setIsUserModalOpen }) {
+function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers }) {
   const handleClose = () => setIsUserModalOpen(false);
 
   const { BASE_URL } = useUniversities();
@@ -55,7 +55,7 @@ function EditUserModal({ userData, isOpen, setIsUserModalOpen }) {
     if (emailError === "" && firstNameError === "" && lastNameError === "") {
       let id = userData.id;
       let password = "";
-      const user = {
+      const updatedUser = {
         id,
         email,
         password,
@@ -68,7 +68,7 @@ function EditUserModal({ userData, isOpen, setIsUserModalOpen }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(user),
+          body: JSON.stringify(updatedUser),
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
@@ -76,6 +76,12 @@ function EditUserModal({ userData, isOpen, setIsUserModalOpen }) {
           return;
         } else {
           console.log("Edit details successful");
+          setUsers(prevUsers => prevUsers.map(user => {
+            if (user.id === id) {
+              return { ...user, ...updatedUser }; // Merge the updated details into the existing course
+            }
+            return user;
+          }));
           handleClose();
         }
       } catch (error) {

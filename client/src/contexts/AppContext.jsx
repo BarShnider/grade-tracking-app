@@ -71,7 +71,7 @@ function AppProvider({ children }) {
     }
   }, [connectedUser]);
 
-  return <AppContext.Provider value={{BASE_URL,universities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{BASE_URL,universities,setUniversities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
 }
 
 

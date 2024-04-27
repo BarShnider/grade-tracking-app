@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditCourseModal({ courseData, isOpen, setIsCourseModalOpen }) {
+function EditCourseModal({ courseData, isOpen, setCourses, setIsCourseModalOpen }) {
   const handleClose = () => setIsCourseModalOpen(false);
 
   const { BASE_URL } = useUniversities();
@@ -45,11 +45,11 @@ function EditCourseModal({ courseData, isOpen, setIsCourseModalOpen }) {
   const handleSubmit = async () => {
     if (nameError === "" && codeError === "" && lecturerNameError === "") {
       let courseID = courseData.CourseId;
-      const course = {
-        courseID,
-        courseCode,
-        courseName,
-        lecturerName,
+      const updatedCourse = {
+        CourseId: courseID, // Use the property names as expected by your DataGrid
+        CourseCode: courseCode, // Updated course code
+        CourseName: courseName, // Updated course name
+        LecturerName: lecturerName, // Updated lecturer name
       };
       try {
         const response = await fetch(`${BASE_URL}/Courses/EditCourse`, {
@@ -57,7 +57,7 @@ function EditCourseModal({ courseData, isOpen, setIsCourseModalOpen }) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(course),
+          body: JSON.stringify(updatedCourse),
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
@@ -65,6 +65,12 @@ function EditCourseModal({ courseData, isOpen, setIsCourseModalOpen }) {
           return;
         } else {
           console.log("Edit details successful");
+          setCourses(prevCourses => prevCourses.map(course => {
+            if (course.CourseId === courseID) {
+              return { ...course, ...updatedCourse }; // Merge the updated details into the existing course
+            }
+            return course;
+          }));
           handleClose();
         }
       } catch (error) {
@@ -73,6 +79,9 @@ function EditCourseModal({ courseData, isOpen, setIsCourseModalOpen }) {
       }
     }
   };
+
+
+
 
   return (
     <Modal

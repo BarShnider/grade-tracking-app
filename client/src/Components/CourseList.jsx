@@ -88,6 +88,7 @@ export default function CourseList() {
           return response.json(); // Parse JSON data from the response
         })
         .then((data) => {
+          console.log(data)
           setCourses(data);
           if (data && data.length > 0 && !selectedCourse) {
             setSelectedCourse(data[0]); // Set the first course as selected if no course is currently selected
@@ -105,7 +106,7 @@ export default function CourseList() {
   return (
     <>
       <ButtonsContainer isLoading={isLoading}>
-        {courses.map(course => <Button selected={selectedCourse?.courseId === course.courseId} onClick={() =>  onSelectedCourse(course)} key={course.courseId}>{course.courseName}</Button>)}
+        {courses.map(course => <Button isMandatory={course.isMandatory} selected={selectedCourse?.courseId === course.courseId} onClick={() =>  onSelectedCourse(course)} key={course.courseId}>{course.courseName}</Button>)}
       </ButtonsContainer>
     </>
   );

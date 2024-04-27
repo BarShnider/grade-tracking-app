@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,isAddNew }) {
+function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,setDegrees,selectedFaculty,isAddNew }) {
   const handleClose = () => setIsDegreeModalOpen(false);
 
   const { BASE_URL } = useUniversities();
@@ -20,7 +20,7 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,isAddNew }) 
       setName("");
     } else if (degreeData) {
       // Populate fields with existing data if editing
-      setName(degreeData.name || "");
+      setName(degreeData.Name || "");
     }
   }, [isAddNew, degreeData]);
 
@@ -35,9 +35,9 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,isAddNew }) 
   const handleSubmit = async () => {
     if (nameError === "") {
       let degreeId = degreeData.DegreeId;
-      const degree = {
-        degreeId,
-        name,
+      const updatedDegree = {
+        DegreeId:degreeId,
+        Name: name,
       };
       try {
         const response = await fetch(`${BASE_URL}/Degrees/EditDegree`, {
@@ -45,7 +45,7 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,isAddNew }) 
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(degree),
+          body: JSON.stringify(updatedDegree),
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
@@ -53,6 +53,12 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,isAddNew }) 
           return;
         } else {
           console.log("Edit details successful");
+          setDegrees(prevDegrees => prevDegrees.map(degree => {
+            if (degree.DegreeId === degreeId) {
+              return { ...degree, ...updatedDegree }; // Merge the updated details into the existing course
+            }
+            return degree;
+          }));
           handleClose();
         }
       } catch (error) {
@@ -62,6 +68,37 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,isAddNew }) 
     }
   };
 
+
+  const addDegree = async () => {
+    if (!name) {
+        // You can also handle individual error states here if you prefer.
+        alert('נא להזין שם');
+        return;
+    }
+
+
+    try {
+        const response = await fetch(`${BASE_URL}/Degrees/AddDegree/${selectedFaculty}/${name}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Degree added successfully', result);
+            setDegrees(prev=> [...prev, result])
+            handleClose();
+            // Optionally reset state or trigger a re-fetch/update of university list
+        } else {
+            throw new Error('Failed to add Degree');
+        }
+    } catch (error) {
+        console.error('Error adding Degree:', error);
+        alert('Failed to add Degree');
+    }
+};
   return (
     <Modal
       open={isOpen}
@@ -107,7 +144,7 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,isAddNew }) 
         <Button
           variant="outlined"
           color="success"
-          onClick={isAddNew?() => console.log(name):() => handleSubmit()}
+          onClick={isAddNew?() => addDegree():() => handleSubmit()}
         >
           עדכן
         </Button>

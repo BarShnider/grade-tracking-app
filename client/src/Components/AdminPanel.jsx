@@ -13,7 +13,7 @@ import EditFacultyModal from "./EditFacultyModal";
 import EditDegreeModal from "./EditDegreeModal";
 
 function AdminPanel() {
-  const { universities, BASE_URL } = useUniversities();
+  const { universities, BASE_URL, setUniversities } = useUniversities();
   const [courses, setCourses] = useState([]);
   const [faculties, setFaculties] = useState([]);
   const [degrees, setDegrees] = useState([]);
@@ -405,16 +405,16 @@ function AdminPanel() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to delete the user");
+        throw new Error("Failed to delete the university");
       }
 
       // Update local state or trigger a re-fetch of the data
-      setUsers((currentUniv) =>
-      currentUniv.filter((univ) => univ.universityId !== universityID)
+      setUniversities(currentUniversities =>
+        currentUniversities.filter(univ => univ.universityId !== universityID)
       );
     } catch (error) {
-      console.error("There was an error deleting the user:", error);
-      alert("There was an error deleting the user.");
+      console.error("There was an error deleting the university:", error);
+      alert("There was an error deleting the university.");
     }
   }
 
@@ -449,8 +449,8 @@ function AdminPanel() {
       }
 
       // Update local state or trigger a re-fetch of the data
-      setCourses((currentCourses) =>
-        currentCourses.filter((course) => course.id !== courseID)
+      setCourses(currentCourses =>
+        currentCourses.filter(course => course.CourseId !== courseID)
       );
     } catch (error) {
       console.error("There was an error deleting the course:", error);
@@ -469,8 +469,8 @@ function AdminPanel() {
       }
 
       // Update local state or trigger a re-fetch of the data
-      setCourses((currentDegrees) =>
-        currentDegrees.filter((degree) => degree.id !== degreeID)
+      setDegrees(currentDegrees =>
+        currentDegrees.filter(degree => degree.DegreeId !== degreeID)
       );
     } catch (error) {
       console.error("There was an error deleting the degree:", error);
@@ -489,8 +489,8 @@ function AdminPanel() {
       }
 
       // Update local state or trigger a re-fetch of the data
-      setCourses((currentFaculties) =>
-        currentFaculties.filter((faculty) => faculty.id !== facultyId)
+      setFaculties(currentFaculties =>
+        currentFaculties.filter(faculty => faculty.FacultyId !== facultyId)
       );
     } catch (error) {
       console.error("There was an error deleting the degree:", error);
@@ -530,6 +530,7 @@ function AdminPanel() {
     <>
       {isUserModalOpen && editingUser && (
         <EditUserModal
+          setUsers={setUsers}
           isOpen={isUserModalOpen}
           setIsUserModalOpen={setIsUserModalOpen}
           userData={editingUser}
@@ -546,14 +547,18 @@ function AdminPanel() {
       )}
       {isUniversitiesModalOpen && editingUniversity && (
         <EditUniversitiesModal
+          setUniversities={setUniversities}
           isOpen={isUniversitiesModalOpen}
           setIsUniversitiesModalOpen={setIsUniversitiesModalOpen}
           universityData={editingUniversity}
           onClose={() => setIsUniversitiesModalOpen(false)}
+          isAddNew={false}
+
         />
       )}
       {isCourseModalOpen && editingCourse && (
         <EditCourseModal
+          setCourses={setCourses}
           isOpen={isCourseModalOpen}
           setIsCourseModalOpen={setIsCourseModalOpen}
           courseData={editingCourse}
@@ -562,18 +567,22 @@ function AdminPanel() {
       )}
       {isFacultyModalOpen && editingFaculty && (
         <EditFacultyModal
+          setFaculties={setFaculties}
           isOpen={isFacultyModalOpen}
           setIsFacultyModalOpen={setIsFacultyModalOpen}
           facultyData={editingFaculty}
           onClose={() => setIsFacultyModalOpen(false)}
+          isAddNew={false}
         />
       )}
       {isDegreeModalOpen && editingDegree && (
         <EditDegreeModal
+          setDegrees={setDegrees}
           isOpen={isDegreeModalOpen}
           setIsDegreeModalOpen={setIsDegreeModalOpen}
           degreeData={editingDegree}
           onClose={() => setIsDegreeModalOpen(false)}
+          isAddNew={false}
         />
       )}
       <h1 style={{ textAlign: "center" }}>משתמשים</h1>
@@ -605,27 +614,6 @@ function AdminPanel() {
             rows={universities}
             columns={univColumns}
             getRowId={(row) => row.universityId} // Custom ID getter
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
-            //   checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </Box>
-      </div>
-      <h1 style={{ textAlign: "center" }}>קורסים</h1>
-      <div className="admin-tables">
-        <Box sx={{ height: 400, width: "100%" }}>
-          <DataGrid
-            rows={courses}
-            columns={courseColumns}
-            sx={{ backgroundColor: "#fff" }}
-            getRowId={(row) => row.CourseId} // Custom ID getter
             initialState={{
               pagination: {
                 paginationModel: {
@@ -681,6 +669,29 @@ function AdminPanel() {
           />
         </Box>
       </div>
+      <h1 style={{ textAlign: "center" }}>קורסים</h1>
+      <div className="admin-tables" style={{marginBottom:"100px"}}>
+        <Box sx={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={courses}
+            columns={courseColumns}
+            sx={{ backgroundColor: "#fff" }}
+            getRowId={(row) => row.CourseId} // Custom ID getter
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
+                },
+              },
+            }}
+            pageSizeOptions={[5]}
+            //   checkboxSelection
+            disableRowSelectionOnClick
+          />
+        </Box>
+      </div>
+     
+      
     </>
   );
 }

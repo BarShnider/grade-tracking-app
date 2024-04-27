@@ -54,6 +54,7 @@ namespace university_grades_app.Controllers
 
         // POST api/<CoursesController>
         [HttpPost]
+        [Route("AddNewCourse/{degreeId}")]
         public bool Post(int degreeId, [FromBody] Course c)
         {
             return Course.AddNewCourse(c, degreeId);

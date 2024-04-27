@@ -826,6 +826,7 @@ public class DBservices
                 c.CourseCode = Convert.ToInt32(dataReader["courseCode"].ToString());
                 c.CourseName = dataReader["courseName"].ToString();
                 c.LecturerName = dataReader["lecturerName"].ToString();
+                c.IsMandatory = Convert.ToBoolean(dataReader["isMandatory"].ToString());
                 coursesList.Add(c);
             }
             return coursesList;
