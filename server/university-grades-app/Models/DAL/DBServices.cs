@@ -1827,13 +1827,13 @@ public class DBservices
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            Faculty faculty = new Faculty();
+            Degree degree = new Degree();
             while (dataReader.Read())
             {
-                faculty.FacultyId = Convert.ToInt32(dataReader["FacultyId"]);
-                faculty.Name = dataReader["name"].ToString();
+                degree.DegreeId = Convert.ToInt32(dataReader["DegreeId"]);
+                degree.Name = dataReader["name"].ToString();
             }
-            return faculty;
+            return degree;
         }
         catch (Exception ex)
         {

@@ -30,7 +30,7 @@
             return dbs.EditDegreeDBS(this);
         }
 
-        public static int AddDegree(int facultyID,String degreeName)
+        public static Degree AddDegree(int facultyID,String degreeName)
         {
             DBservices dbs = new DBservices();
             return dbs.AddDegreeToData(degreeName, facultyID);
