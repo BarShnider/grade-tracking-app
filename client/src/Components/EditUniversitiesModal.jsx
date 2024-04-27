@@ -13,12 +13,15 @@ function EditUniversitiesModal({
   isOpen,
   setIsUniversitiesModalOpen,
   setUniversities,
-  isAddNew
+  isAddNew,
 }) {
   const handleClose = () => setIsUniversitiesModalOpen(false);
   const { BASE_URL } = useUniversities();
   const navigate = useNavigate();
 
+  const urlRegex =
+    /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})(:[0-9]{1,5})?(\/[\w\.-]*)*\/?(\?[\w\.-=&]*)?(#[\w\.-]*)?$/;
+  const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
   const [universityId, setUniversityId] = useState("");
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
@@ -52,6 +55,8 @@ function EditUniversitiesModal({
     setName(name);
     if (name === "") {
       setNameError("שדה חובה*");
+    } else if (!hebrewRegex.test(name)) {
+      setNameError("נא להכניס רק אותיות בעברית ");
     } else {
       setNameError("");
     }
@@ -61,10 +66,10 @@ function EditUniversitiesModal({
     setLocation(location);
     if (location === "") {
       setLocationError("שדה חובה*");
-      return 0;
+    } else if (!hebrewRegex.test(location)) {
+      setLocationError("נא להכניס רק אותיות בעברית ");
     } else {
       setLocationError("");
-      return 1;
     }
   };
 
@@ -72,10 +77,10 @@ function EditUniversitiesModal({
     setWebsite(website);
     if (website === "") {
       setWebsiteError("שדה חובה*");
-      return 0;
+    } else if (!urlRegex.test(website)) {
+      setWebsiteError("נא להכניס רק אותיות באנגלית ");
     } else {
       setWebsiteError("");
-      return 1;
     }
   };
 
@@ -83,52 +88,51 @@ function EditUniversitiesModal({
     setImageUrl(logo);
     if (logo === "") {
       setLogoError("שדה חובה*");
-      return 0;
+    } else if (!urlRegex.test(logo)) {
+      setLogoError("נא להכניס רק אותיות באנגלית ");
     } else {
       setLogoError("");
-      return 1;
     }
   };
 
   const addUniversity = async () => {
     if (!name || !location || !website || !imageUrl) {
-        // You can also handle individual error states here if you prefer.
-        alert('Please fill all fields correctly.');
-        return;
+      // You can also handle individual error states here if you prefer.
+      alert("Please fill all fields correctly.");
+      return;
     }
 
     const university = {
-        name,
-        location,
-        website,
-        imageUrl,
-        establishedYear: 0,  // Assuming this is a required field but not managed in the form
+      name,
+      location,
+      website,
+      imageUrl,
+      establishedYear: 0, // Assuming this is a required field but not managed in the form
     };
 
     try {
-        const response = await fetch(`${BASE_URL}/Universities`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(university),
-        });
+      const response = await fetch(`${BASE_URL}/Universities`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(university),
+      });
 
-        if (response.ok) {
-            const result = await response.json();
-            console.log('University added successfully', result);
-            setUniversities(prev=> [...prev, result])
-            handleClose();
-            // Optionally reset state or trigger a re-fetch/update of university list
-        } else {
-            throw new Error('Failed to add university');
-        }
+      if (response.ok) {
+        const result = await response.json();
+        console.log("University added successfully", result);
+        setUniversities((prev) => [...prev, result]);
+        handleClose();
+        // Optionally reset state or trigger a re-fetch/update of university list
+      } else {
+        throw new Error("Failed to add university");
+      }
     } catch (error) {
-        console.error('Error adding university:', error);
-        alert('Failed to add university');
+      console.error("Error adding university:", error);
+      alert("Failed to add university");
     }
-};
-
+  };
 
   const handleEditUniv = async () => {
     if (
@@ -164,12 +168,14 @@ function EditUniversitiesModal({
           return;
         } else {
           console.log("Edit details successful");
-          setUniversities(prevUniversities => prevUniversities.map(university => {
-            if (university.universityId === universityId) {
-              return { ...university, ...updatedUniv }; // Merge the updated details into the existing course
-            }
-            return university;
-          }));
+          setUniversities((prevUniversities) =>
+            prevUniversities.map((university) => {
+              if (university.universityId === universityId) {
+                return { ...university, ...updatedUniv }; // Merge the updated details into the existing course
+              }
+              return university;
+            })
+          );
           handleClose();
         }
       } catch (error) {
@@ -206,7 +212,9 @@ function EditUniversitiesModal({
           textAlign: "center",
         }}
       >
-        <h1 className="login-header">{isAddNew?"הוסף מוסד לימוד" :"עריכת פרטים"}</h1>
+        <h1 className="login-header">
+          {isAddNew ? "הוסף מוסד לימוד" : "עריכת פרטים"}
+        </h1>
 
         <TextField
           sx={{ width: "80%", direction: "ltr" }}
@@ -256,9 +264,9 @@ function EditUniversitiesModal({
         <Button
           variant="outlined"
           color="success"
-          onClick={isAddNew? () => addUniversity() :() => handleEditUniv()}
+          onClick={isAddNew ? () => addUniversity() : () => handleEditUniv()}
         >
-          {isAddNew? "הוסף": "עדכן"}
+          {isAddNew ? "הוסף" : "עדכן"}
         </Button>
       </Box>
     </Modal>

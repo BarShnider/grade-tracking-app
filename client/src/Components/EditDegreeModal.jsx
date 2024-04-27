@@ -7,12 +7,20 @@ import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,setDegrees,selectedFaculty,isAddNew }) {
+function EditDegreeModal({
+  degreeData,
+  isOpen,
+  setIsDegreeModalOpen,
+  setDegrees,
+  selectedFaculty,
+  isAddNew,
+}) {
   const handleClose = () => setIsDegreeModalOpen(false);
 
   const { BASE_URL } = useUniversities();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
+  const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
 
   useEffect(() => {
     if (isAddNew) {
@@ -27,6 +35,8 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,setDegrees,s
   const handleName = () => {
     if (name === "") {
       setNameError("שדה חובה*");
+    } else if (!hebrewRegex.test(name)) {
+      setNameError("נא להכניס רק אותיות בעברית ");
     } else {
       setNameError("");
     }
@@ -36,7 +46,7 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,setDegrees,s
     if (nameError === "") {
       let degreeId = degreeData.DegreeId;
       const updatedDegree = {
-        DegreeId:degreeId,
+        DegreeId: degreeId,
         Name: name,
       };
       try {
@@ -53,12 +63,14 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,setDegrees,s
           return;
         } else {
           console.log("Edit details successful");
-          setDegrees(prevDegrees => prevDegrees.map(degree => {
-            if (degree.DegreeId === degreeId) {
-              return { ...degree, ...updatedDegree }; // Merge the updated details into the existing course
-            }
-            return degree;
-          }));
+          setDegrees((prevDegrees) =>
+            prevDegrees.map((degree) => {
+              if (degree.DegreeId === degreeId) {
+                return { ...degree, ...updatedDegree }; // Merge the updated details into the existing course
+              }
+              return degree;
+            })
+          );
           handleClose();
         }
       } catch (error) {
@@ -68,37 +80,38 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,setDegrees,s
     }
   };
 
-
   const addDegree = async () => {
     if (!name) {
-        // You can also handle individual error states here if you prefer.
-        alert('נא להזין שם');
-        return;
+      // You can also handle individual error states here if you prefer.
+      alert("נא להזין שם");
+      return;
     }
-
 
     try {
-        const response = await fetch(`${BASE_URL}/Degrees/AddDegree/${selectedFaculty}/${name}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            console.log('Degree added successfully', result);
-            setDegrees(prev=> [...prev, result])
-            handleClose();
-            // Optionally reset state or trigger a re-fetch/update of university list
-        } else {
-            throw new Error('Failed to add Degree');
+      const response = await fetch(
+        `${BASE_URL}/Degrees/AddDegree/${selectedFaculty}/${name}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Degree added successfully", result);
+        setDegrees((prev) => [...prev, result]);
+        handleClose();
+        // Optionally reset state or trigger a re-fetch/update of university list
+      } else {
+        throw new Error("Failed to add Degree");
+      }
     } catch (error) {
-        console.error('Error adding Degree:', error);
-        alert('Failed to add Degree');
+      console.error("Error adding Degree:", error);
+      alert("Failed to add Degree");
     }
-};
+  };
   return (
     <Modal
       open={isOpen}
@@ -126,7 +139,9 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,setDegrees,s
           textAlign: "center",
         }}
       >
-        <h1 className="login-header">{isAddNew? "הוספת תואר": "עריכת פרטים"}</h1>
+        <h1 className="login-header">
+          {isAddNew ? "הוספת תואר" : "עריכת פרטים"}
+        </h1>
 
         <TextField
           sx={{ width: "80%", direction: "ltr" }}
@@ -144,7 +159,7 @@ function EditDegreeModal({ degreeData, isOpen, setIsDegreeModalOpen,setDegrees,s
         <Button
           variant="outlined"
           color="success"
-          onClick={isAddNew?() => addDegree():() => handleSubmit()}
+          onClick={isAddNew ? () => addDegree() : () => handleSubmit()}
         >
           עדכן
         </Button>

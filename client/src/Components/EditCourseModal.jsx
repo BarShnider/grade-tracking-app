@@ -7,9 +7,16 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditCourseModal({ courseData, isOpen, setCourses, setIsCourseModalOpen }) {
+function EditCourseModal({
+  courseData,
+  isOpen,
+  setCourses,
+  setIsCourseModalOpen,
+}) {
   const handleClose = () => setIsCourseModalOpen(false);
 
+  const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
+  const hebrewAndSignsRegex = /[\u0590-\u05FF.]+/;
   const { BASE_URL } = useUniversities();
 
   const [courseName, setCourseName] = useState(courseData.CourseName);
@@ -23,6 +30,8 @@ function EditCourseModal({ courseData, isOpen, setCourses, setIsCourseModalOpen 
   const handleName = () => {
     if (courseName === "") {
       setNameError("שדה חובה*");
+    } else if (!hebrewRegex.test(courseName)) {
+      setNameError("נא להכניס רק אותיות בעברית ");
     } else {
       setNameError("");
     }
@@ -37,6 +46,8 @@ function EditCourseModal({ courseData, isOpen, setCourses, setIsCourseModalOpen 
   const handleLecturerName = () => {
     if (lecturerName === "") {
       setLecturerNameError("שדה חובה*");
+    } else if (!hebrewAndSignsRegex.test(lecturerName)) {
+      setLecturerNameError("נא להכניס רק אותיות בעברית ");
     } else {
       setLecturerNameError("");
     }
@@ -65,12 +76,14 @@ function EditCourseModal({ courseData, isOpen, setCourses, setIsCourseModalOpen 
           return;
         } else {
           console.log("Edit details successful");
-          setCourses(prevCourses => prevCourses.map(course => {
-            if (course.CourseId === courseID) {
-              return { ...course, ...updatedCourse }; // Merge the updated details into the existing course
-            }
-            return course;
-          }));
+          setCourses((prevCourses) =>
+            prevCourses.map((course) => {
+              if (course.CourseId === courseID) {
+                return { ...course, ...updatedCourse }; // Merge the updated details into the existing course
+              }
+              return course;
+            })
+          );
           handleClose();
         }
       } catch (error) {
@@ -79,9 +92,6 @@ function EditCourseModal({ courseData, isOpen, setCourses, setIsCourseModalOpen 
       }
     }
   };
-
-
-
 
   return (
     <Modal

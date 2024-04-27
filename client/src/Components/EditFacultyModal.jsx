@@ -7,7 +7,15 @@ import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen,setFaculties,selectedUniversity ,isAddNew }) {
+function EditFacultyModal({
+  facultyData,
+  isOpen,
+  setIsFacultyModalOpen,
+  setFaculties,
+  selectedUniversity,
+  isAddNew,
+}) {
+  const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
   const { BASE_URL } = useUniversities();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
@@ -18,16 +26,17 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen,setFacult
       // Reset all fields if adding new university
       setName("");
     } else if (facultyData) {
-      console.log(facultyData)
+      console.log(facultyData);
       // Populate fields with existing data if editing
       setName(facultyData.Name || "");
     }
   }, [isAddNew, facultyData]);
 
-
   const handleError = () => {
     if (name === "") {
       setNameError("שדה חובה*");
+    } else if (!hebrewRegex.test(name)) {
+      setNameError("נא להכניס רק אותיות בעברית ");
     } else {
       setNameError("");
     }
@@ -54,12 +63,14 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen,setFacult
           return;
         } else {
           console.log("Edit details successful");
-          setFaculties(prevFaculties => prevFaculties.map(faculty => {
-            if (faculty.FacultyId === facultyId) {
-              return { ...faculty, ...updatedFaculty }; // Merge the updated details into the existing course
-            }
-            return faculty;
-          }));
+          setFaculties((prevFaculties) =>
+            prevFaculties.map((faculty) => {
+              if (faculty.FacultyId === facultyId) {
+                return { ...faculty, ...updatedFaculty }; // Merge the updated details into the existing course
+              }
+              return faculty;
+            })
+          );
           handleClose();
         }
       } catch (error) {
@@ -71,35 +82,38 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen,setFacult
 
   const addFaculty = async () => {
     if (!name) {
-        // You can also handle individual error states here if you prefer.
-        alert('Please fill all fields correctly.');
-        return;
+      // You can also handle individual error states here if you prefer.
+      alert("Please fill all fields correctly.");
+      return;
     }
 
- // Assuming this is a required field but not managed in the form
+    // Assuming this is a required field but not managed in the form
 
     try {
-        const response = await fetch(`${BASE_URL}/Faculties/AddFaculty/${selectedUniversity}/${name}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            console.log('Faculty added successfully', result);
-            setFaculties(prev=> [...prev, result])
-            handleClose();
-            // Optionally reset state or trigger a re-fetch/update of university list
-        } else {
-            throw new Error('Failed to add Faculty');
+      const response = await fetch(
+        `${BASE_URL}/Faculties/AddFaculty/${selectedUniversity}/${name}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log("Faculty added successfully", result);
+        setFaculties((prev) => [...prev, result]);
+        handleClose();
+        // Optionally reset state or trigger a re-fetch/update of university list
+      } else {
+        throw new Error("Failed to add Faculty");
+      }
     } catch (error) {
-        console.error('Error adding Faculty:', error);
-        alert('Failed to add Faculty');
+      console.error("Error adding Faculty:", error);
+      alert("Failed to add Faculty");
     }
-};
+  };
   return (
     <Modal
       open={isOpen}
@@ -127,7 +141,9 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen,setFacult
           textAlign: "center",
         }}
       >
-        <h1 className="login-header">{isAddNew? "הוספת פקולטה": "עריכת פרטים"}</h1>
+        <h1 className="login-header">
+          {isAddNew ? "הוספת פקולטה" : "עריכת פרטים"}
+        </h1>
 
         <TextField
           sx={{ width: "80%", direction: "ltr" }}
@@ -145,7 +161,7 @@ function EditFacultyModal({ facultyData, isOpen, setIsFacultyModalOpen,setFacult
         <Button
           variant="outlined"
           color="success"
-          onClick={isAddNew? () => addFaculty():() => handleSubmit()}
+          onClick={isAddNew ? () => addFaculty() : () => handleSubmit()}
         >
           עדכן
         </Button>
