@@ -1802,7 +1802,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method adds degree
     //--------------------------------------------------------------------------------------------------
-    public int AddDegreeToData(String degreeName, int facultyID)
+    public Degree AddDegreeToData(String degreeName, int facultyID)
     {
 
         SqlConnection con;
@@ -1826,9 +1826,14 @@ public class DBservices
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
-            return numEffected;
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            Faculty faculty = new Faculty();
+            while (dataReader.Read())
+            {
+                faculty.FacultyId = Convert.ToInt32(dataReader["FacultyId"]);
+                faculty.Name = dataReader["name"].ToString();
+            }
+            return faculty;
         }
         catch (Exception ex)
         {
@@ -1849,7 +1854,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method adds faculty
     //--------------------------------------------------------------------------------------------------
-    public int AddNewFaculty(String facultyName, int univID)
+    public Faculty AddNewFaculty(String facultyName, int univID)
     {
 
         SqlConnection con;
@@ -1870,12 +1875,16 @@ public class DBservices
         paramDic.Add("@univID", univID);
 
         cmd = CreateCommandWithStoredProcedure("SP_AddNewFaculty", con, paramDic);             // create the command
-
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            //int numEffected = Convert.ToInt32(cmd.ExecuteScalar()); // returning the id/
-            return numEffected;
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            Faculty faculty = new Faculty();
+            while (dataReader.Read())
+            {
+                faculty.FacultyId = Convert.ToInt32(dataReader["FacultyId"]);
+                faculty.Name = dataReader["name"].ToString();
+            }
+            return faculty;
         }
         catch (Exception ex)
         {

@@ -29,7 +29,7 @@
             return dbs.EditFacultyDBS(this);
         }
 
-        public static int AddFaculty(int univID,String facultyName)
+        public static Faculty AddFaculty(int univID,String facultyName)
         {
             DBservices dbs = new DBservices();
             return dbs.AddNewFaculty(facultyName, univID);
