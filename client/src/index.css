@@ -300,11 +300,12 @@ border-radius: 10px;
 
 .add-form-item{
   margin:15px 0px;
+  margin-bottom: 0px;
   font-family: "Fredoka", sans-serif;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 500;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   width: 80%;
   
@@ -326,6 +327,7 @@ border-radius: 10px;
 .course-name {
   border-radius: 3px;
   width: 70%;
+  padding: 5px;
   border: 1px solid rgb(133, 133, 133)
 }
 
@@ -542,4 +544,61 @@ a {
   width: 80%;
   margin: auto;
   direction: ltr;
+}
+
+.preview-margins {
+  margin: 30px !important;
+  background-color: red;
+  color: #222 !important;
+}
+
+.error-message {
+  font-size: 14px;
+  color: red;
+  /* margin-bottom: 5px; */
+}
+
+.input-with-error {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.add-form-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%; /* Adjust based on preference */
+  /* margin-bottom: 20px; */
+}
+
+.add-form-item label {
+  flex-basis: 30%; /* Allocates 30% of the space to labels */
+  text-align: right; /* Right aligns the text of labels */
+}
+
+.add-form-item input, .add-form-item select {
+  flex-grow: 1; /* Allows inputs and selects to fill up the remaining space */
+ /* / margin-left: 20px; Adds spacing between label and input/select */
+}
+
+.input-container {
+  width: 100%;
+}
+
+.add-btn {
+  margin-right: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #222;
+  background-color: var(--main-lightgreen);
+  box-shadow: 3px 3px 2px rgba(34, 34, 34, 0.1);
+
 }
