@@ -14,6 +14,7 @@ function EditFacultyModal({
   setFaculties,
   selectedUniversity,
   isAddNew,
+  notifySuccess
 }) {
   const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
   const { BASE_URL } = useUniversities();
@@ -63,6 +64,7 @@ function EditFacultyModal({
           return;
         } else {
           console.log("Edit details successful");
+          notifySuccess("הפקולטה עודכנה בהצלחה!")
           setFaculties((prevFaculties) =>
             prevFaculties.map((faculty) => {
               if (faculty.FacultyId === facultyId) {
@@ -103,6 +105,7 @@ function EditFacultyModal({
       if (response.ok) {
         const result = await response.json();
         console.log("Faculty added successfully", result);
+        notifySuccess('הפקולטה נוספה בהצלחה!')
         setFaculties((prev) => [...prev, result]);
         handleClose();
         // Optionally reset state or trigger a re-fetch/update of university list

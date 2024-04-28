@@ -41,6 +41,7 @@ function LoginScreen() {
 
   }
 
+  
     // useEffect to watch for guest login trigger
     useEffect(() => {
       if (guestLoginTrigger) {
@@ -99,7 +100,7 @@ function LoginScreen() {
       <TextField
         sx={{ width: "80%", direction: "ltr" }}
         id="outlined-basic"
-        label="שם משתמש"
+        label="מייל"
         color={"success"}
         variant="outlined"
         error={!!emailError}

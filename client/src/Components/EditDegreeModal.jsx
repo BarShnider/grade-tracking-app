@@ -14,6 +14,7 @@ function EditDegreeModal({
   setDegrees,
   selectedFaculty,
   isAddNew,
+  notifySuccess
 }) {
   const handleClose = () => setIsDegreeModalOpen(false);
 
@@ -63,6 +64,7 @@ function EditDegreeModal({
           return;
         } else {
           console.log("Edit details successful");
+          notifySuccess("התואר עודכן בהצלחה!")
           setDegrees((prevDegrees) =>
             prevDegrees.map((degree) => {
               if (degree.DegreeId === degreeId) {
@@ -101,6 +103,7 @@ function EditDegreeModal({
       if (response.ok) {
         const result = await response.json();
         console.log("Degree added successfully", result);
+        notifySuccess("התואר נוסף בהצלחה!")
         setDegrees((prev) => [...prev, result]);
         handleClose();
         // Optionally reset state or trigger a re-fetch/update of university list

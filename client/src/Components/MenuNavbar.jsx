@@ -110,6 +110,7 @@ export default function MenuNavbar() {
                   onKeyDown={handleListKeyDown}
                 >
                   {connectedUser.email !== "guest@mail.com" && <MenuItem onClick={(e) => handleEditDetails(e)}>עריכת פרטים</MenuItem>}
+                  {connectedUser.email === "admin@mail.com" && <MenuItem onClick={() => navigate("/admin")}>פאנל ניהול</MenuItem>}
                   <MenuItem onClick={(e) => onLogoutClick(e)}>התנתק</MenuItem>
                 </MenuList>
               </ClickAwayListener>

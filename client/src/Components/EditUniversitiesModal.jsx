@@ -14,6 +14,7 @@ function EditUniversitiesModal({
   setIsUniversitiesModalOpen,
   setUniversities,
   isAddNew,
+  notifySuccess
 }) {
   const handleClose = () => setIsUniversitiesModalOpen(false);
   const { BASE_URL } = useUniversities();
@@ -122,6 +123,7 @@ function EditUniversitiesModal({
       if (response.ok) {
         const result = await response.json();
         console.log("University added successfully", result);
+        notifySuccess("מוסד הלימוד נוסף בהצלחה!")
         setUniversities((prev) => [...prev, result]);
         handleClose();
         // Optionally reset state or trigger a re-fetch/update of university list
@@ -168,6 +170,7 @@ function EditUniversitiesModal({
           return;
         } else {
           console.log("Edit details successful");
+          notifySuccess("מוסד הלימוד עודכן בהצלחה!")
           setUniversities((prevUniversities) =>
             prevUniversities.map((university) => {
               if (university.universityId === universityId) {

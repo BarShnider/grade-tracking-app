@@ -11,9 +11,11 @@ import EditUniversitiesModal from "./EditUniversitiesModal";
 import EditCourseModal from "./EditCourseModal";
 import EditFacultyModal from "./EditFacultyModal";
 import EditDegreeModal from "./EditDegreeModal";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function AdminPanel() {
-  const { universities, BASE_URL, setUniversities } = useUniversities();
+  const { universities, BASE_URL, setUniversities,connectedUser,loadingUser } = useUniversities();
   const [courses, setCourses] = useState([]);
   const [faculties, setFaculties] = useState([]);
   const [degrees, setDegrees] = useState([]);
@@ -28,6 +30,20 @@ function AdminPanel() {
   const [editingFaculty, setEditingFaculty] = useState(null);
   const [isDegreeModalOpen, setIsDegreeModalOpen] = useState(false);
   const [editingDegree, setEditingDegree] = useState(null);
+  const navigate = useNavigate()
+
+  const notifySuccess = (text) => toast.success(text);
+
+  useEffect(() => {
+    if (!connectedUser && !loadingUser) {
+      navigate('/login');
+    }
+    else if(connectedUser && connectedUser.email !== "admin@mail.com"){
+      navigate('/universities')
+    }
+
+  }, [connectedUser, navigate,loadingUser]);
+
 
   const univColumns = [
     { field: "universityId", headerName: "ID", width: 90 },
@@ -535,6 +551,7 @@ function AdminPanel() {
           setIsUserModalOpen={setIsUserModalOpen}
           userData={editingUser}
           onClose={() => setIsUserModalOpen(false)}
+          notifySuccess={notifySuccess}
         />
       )}
       {isUniversitiesModalOpen && editingUniversity && (
@@ -543,6 +560,7 @@ function AdminPanel() {
           setIsUniversitiesModalOpen={setIsUniversitiesModalOpen}
           universityData={editingUniversity}
           onClose={() => setIsUniversitiesModalOpen(false)}
+          notifySuccess={notifySuccess}
         />
       )}
       {isUniversitiesModalOpen && editingUniversity && (
@@ -553,7 +571,7 @@ function AdminPanel() {
           universityData={editingUniversity}
           onClose={() => setIsUniversitiesModalOpen(false)}
           isAddNew={false}
-
+          notifySuccess={notifySuccess}
         />
       )}
       {isCourseModalOpen && editingCourse && (
@@ -563,6 +581,7 @@ function AdminPanel() {
           setIsCourseModalOpen={setIsCourseModalOpen}
           courseData={editingCourse}
           onClose={() => setIsCourseModalOpen(false)}
+          notifySuccess={notifySuccess}
         />
       )}
       {isFacultyModalOpen && editingFaculty && (
@@ -573,6 +592,7 @@ function AdminPanel() {
           facultyData={editingFaculty}
           onClose={() => setIsFacultyModalOpen(false)}
           isAddNew={false}
+          notifySuccess={notifySuccess}
         />
       )}
       {isDegreeModalOpen && editingDegree && (
@@ -583,6 +603,7 @@ function AdminPanel() {
           degreeData={editingDegree}
           onClose={() => setIsDegreeModalOpen(false)}
           isAddNew={false}
+          notifySuccess={notifySuccess}
         />
       )}
       <h1 style={{ textAlign: "center" }}>משתמשים</h1>

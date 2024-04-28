@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
 
-function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers }) {
+function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers,notifySuccess}) {
   const handleClose = () => setIsUserModalOpen(false);
 
   const { BASE_URL } = useUniversities();
@@ -76,6 +76,7 @@ function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers }) {
           return;
         } else {
           console.log("Edit details successful");
+          notifySuccess("המשתמש עודכן בהצלחה!")
           setUsers(prevUsers => prevUsers.map(user => {
             if (user.id === id) {
               return { ...user, ...updatedUser }; // Merge the updated details into the existing course

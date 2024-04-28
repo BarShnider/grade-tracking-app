@@ -6,12 +6,14 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
+import toast from "react-hot-toast";
 
 function EditCourseModal({
   courseData,
   isOpen,
   setCourses,
   setIsCourseModalOpen,
+  notifySuccess
 }) {
   const handleClose = () => setIsCourseModalOpen(false);
 
@@ -75,7 +77,9 @@ function EditCourseModal({
           alert("didnt update");
           return;
         } else {
+
           console.log("Edit details successful");
+          notifySuccess("הקורס עודכן בהצלחה!")
           setCourses((prevCourses) =>
             prevCourses.map((course) => {
               if (course.CourseId === courseID) {
