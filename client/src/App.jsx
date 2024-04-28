@@ -46,7 +46,7 @@ function App() {
             /> */}
             <Route path="addnew" element={<AddNewCourseScreen />}>
               <Route path="course-form" element={<AddCourseForm />} />
-              <Route path="dest-form" element={<CourseDestinationForm />} />
+              {/* <Route path="dest-form" element={<CourseDestinationForm />} /> */}
             </Route>
           </Routes>
         </BrowserRouter>

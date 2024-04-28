@@ -80,7 +80,6 @@ const userGradesCourse = async (userId, courseId, grade) => {
               headers: {
                   "Content-Type": "application/json",
               },
-              // No body is needed as data is passed via URL parameters
           }
       );
 
@@ -247,7 +246,9 @@ const userGradesCourse = async (userId, courseId, grade) => {
 
   useEffect(
     function () {
-      getCourseAverageRating(selectedCourse?.courseId);
+      if(selectedCourse){
+        getCourseAverageRating(selectedCourse?.courseId);
+      }
     },
     [rating]
   );
@@ -336,16 +337,17 @@ const userGradesCourse = async (userId, courseId, grade) => {
             ]}
             xAxis={[{ data: xLabels, scaleType: "band" }]}
           />
-          <div onClick={() => handleOpen()} className="add-grade-btn">הוסף ציון</div>
+          {connectedUser.email !== "guest@mail.com" && <div onClick={() => handleOpen()} className="add-grade-btn">הוסף ציון</div>}
         </div>
         <Typography component="legend"> דירוג ממוצע: {avgRating.toFixed(1)}</Typography>
         <Rating
           sx={{ direction: "ltr" }}
           name="simple-controlled"
-          value={rating}
+          value={rating || avgRating}
           onChange={(event, newValue) => {
             setRatingOnClick(newValue);
           }}
+           disabled={connectedUser.email === "guest@mail.com"}
         />
         <p className="course-info">
           שם:{" "}

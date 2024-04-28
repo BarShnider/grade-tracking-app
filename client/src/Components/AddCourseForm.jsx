@@ -9,7 +9,7 @@ import EditDegreeModal from "./EditDegreeModal";
 
 function AddCourseForm({ handleNewCourse }) {
   //OBJECTS STATES
-  const { newCourse, setNewCourse, universities,setUniversities, BASE_URL } = useUniversities();
+  const { newCourse, setNewCourse, universities,setUniversities,connectedUser,loadingUser, BASE_URL } = useUniversities();
   const [faculties, setFaculties] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [courseName, setCourseName] = useState("");
@@ -30,11 +30,17 @@ function AddCourseForm({ handleNewCourse }) {
   const [isUniversitiesModalOpen, setIsUniversitiesModalOpen] = useState(false);
   const [isFacultyModalOpen, setIsFacultyModalOpen] = useState(false);
   const [isDegreeModalOpen, setIsDegreeModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const notify = () => toast.error("נא מלאו את השדות החסרים");
   const notifyCourseSuccess = () => toast.success("הקורס נוסף בהצלחה!");
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    if (!connectedUser && !loadingUser) {
+      navigate('/login');
+    }
+  }, [connectedUser, navigate,loadingUser]);
+
 
   function handleAddCourse(e) {
     e.preventDefault();
@@ -103,7 +109,8 @@ function AddCourseForm({ handleNewCourse }) {
       // setNewCourse(newAddedCourse);
       addCourse(selectedDegree,newAddedCourse)
       notifyCourseSuccess()
-      navigate(`/search/sq-${newAddedCourse.courseName}`)
+      // navigate(`/search/sq-${newAddedCourse.courseName}`)
+      navigate("/universities")
     } else {
       notify();
     }
@@ -365,7 +372,7 @@ console.log("degrees:", degrees)
       {/* </div> */}
       <div className="back-next-container">
         {/* <Button>חזור</Button> */}
-        <Button onClick={handleAddCourse}>הבא</Button>
+        <Button onClick={handleAddCourse}>הוסף</Button>
       </div>
       {isUniversitiesModalOpen && (
         <EditUniversitiesModal

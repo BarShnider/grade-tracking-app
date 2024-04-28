@@ -1342,9 +1342,11 @@ public class DBservices
             while (dataReader.Read())
             {
                 Course c = new Course();
-
+                c.CourseCode = Convert.ToInt32(dataReader["courseCode"]);
                 c.CourseId = Convert.ToInt32(dataReader["courseId"].ToString());
                 c.CourseName = dataReader["courseName"].ToString();
+                c.LecturerName = dataReader["LecturerName"].ToString();
+                c.IsMandatory = Convert.ToBoolean(dataReader["IsMandatory"].ToString());
                 coursesList.Add(c);
             }
             return coursesList;

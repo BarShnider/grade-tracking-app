@@ -13,7 +13,7 @@ const {BASE_URL} = useUniversities();
 const navigate = useNavigate();
     const defaultProps = {
         options: courseOptions,
-        getOptionLabel: (option) => option.courseName,
+        getOptionLabel: (option) => option.courseName || "",
       };
 
       const handleSearch = () => {
@@ -25,6 +25,12 @@ const navigate = useNavigate();
     }
   }
     
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  }
+
       const getAllCourses = async () => {
         try {
           const response = await fetch(`${BASE_URL}/Courses`, {
@@ -99,7 +105,7 @@ const navigate = useNavigate();
           setInputValue(newInputValue);
         }}
         renderInput={(params) => (
-            <TextField {...params} label="חפש קורס" color='success' variant="standard" />
+            <TextField {...params} label="חפש קורס" color='success' variant="standard" onKeyDown={handleKeyDown} />
         )}
         />
         </div>

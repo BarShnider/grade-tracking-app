@@ -27,10 +27,12 @@ export default function Navbar() {
           <div className="nav-button-wrapper">
             <NavLink className='nav-link' to='universities'><span className="clickable" >מוסדות לימוד</span></NavLink>
           </div>
+          {connectedUser.email !== "guest@mail.com" &&<>
           <span id="line"></span>
           <div className="nav-button-wrapper">
             <NavLink className='nav-link' to='addnew/course-form'><span className="clickable">הוסף קורס</span></NavLink>
           </div>
+          </>}
         </div>
         <Search />
       </div>

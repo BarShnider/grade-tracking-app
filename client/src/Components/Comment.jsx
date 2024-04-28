@@ -69,7 +69,7 @@ function Comment({username,text,commenterId, commentId,setComments}) {
         <>
         <div className="comment">
             <div>
-            <p className="comment-name">{username}</p>
+            <p className="comment-name">{username.split("@")[0]}</p>
             {!isEditMode? <span className="comment-text">{text}</span>: <textarea style={{width:"80%"}} onChange={(e)=>setNewText(e.target.value) } defaultValue={text}></textarea>}
             </div>
 

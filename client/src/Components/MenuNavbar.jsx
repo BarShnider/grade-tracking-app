@@ -109,7 +109,7 @@ export default function MenuNavbar() {
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={(e) => handleEditDetails(e)}>עריכת פרטים</MenuItem>
+                  {connectedUser.email !== "guest@mail.com" && <MenuItem onClick={(e) => handleEditDetails(e)}>עריכת פרטים</MenuItem>}
                   <MenuItem onClick={(e) => onLogoutClick(e)}>התנתק</MenuItem>
                 </MenuList>
               </ClickAwayListener>

@@ -71,7 +71,7 @@ function CourseComments() {
       {/* <div className="title-textbox-wrapper">
         <input className="title-textbox" type="text" placeholder="כתוב כותרת..." onChange={e => setCommentTitle(e.target.value)}  />
       </div> */}
-      <div className="comment-form-wrapper">
+      {connectedUser.email !== "guest@mail.com" && <div className="comment-form-wrapper">
         <textarea onChange={(e) => setCommentText(e.target.value)}
           className="comment text-area"
           placeholder="כתוב את דעתך על הקורס..."
@@ -79,7 +79,7 @@ function CourseComments() {
         <button className="small-btn send-btn" onClick={createComment}>
           <span>שלח</span>
         </button>
-      </div>
+      </div>}
       {comments.length > 0 &&<svg height="1">
         <line
           x1="0"
@@ -91,6 +91,9 @@ function CourseComments() {
           style={{ width: "80%" }}
         />
       </svg>}
+      {connectedUser.email === "guest@mail.com" && <span style={{color:"white", fontWeight:500}}>יש להיות משתמש רשום על מנת להגיב</span>}
+      {comments.length === 0 && <span style={{color:"white", fontWeight:500}}>עדיין לא הגיבו על קורס זה...</span>}
+      {comments.length === 0 && connectedUser.email !== "guest@mail.com" && <span style={{color:"white", fontWeight:500}}>בואו להגיב ראשונים!</span>}
       {comments.map((comment) => (
         <Comment
           key={comment.commentId}

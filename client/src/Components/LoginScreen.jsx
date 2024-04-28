@@ -5,7 +5,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useUniversities } from "../contexts/AppContext";
@@ -21,6 +21,7 @@ function LoginScreen() {
   const navigate = useNavigate();
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [guestLoginTrigger, setGuestLoginTrigger] = useState(false); // New state to manage guest login trigger
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -28,10 +29,25 @@ function LoginScreen() {
     event.preventDefault();
   };
 
-  function loginAsGuest() {
-    setConnectedUser({ id: 2, email: "אורח", password: "" });
-    navigate("/universities");
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      login();
+    }
+  };
+  async function loginAsGuest() {
+    setEmail("guest@mail.com")
+    setPassword("guest")
+    setGuestLoginTrigger(true); // Set trigger to true to initiate login in useEffect
+
   }
+
+    // useEffect to watch for guest login trigger
+    useEffect(() => {
+      if (guestLoginTrigger) {
+        login();
+        setGuestLoginTrigger(false); // Reset trigger
+      }
+    }, [guestLoginTrigger]);
 
   async function login() {
     try {
@@ -89,6 +105,7 @@ function LoginScreen() {
         error={!!emailError}
         helperText={emailError}
         onChange={(e) => setEmail(e.target.value)}
+        onKeyDown={handleKeyPress}
       />
 
       <FormControl
@@ -101,6 +118,8 @@ function LoginScreen() {
         </InputLabel>
         <OutlinedInput
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={handleKeyPress}
+
           color="success"
           id="outlined-adornment-password"
           type={showPassword ? "text" : "password"}
