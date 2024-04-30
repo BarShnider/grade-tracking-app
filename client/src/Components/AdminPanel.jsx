@@ -4,7 +4,6 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Box from "@mui/material/Box";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
-
 import { useEffect, useState } from "react";
 import EditUserModal from "./EditUserModal";
 import EditUniversitiesModal from "./EditUniversitiesModal";
@@ -13,6 +12,85 @@ import EditFacultyModal from "./EditFacultyModal";
 import EditDegreeModal from "./EditDegreeModal";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { styled } from '@mui/material/styles';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+
+const AntTabs = styled(Tabs)({
+  borderBottom: '1px solid #e8e8e8',
+  '& .MuiTabs-indicator': {
+    backgroundColor: '#1890ff',
+  },
+});
+
+const AntTab = styled((props) => <Tab disableRipple {...props} />)(({ theme }) => ({
+  textTransform: 'none',
+  minWidth: 0,
+  [theme.breakpoints.up('sm')]: {
+    minWidth: 0,
+  },
+  fontWeight: theme.typography.fontWeightRegular,
+  marginRight: theme.spacing(1),
+  color: 'rgba(0, 0, 0, 0.85)',
+  fontFamily: [
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    'Roboto',
+    '"Helvetica Neue"',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+  ].join(','),
+  '&:hover': {
+    color: '#40a9ff',
+    opacity: 1,
+  },
+  '&.Mui-selected': {
+    color: '#1890ff',
+    fontWeight: theme.typography.fontWeightMedium,
+  },
+  '&.Mui-focusVisible': {
+    backgroundColor: '#d1eaff',
+  },
+}));
+
+const StyledTabs = styled((props) => (
+  <Tabs
+    {...props}
+    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+  />
+))({
+  '& .MuiTabs-indicator': {
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  '& .MuiTabs-indicatorSpan': {
+    maxWidth: 40,
+    width: '100%',
+    backgroundColor: '#83a9ba',
+  },
+});
+
+const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
+  ({ theme }) => ({
+    textTransform: 'none',
+    fontWeight: theme.typography.fontWeightRegular,
+    fontSize: theme.typography.pxToRem(15),
+    marginRight: theme.spacing(1),
+    color: 'rgba(255, 255, 255, 0.7)',
+    '&.Mui-selected': {
+      color: '#fff',
+    },
+    '&.Mui-focusVisible': {
+      backgroundColor: 'rgba(100, 95, 228, 0.32)',
+    },
+  }),
+);
+
 
 function AdminPanel() {
   const { universities, BASE_URL, setUniversities,connectedUser,loadingUser } = useUniversities();
@@ -31,6 +109,12 @@ function AdminPanel() {
   const [isDegreeModalOpen, setIsDegreeModalOpen] = useState(false);
   const [editingDegree, setEditingDegree] = useState(null);
   const navigate = useNavigate()
+  const [value, setValue] = useState(1);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
 
   const notifySuccess = (text) => toast.success(text);
 
@@ -556,15 +640,6 @@ function AdminPanel() {
       )}
       {isUniversitiesModalOpen && editingUniversity && (
         <EditUniversitiesModal
-          isOpen={isUniversitiesModalOpen}
-          setIsUniversitiesModalOpen={setIsUniversitiesModalOpen}
-          universityData={editingUniversity}
-          onClose={() => setIsUniversitiesModalOpen(false)}
-          notifySuccess={notifySuccess}
-        />
-      )}
-      {isUniversitiesModalOpen && editingUniversity && (
-        <EditUniversitiesModal
           setUniversities={setUniversities}
           isOpen={isUniversitiesModalOpen}
           setIsUniversitiesModalOpen={setIsUniversitiesModalOpen}
@@ -606,6 +681,23 @@ function AdminPanel() {
           notifySuccess={notifySuccess}
         />
       )}
+
+      <Box sx={{ margin:"auto", display:"flex",justifyContent:"center" }}>
+        <StyledTabs
+          value={value}
+          onChange={handleChange}
+          aria-label="styled tabs example"
+        >
+          <StyledTab sx={{color:"black !important",fontFamily:"fredoka", fontWeight:500}} label="משתמשים" />
+          <StyledTab sx={{color:"black !important",fontFamily:"fredoka", fontWeight:500}} label="מוסדות לימוד" />
+          <StyledTab sx={{color:"black !important",fontFamily:"fredoka", fontWeight:500}} label="פקולטות" />
+          <StyledTab sx={{color:"black !important",fontFamily:"fredoka", fontWeight:500}} label="תארים" />
+          <StyledTab sx={{color:"black !important",fontFamily:"fredoka", fontWeight:500}} label="קורסים" />
+        </StyledTabs>
+        <Box sx={{ p: 3 }} />
+      </Box>
+
+     {value == 0 && <>
       <h1 style={{ textAlign: "center" }}>משתמשים</h1>
       <div className="admin-tables" style={{ width: "50%" }}>
         <Box sx={{ height: 400, width: "100%" }}>
@@ -627,6 +719,9 @@ function AdminPanel() {
           />
         </Box>
       </div>
+      </>}
+      {value === 1 &&<>
+      
       <h1 style={{ textAlign: "center" }}>מוסדות לימוד</h1>
       <div className="admin-tables">
         <Box sx={{ height: 400, width: "100%" }}>
@@ -648,6 +743,9 @@ function AdminPanel() {
           />
         </Box>
       </div>
+      </>}
+      {value === 2 && <>
+      
       <h1 style={{ textAlign: "center" }}>פקולטות</h1>
       <div className="admin-tables" style={{ width: "40%" }}>
         <Box sx={{ height: 400, width: "100%" }}>
@@ -669,6 +767,8 @@ function AdminPanel() {
           />
         </Box>
       </div>
+      </>}
+      {value === 3&& <>
       <h1 style={{ textAlign: "center" }}>תארים</h1>
       <div className="admin-tables" style={{ width: "50%" }}>
         <Box sx={{ height: 400, width: "100%" }}>
@@ -690,6 +790,8 @@ function AdminPanel() {
           />
         </Box>
       </div>
+      </>}
+      {value === 4 &&<>
       <h1 style={{ textAlign: "center" }}>קורסים</h1>
       <div className="admin-tables" style={{marginBottom:"100px"}}>
         <Box sx={{ height: 400, width: "100%" }}>
@@ -711,7 +813,7 @@ function AdminPanel() {
           />
         </Box>
       </div>
-     
+     </>}
       
     </>
   );
