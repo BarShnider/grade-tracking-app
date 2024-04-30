@@ -1,6 +1,5 @@
 import "react-circular-progressbar/dist/styles.css";
 import "animate.css";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
