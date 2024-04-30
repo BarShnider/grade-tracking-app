@@ -109,7 +109,7 @@ function AdminPanel() {
   const [isDegreeModalOpen, setIsDegreeModalOpen] = useState(false);
   const [editingDegree, setEditingDegree] = useState(null);
   const navigate = useNavigate()
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
