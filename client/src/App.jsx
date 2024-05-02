@@ -19,7 +19,7 @@ function App() {
     <>
       <AppProvider>
         <BrowserRouter>
-        <Toaster />
+          <Toaster />
           <Navbar />
           <Routes>
             <Route index element={<Navigate replace to="universities" />} />
@@ -27,17 +27,22 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="edit" element={<EditDetails />} />
             <Route path="admin" element={<AdminPanel />} />
-
             <Route
               path="universities"
               element={<UniversitySelectionScreen />}
             />
-            <Route path="universities/:id" element={<DegreeYearSemesterScreen />} />
+            <Route
+              path="universities/:id"
+              element={<DegreeYearSemesterScreen />}
+            />
             <Route
               path="universities/:id/faculties/:facId"
               element={<DegreeYearSemesterScreen />}
             />
-            <Route path="universities/:id/next/:num" element={<CourseSelectionScreen />} />
+            <Route
+              path="universities/:id/next/:num"
+              element={<CourseSelectionScreen />}
+            />
             <Route path="search/:num" element={<CourseSelectionScreen />} />
 
             {/* <Route

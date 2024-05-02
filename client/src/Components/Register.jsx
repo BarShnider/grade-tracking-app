@@ -11,9 +11,10 @@ import FormHelperText from "@mui/material/FormHelperText";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUniversities } from "../contexts/AppContext";
+import emailjs from "@emailjs/browser";
 
 function Register() {
-const {BASE_URL} = useUniversities();
+  const { BASE_URL } = useUniversities();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -29,7 +30,8 @@ const {BASE_URL} = useUniversities();
 
   const navigate = useNavigate();
   const regexPatternHebrew = /^[\u0590-\u05FF]+$/; // Hebrew characters pattern
-  const regexPatternPassword =/^(?=.*[!@#$%^&*()_+{}|:"<>?])(?=.*[A-Z])(?=.*\d).{7,12}$/;
+  const regexPatternPassword =
+    /^(?=.*[!@#$%^&*()_+{}|:"<>?])(?=.*[A-Z])(?=.*\d).{7,12}$/;
 
   const handleInputChange = (
     event,
@@ -71,7 +73,15 @@ const {BASE_URL} = useUniversities();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => event.preventDefault();
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Resetting errors before checking
+    setEmailError("");
+    setFirstNameError("");
+    setLastNameError("");
+    setPasswordError("");
+    setConfirmPasswordError("");
+
     // Check for empty fields and set errors accordingly
     if (!email) setEmailError("נא להזין אימייל");
     if (!firstName) setFirstNameError("נא להזין שם פרטי");
@@ -96,36 +106,61 @@ const {BASE_URL} = useUniversities();
       return; // Stop submission if there are any errors
     }
 
-    // If no errors, submit the form
     console.log("Submitting form...");
-    const user = {
-      email,
-      firstName,
-      lastName,
-      password,
+    sendEmail(); // Call sendEmail here, it doesn't take event as an argument now
+
+    // const user = {
+    //   email,
+    //   firstName,
+    //   lastName,
+    //   password,
+    // };
+
+    // try {
+    //   const response = await fetch(`${BASE_URL}/User/Register`, {
+    //     method: "POST", // Corrected typo in method
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(user),
+    //   });
+
+    //   const isRegistered = await response.json(); // Expecting a boolean response
+    //   if (!isRegistered) {
+    //     setEmailError("האימייל תפוס, נסו אימייל אחר");
+    //     return;
+    //   }
+
+    //   console.log("Registration successful");
+    //   navigate("/login"); // Navigate to login or success page
+    // } catch (error) {
+    //   console.error("Registration error:", error);
+    //   alert("Registration failed"); // Consider a more user-friendly error handling
+    // }
+  };
+
+  const sendEmail = () => {
+    const templateParams = {
+      to_email: email, // Ensure your email template is configured to use `to_email`
+      to_name: firstName,
+      message: "Your code is 123456789",
     };
-    try {
-      const response = await fetch(`${BASE_URL}/User/Register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+
+    emailjs
+      .send(
+        "service_52qy1iu",
+        "template_wb2vw9k",
+        templateParams,
+        "pSgdrQdjEFDnz7Dx4"
+      )
+      .then(
+        (response) => {
+          console.log("Email sent successfully!", response);
         },
-        body: JSON.stringify(user),
-      });
-
-      const isRegistered = await response.json(); // Expecting a boolean response
-      if (!isRegistered) {
-        setEmailError("האימייל תפוס, נסו אימייל אחר");
-        return;
-      }
-
-      console.log("Registration successful");
-      navigate("/login"); // Navigate to login or success page
-    } catch (error) {
-      console.error("Registration error:", error);
-      alert("Registration failed"); // Consider a more user-friendly error handling
-    }
-    // navigate("/success"); // Redirect or handle form submission
+        (error) => {
+          console.error("Failed to send email:", error);
+        }
+      );
   };
 
   return (
@@ -140,7 +175,6 @@ const {BASE_URL} = useUniversities();
           התחבר עכשיו!
         </span>
       </span>
-
       <TextField
         sx={{ width: "80%", direction: "ltr" }}
         label="אימייל"
@@ -222,7 +256,7 @@ const {BASE_URL} = useUniversities();
         />
         <FormHelperText>{passwordError}</FormHelperText>
       </FormControl>
-      
+
       <FormControl
         error={!!confirmPasswordError}
         sx={{ width: "80%", direction: "ltr" }}
@@ -250,7 +284,7 @@ const {BASE_URL} = useUniversities();
         />
         <FormHelperText>{confirmPasswordError}</FormHelperText>
       </FormControl>
-      <Button onClick={() => handleSubmit()}>הרשמה</Button>
+      <Button onClick={(e) => handleSubmit(e)}>הרשמה</Button>
     </div>
   );
 }
