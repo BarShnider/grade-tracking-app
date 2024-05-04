@@ -14,15 +14,9 @@ namespace university_grades_app.Models
         public bool Register()
         {
             DBservices dbs = new DBservices();
-            if (dbs.CheckUserExistEmail(this.Email) == 1) // if there is a user with this email will return 1, else return 0
-            {
-                return false;
-            }
-            else
-            {
+
                 dbs.AddUser(this);
                 return true;
-            }
 
         }
         public User Login()

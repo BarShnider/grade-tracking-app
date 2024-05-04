@@ -8,13 +8,14 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUniversities } from "../contexts/AppContext";
 import emailjs from "@emailjs/browser";
+import ValidateRegisterCodeModal from "./ValidateRegisterCodeModal";
 
 function Register() {
-  const { BASE_URL } = useUniversities();
+  const { BASE_URL, notifySuccess } = useUniversities();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -22,12 +23,14 @@ function Register() {
   const [firstNameError, setFirstNameError] = useState("");
   const [lastName, setLastName] = useState("");
   const [lastNameError, setLastNameError] = useState("");
+  const [isCodeModalOpen, setIsCodeModalOpen] = useState(false)
   const [randomNumber,setRandomNumber]=useState();
 
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [isCodeAprroved, setIsCodeApproved] = useState(false)
 
   const navigate = useNavigate();
   const regexPatternHebrew = /^[\u0590-\u05FF]+$/; // Hebrew characters pattern
@@ -128,7 +131,9 @@ function Register() {
         setEmailError("האימייל תפוס, נסו אימייל אחר");
         return;
       } else{
+        console.log("randominze number ")
         const random=Math.floor(Math.random() * 9000) + 1000;
+        console.log(random)
         setRandomNumber(random)
         sendEmail(random);
       }
@@ -137,31 +142,75 @@ function Register() {
       console.error("error:", error);
       alert("Registration failed"); // Consider a more user-friendly error handling
     }
+// if(isCodeAprroved){
+//     try {
+//       const response = await fetch(`${BASE_URL}/User/{email}`, {
+//         method: "POST", // Corrected typo in method
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(email),
+//       });
 
-    // try {
-    //   const response = await fetch(`${BASE_URL}/User/{email}`, {
-    //     method: "POST", // Corrected typo in method
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(email),
-    //   });
+//       const isRegistered = await response.json(); // Expecting a boolean response
+//       if (!isRegistered) {
+//         setEmailError("האימייל תפוס, נסו אימייל אחר");
+//         return;
+//       }
 
-    //   const isRegistered = await response.json(); // Expecting a boolean response
-    //   if (!isRegistered) {
-    //     setEmailError("האימייל תפוס, נסו אימייל אחר");
-    //     return;
-    //   }
+//       console.log("Registration successful");
+//       //navigate("/login"); // Navigate to login or success page
+//     } catch (error) {
+//       console.error("Registration error:", error);
+//       alert("Registration failed"); // Consider a more user-friendly error handling
+//     }
+//   finally {
+//     setIsCodeApproved(false)
+//   }}
 
-    //   console.log("Registration successful");
-    //   //navigate("/login"); // Navigate to login or success page
-    // } catch (error) {
-    //   console.error("Registration error:", error);
-    //   alert("Registration failed"); // Consider a more user-friendly error handling
-    // }
-
-    //sendEmail(); // Call sendEmail here, it doesn't take event as an argument now
   };
+
+  const validateAndRegister = async () => {
+    if(isCodeAprroved){
+      try {
+        const user={
+          email,
+          password,
+          firstName,
+          lastName
+        }
+        const response = await fetch(`${BASE_URL}/User/Register`, {
+          method: "POST", // Corrected typo in method
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        });
+  
+        const isRegistered = await response.json(); // Expecting a boolean response
+        if (!isRegistered) {
+          setEmailError("האימייל תפוס, נסו אימייל אחר");
+          return;
+        }
+  
+        console.log("Registration successful");
+        notifySuccess(`${email} נרשם בהצלחה!`)
+      } catch (error) {
+        console.error("Registration error:", error);
+        alert("Registration failed"); // Consider a more user-friendly error handling
+      }
+    finally {
+      setIsCodeApproved(false)
+      navigate("/login")
+    }}
+  
+  }
+
+  useEffect(function(){
+    if(isCodeAprroved){
+      validateAndRegister()
+    }
+  },[isCodeAprroved])
 
    const sendEmail = (random) => {
     const templateParams = {
@@ -180,6 +229,7 @@ function Register() {
       .then(
         (response) => {
           console.log("Email sent successfully!", response);
+          setIsCodeModalOpen(true)
         },
         (error) => {
           console.error("Failed to send email:", error);
@@ -187,8 +237,19 @@ function Register() {
       );
   };
 
-  return (
+  return (<>
+        {isCodeModalOpen && (
+        <ValidateRegisterCodeModal
+        setIsCodeApproved={setIsCodeApproved}
+          validationCode={randomNumber}
+          isOpen={isCodeModalOpen}
+          setIsCodeModalOpen={setIsCodeModalOpen}
+          onClose={() => setIsCodeModalOpen(false)}
+          // notifySuccess={notifySuccess}
+        />
+      )}
     <div className="login-form">
+      
       <h1 className="login-header">הרשמה</h1>
       <span>
         יש לך כבר משתמש?{" "}
@@ -310,6 +371,7 @@ function Register() {
       </FormControl>
       <Button onClick={(e) => handleSubmit(e)}>הרשמה</Button>
     </div>
+    </>
   );
 }
 

@@ -1,4 +1,5 @@
 import {createContext, useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 const AppContext = createContext();
 
@@ -11,6 +12,7 @@ function AppProvider({ children }) {
   const [selectedCourse, setSelectedCourse] = useState(null)
   const [connectedUser, setConnectedUser] = useState(null)
   const [loadingUser, setLoadingUser] = useState(true);  // Default to true to assume loading initially
+  const notifySuccess = (text) => toast.success(text);
 
 
   const [newCourse, setNewCourse] = useState(null)
@@ -71,7 +73,7 @@ function AppProvider({ children }) {
     }
   }, [connectedUser]);
 
-  return <AppContext.Provider value={{BASE_URL,universities,setUniversities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser}}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{BASE_URL,universities,setUniversities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser, notifySuccess}}>{children}</AppContext.Provider>;
 }
 
 
