@@ -273,7 +273,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
   //need to handle course after fetching, default is the first course/showing none
   //can pass the course id as prop and fetch based on the prop using UseEffect(?)
   // need to save for the course [avarage, max-score(optional),min-score(optional)], will be renderd in circular progress bars
-  if (!selectedCourse) return;
+  if (!selectedCourse) return (<div className="course-details course-details-no-course" >לא נבחר קורס להצגה</div>);
   return (
     <div className="course-details animate__animated animate__fadeIn ">
             <Modal

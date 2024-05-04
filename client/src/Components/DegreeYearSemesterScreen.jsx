@@ -209,11 +209,11 @@ export default function DegreeYearSemesterScreen() {
           ))}
         </ButtonsContainer> */}
       </DegreeYearSemesterContainer>
-      <div className="next-btn-wrapper">
+      {selectedFaculty || (selectedFaculty && selectedDegree) ?<div className="next-btn-wrapper">
         <Link to={`next/${param}`}>
         <NextButton  >הבא</NextButton>
         </Link>
-      </div>
+      </div> : null}
     </div>
   );
 }
