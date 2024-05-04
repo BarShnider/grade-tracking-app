@@ -4,7 +4,6 @@
     {
         public int DegreeId { get; set; }
         public string Name { get; set; }
-        public bool IsApproved { get; set; }
 
         public static List<Object> GetAllDegreesByFacultyId(int facultyId)
         {

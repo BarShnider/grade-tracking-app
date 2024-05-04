@@ -8,7 +8,6 @@
         public int EstablishedYear { get; set; }
         public string Website { get; set; }
         public string imageUrl { get; set; }
-        public bool IsApproved { get; set; }
 
         public static List<University> GetUniversities()
         {
