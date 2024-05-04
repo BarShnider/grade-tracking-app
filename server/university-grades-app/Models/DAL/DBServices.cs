@@ -101,8 +101,7 @@ public class DBservices
                 u.EstablishedYear = Convert.ToInt32(dataReader["EstablishedYear"].ToString());
                 u.Website = dataReader["Website"].ToString();
                 u.imageUrl = dataReader["Image"].ToString();
-
-
+                u.IsApproved = dataReader.GetBoolean(dataReader.GetOrdinal("Approved"));
                 univList.Add(u);
             }
             return univList;
@@ -158,9 +157,6 @@ public class DBservices
                 Faculty f = new Faculty();
                 f.FacultyId = Convert.ToInt32(dataReader["facultyId"].ToString());
                 f.Name = dataReader["Name"].ToString();
-
-
-
                 facList.Add(f);
             }
             return facList;
@@ -212,9 +208,7 @@ public class DBservices
                 faculty.FacultyId = Convert.ToInt32(dataReader["facultyId"].ToString());
                 faculty.Name = dataReader["Name"].ToString();
                 faculty.UniversityName = dataReader["UnivName"].ToString();
-
-
-
+                faculty.IsApproved = dataReader.GetBoolean(dataReader.GetOrdinal("Approved"));
                 facList.Add(faculty);
             }
             return facList;
@@ -371,7 +365,7 @@ public class DBservices
                 degree.Name = dataReader["name"].ToString();
                 degree.UniversityName = dataReader["UnivName"].ToString();
                 degree.FacultyName = dataReader["FacultyName"].ToString();
-
+                degree.IsApproved = dataReader.GetBoolean(dataReader.GetOrdinal("Approved"));
                 degreeList.Add(degree);
             }
             return degreeList;
@@ -1404,10 +1398,7 @@ public class DBservices
                 course.UniversityName = dataReader["UnivName"].ToString();
                 course.FacultyName = dataReader["FacName"].ToString();
                 course.DegreeName = dataReader["DegName"].ToString();
-
-
-
-
+                course.IsApproved = dataReader.GetBoolean(dataReader.GetOrdinal("Approved"));
                 courseList.Add(course);
             }
             return courseList;
