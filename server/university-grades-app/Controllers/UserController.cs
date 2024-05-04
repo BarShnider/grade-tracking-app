@@ -19,9 +19,9 @@ namespace university_grades_app.Controllers
 
         // GET api/<UserController>/5
         [HttpGet("{email}")]
-        public void Get(string email)
+        public int Get(string email)
         {
-
+            return university_grades_app.Models.User.CheckEmail(email);
         }
 
         // GET api/<UserController>/5

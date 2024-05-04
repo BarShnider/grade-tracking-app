@@ -91,5 +91,11 @@ namespace university_grades_app.Models
             return dbs.GetAllUsers();
         }
 
+        public static int CheckEmail(string email)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.CheckUserExistEmail(email);
+        }
+
     }
 }

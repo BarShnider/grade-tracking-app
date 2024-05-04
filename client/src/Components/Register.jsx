@@ -22,6 +22,7 @@ function Register() {
   const [firstNameError, setFirstNameError] = useState("");
   const [lastName, setLastName] = useState("");
   const [lastNameError, setLastNameError] = useState("");
+  const [randomNumber,setRandomNumber]=useState();
 
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -107,22 +108,43 @@ function Register() {
     }
 
     console.log("Submitting form...");
-    sendEmail(); // Call sendEmail here, it doesn't take event as an argument now
+    //sendEmail(); // Call sendEmail here, it doesn't take event as an argument now
 
     // const user = {
     //   email,
-    //   firstName,
-    //   lastName,
-    //   password,
     // };
 
+    try {
+      const response = await fetch(`${BASE_URL}/User/${email}`, {
+        method: "GET", // Corrected typo in method
+        headers: {
+          "Content-Type": "application/json",
+        },
+        //body: JSON.stringify(email),
+      });
+
+      const isRegistered = await response.json(); // Expecting a boolean response
+      if (isRegistered===1) {
+        setEmailError("האימייל תפוס, נסו אימייל אחר");
+        return;
+      } else{
+        const random=Math.floor(Math.random() * 9000) + 1000;
+        setRandomNumber(random)
+        sendEmail(random);
+      }
+      //navigate("/login"); // Navigate to login or success page
+    } catch (error) {
+      console.error("error:", error);
+      alert("Registration failed"); // Consider a more user-friendly error handling
+    }
+
     // try {
-    //   const response = await fetch(`${BASE_URL}/User/Register`, {
+    //   const response = await fetch(`${BASE_URL}/User/{email}`, {
     //     method: "POST", // Corrected typo in method
     //     headers: {
     //       "Content-Type": "application/json",
     //     },
-    //     body: JSON.stringify(user),
+    //     body: JSON.stringify(email),
     //   });
 
     //   const isRegistered = await response.json(); // Expecting a boolean response
@@ -132,18 +154,20 @@ function Register() {
     //   }
 
     //   console.log("Registration successful");
-    //   navigate("/login"); // Navigate to login or success page
+    //   //navigate("/login"); // Navigate to login or success page
     // } catch (error) {
     //   console.error("Registration error:", error);
     //   alert("Registration failed"); // Consider a more user-friendly error handling
     // }
+
+    //sendEmail(); // Call sendEmail here, it doesn't take event as an argument now
   };
 
-  const sendEmail = () => {
+   const sendEmail = (random) => {
     const templateParams = {
       to_email: email, // Ensure your email template is configured to use `to_email`
       to_name: firstName,
-      message: "Your code is 123456789",
+      message: `Your code is ${random}`,
     };
 
     emailjs
