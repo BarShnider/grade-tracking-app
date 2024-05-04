@@ -90,9 +90,12 @@ export default function CourseList() {
         .then((data) => {
           console.log(data)
           setCourses(data);
-          if (data && data.length > 0 && !selectedCourse) {
+          if (data && data.length > 0 ) {
             setSelectedCourse(data[0]); // Set the first course as selected if no course is currently selected
             
+          }
+          if (data.length === 0){
+            setSelectedCourse(null)
           }
         })
         .catch((err) => {
@@ -106,6 +109,7 @@ export default function CourseList() {
   return (
     <>
       <ButtonsContainer isLoading={isLoading}>
+        {courses.length === 0 && <span className="list-no-courses">לא נמצאו קורסים להצגה</span>}
         {courses.map(course => <Button isMandatory={course.isMandatory} selected={selectedCourse?.courseId === course.courseId} onClick={() =>  onSelectedCourse(course)} key={course.courseId}>{course.courseName}            {num.startsWith("sq") && (
               <>
                 <span className="course-location">

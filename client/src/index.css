@@ -667,3 +667,16 @@ a {
   /* text-wrap: nowrap; */
   color: var(--main-darkgreen);
 }
+
+.list-no-courses {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.course-details-no-course {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 800;
+}
