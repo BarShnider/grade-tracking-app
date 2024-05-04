@@ -12,7 +12,6 @@ export default function UniversitiesContainer() {
   }, []);
 
   console.log(isLoading)
-  // console.log(useUniversities())
   if(isLoading) return <Loader />
   return (
     <div

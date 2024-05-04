@@ -37,7 +37,6 @@ function CourseDestinationForm() {
       const res = await fetch(`${BASE_URL}/Faculties/GetFacultiesByUniversityId/${id}`);
       const data = await res.json();
       setSelectedFaculties(data);
-      // console.log(data)
     } catch {
       alert("there was an error loading data..");
     } finally {
@@ -51,7 +50,6 @@ function CourseDestinationForm() {
         const res = await fetch(`${BASE_URL}/Degrees/GetAllDegreesByFacultyId/${id}`);
         const data = await res.json();
         setSelectedDegrees(data);
-        // console.log(data)
       } catch {
         alert("there was an error loading data..");
       } finally {
@@ -64,7 +62,6 @@ function CourseDestinationForm() {
         const res = await fetch(`${BASE_URL}/Years/GetAllYearsByDegreeId/${id}`);
         const data = await res.json();
         setSelectedYears(data);
-        // console.log(data)
       } catch {
         alert("there was an error loading data..");
       } finally {
@@ -78,7 +75,6 @@ function CourseDestinationForm() {
         const res = await fetch(`${BASE_URL}/Semesters/GetAllSemestersByYearId/${id}`);
         const data = await res.json();
         setSelectedSemesters(data);
-        // console.log(data)
       } catch {
         alert("there was an error loading data..");
       } finally {
@@ -87,18 +83,14 @@ function CourseDestinationForm() {
     }
 
 
-  // console.log(selectedUniv)
   useEffect(function(){
     if(!selectedUniv) return
     getFacultiesByUniversity(selectedUniv)
-    // if(selectedFaculties.length > 0 ) setSelectedFaculty(selectedFaculties[0]?.facultyId)
-
   },[selectedUniv])
 
   useEffect(function(){
     if(!selectedFaculty) return
     getDegreesByFaculty(selectedFaculty)
-    // if(selectedDegrees.length > 0 ) setSelectedDegree(selectedDegrees[0]?.degreeId)
 
     
   }
@@ -106,8 +98,6 @@ function CourseDestinationForm() {
   useEffect(function(){
     if(!selectedDegree) return
     getYearsByDegree(selectedDegree)
-    // if(selectedYears.length > 0 ) setSelectedYear(selectedYears[0]?.yearId)
-
   }
   ,[selectedDegree])
 
@@ -131,21 +121,17 @@ function CourseDestinationForm() {
 
   async function createNewCourse() {
     try {
-      // setIsLoading(true);
       const res = await fetch(`${BASE_URL}/Courses/AddNewCourse/${selectedSemester}`, {
         method: "POST",
         body: JSON.stringify(newCourse),
         headers: { "Content-Type": "application/json" },
       });
       const data = await res.json();
-      // setComments(data);
       console.log(data);
       console.log("course added succefully")
     } catch  {
-      // console.log(err)
       alert("there was an error creating course..");
     } finally {
-      // setIsLoading(false);
       navigate('/universities')
       setNewCourse(null)
     }
@@ -161,17 +147,13 @@ function CourseDestinationForm() {
         {universities.map(univ => <option key={univ.universityId} value={univ.universityId}>{univ.name}</option>)}
       </select>
       <ModalAddUniversity setSelectedUniv={setSelectedUniv} />
-      {/* <SmallButton>+</SmallButton> */}
       </div>
       <div className="dropdown-wrapper">
       <select className="select-box" value={selectedFaculty || ''} onChange={(e) => setSelectedFaculty(e.target.value)}>
       <option disabled value="">בחר פקולטה</option>
         {selectedFaculties.map(fac => <option key={fac.facultyId}   value={fac.facultyId}>{fac.name}</option>)}
-        
       </select>
       <ModalAddFaculty />
-
-      {/* <SmallButton>+</SmallButton> */}
       </div>
       <div className="dropdown-wrapper">
       <select  className="select-box"  value={selectedDegree || ''} onChange={(e) => setSelectedDegree(e.target.value)}>
@@ -211,9 +193,7 @@ function CourseDestinationForm() {
         >
           חזור
         </Button>
-        {/* <Link to=""> */}
           <Button onClick={(e) => {e.preventDefault(); validateForm()}}>הוסף</Button>
-        {/* </Link> */}
       </div>
     </div>
   );

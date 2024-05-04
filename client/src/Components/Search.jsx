@@ -56,10 +56,6 @@ const navigate = useNavigate();
         }
       };
 
-      // useEffect(function(){
-      //   getAllCourses();
-      // },[])
-
 
       const fetchCoursesByName = async (searchString) => {
         try {

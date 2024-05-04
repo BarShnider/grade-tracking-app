@@ -42,9 +42,6 @@ function ModalAddFaculty() {
             <input onChange={(e) => console.log(e.target.value)} className='modal-textbox' type="text" placeholder=' שם הפקולטה' />
             <SmallButton style={{padding:'5px', border: '1px solid grey',fontWeight:'600',color:'grey',boxShadow: 'rgb(34 34 34 / 33%) 2px 3px 4px 0px'}}>הוסף</SmallButton>
             </div>
-            {/* <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography> */}
           </Box>
         </Modal>
       </div>

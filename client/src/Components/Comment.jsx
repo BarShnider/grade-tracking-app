@@ -72,25 +72,16 @@ function Comment({username,text,commenterId, commentId,setComments}) {
             <p className="comment-name">{username.split("@")[0]}</p>
             {!isEditMode? <span className="comment-text">{text}</span>: <textarea style={{width:"80%"}} onChange={(e)=>setNewText(e.target.value) } defaultValue={text}></textarea>}
             </div>
-
         {connectedUser.id === commenterId && <div>
         <IconButton sx={{width:"30px",height:"30px"}} onClick={() => deleteComment(commentId)} aria-label="delete" color="secondery" size="small">
         <DeleteIcon sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
       </IconButton>
-
-
       {!isEditMode && <IconButton sx={{width:"30px",height:"30px"}} onClick={() => setIsEditMode((mode) => !mode)} aria-label="edit" color="secondery" size="small">
       <EditRoundedIcon sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
       </IconButton>}
       {isEditMode && <IconButton sx={{width:"30px",height:"30px"}} onClick={() => updateComment(commentId,connectedUser.id,newText)} aria-label="edit" color="secondery" size="small">
       <DoneIcon  sx={{width:"20px",height:"20px", margin:"0px 5px"}} />
       </IconButton>}
-
-
-        {/* <IconButton onClick={() => setIsEditMode((mode) => !mode)} aria-label="edit" color="secondery" size="small">
-        {!isEditMode && <EditRoundedIcon sx={{width:"20px",height:"20px", margin:"0px 5px"}} />}
-        {isEditMode && <DoneIcon onClick={() => updateComment(commentId,connectedUser.id,newText)} sx={{width:"20px",height:"20px", margin:"0px 5px"}} />}
-      </IconButton> */}
         </div>}
         </div>
         </>

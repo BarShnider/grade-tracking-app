@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 
 export default function University({ univ, isPreview }) {
   const { imageUrl, location, name, universityId } = univ;
-  // console.log(universityId)
   if (!isPreview) {
     return (
       <Link

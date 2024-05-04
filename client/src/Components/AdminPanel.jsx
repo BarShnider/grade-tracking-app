@@ -15,6 +15,8 @@ import toast from "react-hot-toast";
 import { styled } from '@mui/material/styles';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const AntTabs = styled(Tabs)({
   borderBottom: '1px solid #e8e8e8',
@@ -164,41 +166,61 @@ function AdminPanel() {
       sortable: false,
       filterable: false,
     },
+    {
+      field: "approved",
+      headerName: "מאושר?",
+      width: 80,
+      renderCell: (params) => (
+        <>
+        <IconButton
+            sx={{ width: "30px", height: "30px" }}
+            onClick={() => openUniversitiesModal(params.row)}
+            aria-label="edit"
+            color="secondery"
+            size="small"
+          >
+            <DoneRoundedIcon
+              sx={{ width: "20px", height: "20px", margin: "0px 5px", color:"green" }}
+            />
+          </IconButton>
+          <IconButton
+            sx={{ width: "30px", height: "30px", color:"red" }}
+            onClick={() => deleteUniversity(params.row.universityId)}
+            aria-label="delete"
+            color="secondery"
+            size="small"
+          >
+            <CloseRoundedIcon
+              sx={{ width: "20px", height: "20px", margin: "0px 5px" }}
+            />
+          </IconButton>
+        </>
+      ),
+      sortable: false,
+      filterable: false,
+    },
 
     {
       field: "name",
       headerName: "שם מוסד הלימוד",
       width: 200,
-      //   editable: true,
     },
 
     {
       field: "location",
       headerName: "מיקום",
       width: 100,
-      //   editable: true,
     },
     {
       field: "website",
       headerName: "אתר",
       width: 200,
-      //   editable: true,
     },
     {
       field: "imageUrl",
       headerName: "לוגו",
       width: 200,
-      //   editable: true,
     },
-
-    // {
-    //   field: 'fullName',
-    //   headerName: 'Full name',
-    //   description: 'This column has a value getter and is not sortable.',
-    //   sortable: false,
-    //   width: 160,
-    //   valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-    // },
   ];
 
   const courseColumns = [
@@ -228,6 +250,39 @@ function AdminPanel() {
             size="small"
           >
             <DeleteIcon
+              sx={{ width: "20px", height: "20px", margin: "0px 5px" }}
+            />
+          </IconButton>
+        </>
+      ),
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "approved",
+      headerName: "מאושר?",
+      width: 80,
+      renderCell: (params) => (
+        <>
+        <IconButton
+            sx={{ width: "30px", height: "30px" }}
+            onClick={() => openUniversitiesModal(params.row)}
+            aria-label="edit"
+            color="secondery"
+            size="small"
+          >
+            <DoneRoundedIcon
+              sx={{ width: "20px", height: "20px", margin: "0px 5px", color:"green" }}
+            />
+          </IconButton>
+          <IconButton
+            sx={{ width: "30px", height: "30px", color:"red" }}
+            onClick={() => deleteUniversity(params.row.universityId)}
+            aria-label="delete"
+            color="secondery"
+            size="small"
+          >
+            <CloseRoundedIcon
               sx={{ width: "20px", height: "20px", margin: "0px 5px" }}
             />
           </IconButton>
@@ -309,6 +364,39 @@ function AdminPanel() {
       filterable: false,
     },
     {
+      field: "approved",
+      headerName: "מאושר?",
+      width: 80,
+      renderCell: (params) => (
+        <>
+        <IconButton
+            sx={{ width: "30px", height: "30px" }}
+            onClick={() => openUniversitiesModal(params.row)}
+            aria-label="edit"
+            color="secondery"
+            size="small"
+          >
+            <DoneRoundedIcon
+              sx={{ width: "20px", height: "20px", margin: "0px 5px", color:"green" }}
+            />
+          </IconButton>
+          <IconButton
+            sx={{ width: "30px", height: "30px", color:"red" }}
+            onClick={() => deleteUniversity(params.row.universityId)}
+            aria-label="delete"
+            color="secondery"
+            size="small"
+          >
+            <CloseRoundedIcon
+              sx={{ width: "20px", height: "20px", margin: "0px 5px" }}
+            />
+          </IconButton>
+        </>
+      ),
+      sortable: false,
+      filterable: false,
+    },
+    {
       field: "Name",
       headerName: "שם",
       width: 200,
@@ -349,6 +437,39 @@ function AdminPanel() {
             size="small"
           >
             <DeleteIcon
+              sx={{ width: "20px", height: "20px", margin: "0px 5px" }}
+            />
+          </IconButton>
+        </>
+      ),
+      sortable: false,
+      filterable: false,
+    },
+    {
+      field: "approved",
+      headerName: "מאושר?",
+      width: 80,
+      renderCell: (params) => (
+        <>
+        <IconButton
+            sx={{ width: "30px", height: "30px" }}
+            onClick={() => openUniversitiesModal(params.row)}
+            aria-label="edit"
+            color="secondery"
+            size="small"
+          >
+            <DoneRoundedIcon
+              sx={{ width: "20px", height: "20px", margin: "0px 5px", color:"green" }}
+            />
+          </IconButton>
+          <IconButton
+            sx={{ width: "30px", height: "30px", color:"red" }}
+            onClick={() => deleteUniversity(params.row.universityId)}
+            aria-label="delete"
+            color="secondery"
+            size="small"
+          >
+            <CloseRoundedIcon
               sx={{ width: "20px", height: "20px", margin: "0px 5px" }}
             />
           </IconButton>
@@ -714,7 +835,6 @@ function AdminPanel() {
               },
             }}
             pageSizeOptions={[5]}
-            //   checkboxSelection
             disableRowSelectionOnClick
           />
         </Box>
@@ -738,7 +858,6 @@ function AdminPanel() {
               },
             }}
             pageSizeOptions={[5]}
-            //   checkboxSelection
             disableRowSelectionOnClick
           />
         </Box>
@@ -762,7 +881,6 @@ function AdminPanel() {
               },
             }}
             pageSizeOptions={[5]}
-            //   checkboxSelection
             disableRowSelectionOnClick
           />
         </Box>
@@ -785,7 +903,6 @@ function AdminPanel() {
               },
             }}
             pageSizeOptions={[5]}
-            //   checkboxSelection
             disableRowSelectionOnClick
           />
         </Box>
@@ -808,7 +925,6 @@ function AdminPanel() {
               },
             }}
             pageSizeOptions={[5]}
-            //   checkboxSelection
             disableRowSelectionOnClick
           />
         </Box>

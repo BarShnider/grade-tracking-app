@@ -11,56 +11,12 @@ export default function CourseList() {
   const {num} = useParams()
   const {setSelectedCourse, selectedCourse, BASE_URL} = useUniversities()
   const [isLoading, setIsLoading] = useState(false)
-  const [query,setQuery] = useState("")
+  
   function onSelectedCourse(course){
     const newSelectedCourse = selectedCourse === course ? null : course;
     setSelectedCourse(newSelectedCourse);
-    
   }
 
-  // useEffect(function(){
-  //   let type = num.split('-')[0]
-  //   let id = num.split('-')[1]
-  //   console.log(type)
-  //   console.log(id)
-  //   if(type === "semester"){
-  //     setQuery(`GetAllCoursesBySemesterId/${id}`)
-  //   }
-  //   else if(type === "year"){
-  //     setQuery(`GetAllCoursesByYear/${id}`)
-  //   }
-  //   else if(type === "degree"){
-  //     setQuery(`GetAllCoursesByDegree/${id}`)
-  //   }
-    
-  // },[num])
-  // useEffect(
-  //   function () {
-  //     if (num) { // OPTION: CAN ADD 'ELSE' WHEN THERE IS NO PARAMS AND THEN GET
-  //       setIsLoading(true)
-  //       fetch(
-  //         `${BASE_URL}/Courses/${query}`
-  //       )
-  //         .then((response) => {
-  //           if (!response.ok) {
-  //             throw new Error("Network response was not ok");
-  //           }
-  //           return response.json(); // Parse JSON data from the response
-  //         })
-  //         .then((data) => {
-  //           // console.log(data);
-  //           setCourses(data);
-  //         })
-  //         .catch((err) => {
-  //           console.error(err);
-  //         }).finally(
-  //           setIsLoading(false)
-  //         );
-  //     }
-
-  //   },
-  //   [query]
-  // );
 
   useEffect(() => {
     let type = num.split('-')[0];
@@ -123,4 +79,3 @@ export default function CourseList() {
 
 
 
-//GetAllCoursesBySemesterId/{semesterId}

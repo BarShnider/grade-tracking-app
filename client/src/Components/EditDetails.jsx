@@ -83,7 +83,6 @@ function EditDetails() {
     }
   };
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleSubmit = async () => {
     if (password !== secondPassword) {
       setSecondPasswordError("סיסמאות אינן דומות");
@@ -142,13 +141,11 @@ function EditDetails() {
       }
     }
   };
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   if (!connectedUser) {
     console.log("Connected user not found, redirecting or waiting...");
     return <div>Loading user details...</div>;
   }
-  //////////////////// DO WE NEED THIS HERE ???????????
 
   return (
     <div className="login-form">

@@ -7,20 +7,10 @@ export default function Navbar() {
   const {connectedUser, setConnectedUser} = useUniversities()
   const navigate = useNavigate()
 
-  function logout(){
-    setConnectedUser(null)
-    navigate("/login")
-    
-  }
-
-  
-
-
   if(connectedUser){
 
     return (
       <div className="navbar">
-        {/* {connectedUser && <div className="navbar-user">שלום, <span style={{fontWeight:800}}>{connectedUser.email}</span> <span onClick={()=> logout()} className="logout-link">התנתק</span></div>} */}
         {connectedUser && <MenuNavbar />}
         {!connectedUser && <div className="navbar-user"><span onClick={() => navigate("login")} className="logout-link">התחברות</span>/<span onClick={() => navigate("/register")} className="logout-link">הרשמה</span></div>}
         <div id="rounded-btns">

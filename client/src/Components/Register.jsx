@@ -107,16 +107,8 @@ function Register() {
       confirmPasswordError
     ) {
       console.error("Form validation failed.");
-      return; // Stop submission if there are any errors
     }
-
     console.log("Submitting form...");
-    //sendEmail(); // Call sendEmail here, it doesn't take event as an argument now
-
-    // const user = {
-    //   email,
-    // };
-
     try {
       const response = await fetch(`${BASE_URL}/User/${email}`, {
         method: "GET", // Corrected typo in method
@@ -142,32 +134,6 @@ function Register() {
       console.error("error:", error);
       alert("Registration failed"); // Consider a more user-friendly error handling
     }
-// if(isCodeAprroved){
-//     try {
-//       const response = await fetch(`${BASE_URL}/User/{email}`, {
-//         method: "POST", // Corrected typo in method
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(email),
-//       });
-
-//       const isRegistered = await response.json(); // Expecting a boolean response
-//       if (!isRegistered) {
-//         setEmailError("האימייל תפוס, נסו אימייל אחר");
-//         return;
-//       }
-
-//       console.log("Registration successful");
-//       //navigate("/login"); // Navigate to login or success page
-//     } catch (error) {
-//       console.error("Registration error:", error);
-//       alert("Registration failed"); // Consider a more user-friendly error handling
-//     }
-//   finally {
-//     setIsCodeApproved(false)
-//   }}
-
   };
 
   const validateAndRegister = async () => {

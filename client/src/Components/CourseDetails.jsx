@@ -253,26 +253,8 @@ const userGradesCourse = async (userId, courseId, grade) => {
     [rating]
   );
 
-  // useEffect(function () {
-  //     fetch(`https://localhost:7204/api/Courses/GetAllCourses`)
-  //       .then((response) => {
-  //         if (!response.ok) {
-  //           throw new Error("Network response was not ok");
-  //         }
-  //         return response.json(); // Parse JSON data from the response
-  //       })
-  //       .then((data) => {
-  //         console.log(data);
-  //         setCourses(data);
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   }, []);
 
-  //need to handle course after fetching, default is the first course/showing none
-  //can pass the course id as prop and fetch based on the prop using UseEffect(?)
-  // need to save for the course [avarage, max-score(optional),min-score(optional)], will be renderd in circular progress bars
+
   if (!selectedCourse) return (<div className="course-details course-details-no-course" >לא נבחר קורס להצגה</div>);
   return (
     <div className="course-details animate__animated animate__fadeIn ">
@@ -312,20 +294,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
       </Modal>
       <div className="details-wrapper">
         <div className="course-details-image">
-          {/* <div style={{ width: 150, height: 150 }}>
-            <CircularProgressbarWithChildren value={selectedCourse.avgGrade}>
-            <div style={{ fontSize: 32, marginTop: -5 }}>
-                <strong>{selectedCourse?.avgGrade}</strong>
-              </div>
-              <div style={{ fontSize: 16, marginTop: -5 }}>
-                <strong>ממוצע קורס</strong> 
-              </div>
-            </CircularProgressbarWithChildren>
-          </div> */}
-
           <BarChart
-            // width={}
-            // height={200}
             sx={{direction:"ltr"}}
             series={[
               {
@@ -362,7 +331,6 @@ const userGradesCourse = async (userId, courseId, grade) => {
             {selectedCourse?.lecturerName}
           </span>
         </p>
-        {/* <p className="course-info">תיאור:</p> */}
       <CourseComments />
       </div>
     </div>

@@ -13,7 +13,6 @@ function ValidateRegisterCodeModal({
   isOpen,
   setIsCodeModalOpen,
   setIsCodeApproved
-//   notifySuccess
 }) {
   const handleClose = () => setIsCodeModalOpen(false);
 

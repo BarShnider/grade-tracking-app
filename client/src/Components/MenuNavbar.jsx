@@ -25,14 +25,6 @@ export default function MenuNavbar() {
       setOpen((prevOpen) => !prevOpen);
     };
   
-    // const handleClose = (event) => {
-    //   if (anchorRef.current && anchorRef.current.contains(event.target)) {
-    //       logout();
-    //     return;
-    //   }
-    //   setOpen(false);
-    // };
-
     const handleClose = (event) => {
       // Close the dropdown if the click is outside the anchor element (button)
       if (anchorRef.current && !anchorRef.current.contains(event.target)) {

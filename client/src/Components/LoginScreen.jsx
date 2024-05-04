@@ -85,7 +85,6 @@ function LoginScreen() {
           setEmailError("");
           setPasswordError("סיסמה שגויה");
         }
-        //alert("login failed, no user")
       }
       // Here you might want to update your app context or perform a redirect, e.g.:
       //   setConnectedUser(data);

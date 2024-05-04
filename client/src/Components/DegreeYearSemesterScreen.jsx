@@ -49,28 +49,6 @@ export default function DegreeYearSemesterScreen() {
     setSelectedFaculty(newSelectedFaculty);
   }
   
-
-  // console.log(useParams())
-  // useEffect(
-  //   function () {
-  //     fetch(`${BASE_URL}/Degrees/GetAllDegreesByFacultyId/${facId}`)
-  //       .then((response) => {
-  //         if (!response.ok) {
-  //           throw new Error("Network response was not ok");
-  //         }
-  //         return response.json(); // Parse JSON data from the response
-  //       })
-  //       .then((data) => {
-  //         console.log(data);
-  //         setDegrees(data);
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   },
-  //   [facId]
-  // );
-
   useEffect(() => {
     if (selectedFaculty) {
       const fetchDegrees = async () => {
@@ -92,31 +70,6 @@ export default function DegreeYearSemesterScreen() {
       setDegrees([]); // Reset degrees when there is no selected faculty
     }
   }, [selectedFaculty]);
-  
-
-  // useEffect(
-  //   function () {
-  //     if (selectedDegree) {
-  //       fetch(
-  //         `${BASE_URL}/Years/GetAllYearsByDegreeId/${selectedDegree?.degreeId}`
-  //       )
-  //         .then((response) => {
-  //           if (!response.ok) {
-  //             throw new Error("Network response was not ok");
-  //           }
-  //           return response.json(); // Parse JSON data from the response
-  //         })
-  //         .then((data) => {
-  //           console.log(data);
-  //           setYears(data);
-  //         })
-  //         .catch((err) => {
-  //           console.error(err);
-  //         });
-  //     }
-  //   },
-  //   [selectedDegree]
-  // );
 
   useEffect(
     function () {

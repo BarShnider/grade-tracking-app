@@ -7,13 +7,11 @@ function CourseComments() {
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("")
   const [commentTitle, setCommentTitle] = useState("כותרתתת")
-  // console.log(selectedCourse);
 
   useEffect(function(){
     setCommentText("")
     setCommentTitle("כותרת")
     setCommentText("")
-    // setCommentText("")
   },[selectedCourse])
   
   useEffect(
@@ -21,19 +19,14 @@ function CourseComments() {
       if (!selectedCourse) return;
       async function fetchComments() {
         try {
-          // setIsLoading(true);
           const res = await fetch(
             `${BASE_URL}/Comments/GetAllCommentsByCourseId/${selectedCourse?.courseId}`
           );
           const data = await res.json();
           setComments(data);
-          // console.log(data);
-          // console.log(comments);
         } catch (err) {
           console.log(err);
           alert("there was an error loading data..");
-        } finally {
-          // setIsLoading(false);
         }
       }
       fetchComments();
@@ -61,9 +54,7 @@ function CourseComments() {
       console.log(data);
     } catch {
       alert("there was an error creating comment..");
-    } finally {
-      // setIsLoading(false);
-    }
+    } 
   }
 
   const handleKeyDown = (event) => {
@@ -114,9 +105,6 @@ function CourseComments() {
           setComments={setComments}
         />
       ))}
-      {/* <Comment />
-            <Comment />
-            <Comment /> */}
     </div>
   );
 }
