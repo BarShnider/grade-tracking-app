@@ -57,11 +57,18 @@ function CourseComments() {
       });
       const data = await res.json();
       setComments(data);
+      setCommentText("")
       console.log(data);
     } catch {
       alert("there was an error creating comment..");
     } finally {
       // setIsLoading(false);
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      createComment();
     }
   }
 
@@ -74,10 +81,12 @@ function CourseComments() {
       {connectedUser.email !== "guest@mail.com" && <div className="comment-form-wrapper">
         <textarea onChange={(e) => setCommentText(e.target.value)}
           className="comment text-area"
+          onKeyDown={handleKeyDown}
           placeholder="כתוב את דעתך על הקורס..."
+          value={commentText}
         ></textarea>
         <button className="small-btn send-btn" onClick={createComment}>
-          <span>שלח</span>
+          <span style={{fontWeight:600,color:"#3c3c3c", fontFamily:"fredoka"}}>שלח</span>
         </button>
       </div>}
       {comments.length > 0 &&<svg height="1">
@@ -94,7 +103,7 @@ function CourseComments() {
       {connectedUser.email === "guest@mail.com" && <span style={{color:"white", fontWeight:500}}>יש להיות משתמש רשום על מנת להגיב</span>}
       {comments.length === 0 && <span style={{color:"white", fontWeight:500}}>עדיין לא הגיבו על קורס זה...</span>}
       {comments.length === 0 && connectedUser.email !== "guest@mail.com" && <span style={{color:"white", fontWeight:500}}>בואו להגיב ראשונים!</span>}
-      {comments.map((comment) => (
+      {comments.length > 0 && comments.map((comment) => (
         <Comment
           key={comment.commentId}
           commenterId={comment.commenterId}

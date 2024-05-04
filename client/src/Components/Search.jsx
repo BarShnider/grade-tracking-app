@@ -22,6 +22,7 @@ const navigate = useNavigate();
         // Here you would normally trigger some navigation or fetch based on the value/inputValue
         if (inputValue.trim() !== "") {
           navigate(`search/sq-${inputValue}`)
+          setInputValue("")
     }
   }
     
@@ -89,12 +90,13 @@ const navigate = useNavigate();
         }
     }, [inputValue]); // Depend on inputValue to refetch when it changes
   return (
-    <div style={{position:"absolute",top:"8px",left:"25px",display:"flex"}}>
+    <div style={{position:"absolute",top:"25px",left:"25px",display:"flex"}}>
         <div onClick={() => handleSearch()} style={{display:"flex",alignItems:"flex-end",justifyContent:"center", cursor:"pointer"}}>
 
   <SearchIcon />
         </div>
-    <Autocomplete
+        <input placeholder='חיפוש קורסים...' type="text" onKeyDown={handleKeyDown} value={inputValue} onChange={(e) => setInputValue(e.target.value)} className='search-box' />
+    {/* <Autocomplete
     freeSolo
     sx={{width:300}}
     {...defaultProps}
@@ -107,7 +109,7 @@ const navigate = useNavigate();
         renderInput={(params) => (
             <TextField {...params} label="חפש קורס" color='success' variant="standard" onKeyDown={handleKeyDown} />
         )}
-        />
+        /> */}
         </div>
   );
 }

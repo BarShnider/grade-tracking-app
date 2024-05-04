@@ -21,7 +21,7 @@
             return dbs.GetCoursesGradesByCourseID(courseID);
         }
 
-        public static List<Course> GetAllCoursesByString(string courseName)
+        public static List<dynamic> GetAllCoursesByString(string courseName)
         {
             DBservices dbs = new DBservices();
             return dbs.GetCoursesByName(courseName);

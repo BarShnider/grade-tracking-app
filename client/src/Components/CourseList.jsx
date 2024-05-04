@@ -106,7 +106,12 @@ export default function CourseList() {
   return (
     <>
       <ButtonsContainer isLoading={isLoading}>
-        {courses.map(course => <Button isMandatory={course.isMandatory} selected={selectedCourse?.courseId === course.courseId} onClick={() =>  onSelectedCourse(course)} key={course.courseId}>{course.courseName}</Button>)}
+        {courses.map(course => <Button isMandatory={course.isMandatory} selected={selectedCourse?.courseId === course.courseId} onClick={() =>  onSelectedCourse(course)} key={course.courseId}>{course.courseName}            {num.startsWith("sq") && (
+              <>
+                <span className="course-location">
+                    {course.degreeName} - {course.facultyName} - {course.universityName}</span>
+              </>
+            )} </Button>)}
       </ButtonsContainer>
     </>
   );

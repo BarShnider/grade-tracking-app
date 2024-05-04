@@ -1313,7 +1313,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This all courses by degree 
     //--------------------------------------------------------------------------------------------------
-    public List<Course> GetCoursesByName(string courseName)
+    public List<dynamic> GetCoursesByName(string courseName)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -1333,7 +1333,7 @@ public class DBservices
         cmd = CreateCommandWithStoredProcedure("SP_Get_Course_By_Name", con, paramDic);             // create the command
 
 
-        List<Course> coursesList = new List<Course>();
+        List<dynamic> coursesList = new List<dynamic>();
 
         try
         {
@@ -1341,12 +1341,18 @@ public class DBservices
 
             while (dataReader.Read())
             {
-                Course c = new Course();
-                c.CourseCode = Convert.ToInt32(dataReader["courseCode"]);
-                c.CourseId = Convert.ToInt32(dataReader["courseId"].ToString());
-                c.CourseName = dataReader["courseName"].ToString();
-                c.LecturerName = dataReader["LecturerName"].ToString();
-                c.IsMandatory = Convert.ToBoolean(dataReader["IsMandatory"].ToString());
+                dynamic c = new ExpandoObject();
+                c.courseCode = Convert.ToInt32(dataReader["courseCode"]);
+                c.courseId = Convert.ToInt32(dataReader["courseId"].ToString());
+                c.courseName = dataReader["courseName"].ToString();
+                c.lecturerName = dataReader["LecturerName"].ToString();
+                c.isMandatory = Convert.ToBoolean(dataReader["IsMandatory"].ToString());
+                c.degreeName = dataReader["DegName"].ToString();
+                c.facultyName = dataReader["FacName"].ToString();
+                c.universityName = dataReader["UnivName"].ToString();
+
+
+
                 coursesList.Add(c);
             }
             return coursesList;

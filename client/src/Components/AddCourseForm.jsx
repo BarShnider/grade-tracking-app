@@ -34,6 +34,7 @@ function AddCourseForm({ handleNewCourse }) {
 
   const notify = () => toast.error("נא מלאו את השדות החסרים");
   const notifyCourseSuccess = () => toast.success("הקורס נוסף בהצלחה!");
+  const notifySuccess = (text) => toast.success(text);
 
   useEffect(() => {
     if (!connectedUser && !loadingUser) {
@@ -381,6 +382,7 @@ console.log("degrees:", degrees)
           setIsUniversitiesModalOpen={setIsUniversitiesModalOpen}
           onClose={() => setIsUniversitiesModalOpen(false)}
           isAddNew={true}
+          notifySuccess={notifySuccess}     
         />
       )}
       {isFacultyModalOpen && (
@@ -391,6 +393,8 @@ console.log("degrees:", degrees)
           setIsFacultyModalOpen={setIsFacultyModalOpen}
           onClose={() => setIsFacultyModalOpen(false)}
           isAddNew={true}
+          notifySuccess={notifySuccess}     
+
         />
       )}
       {isDegreeModalOpen && (
@@ -400,7 +404,8 @@ console.log("degrees:", degrees)
           isOpen={isDegreeModalOpen}
           setIsDegreeModalOpen={setIsDegreeModalOpen}
           onClose={() => setIsDegreeModalOpen(false)}
-          isAddNew={true}          
+          isAddNew={true}     
+          notifySuccess={notifySuccess}     
         />
       )}
     </form>

@@ -406,7 +406,10 @@ border-radius: 10px;
   background-color: var(--main-lightgreen);
   border-radius: 5px;
   padding: 15px;
-  width: 95%;max-width: 95%;
+  width: 95%;
+  max-width: 800px;
+  word-wrap: break-word; /* Ensures text wraps inside the container */
+  overflow-wrap: break-word;
 }
 
 .comment-name {
@@ -425,6 +428,9 @@ border-radius: 10px;
     font-family: "Fredoka", sans-serif;
     resize: none;
     width: 90%;
+    width: 100%; /* Ensures it fills the container but does not exceed */
+    max-width: 100%; /* Prevents the textarea from expanding past the parent container */
+    overflow: auto; 
 }
 
 .comment-form-wrapper {
@@ -638,7 +644,7 @@ a {
 }
 
 .mandatory{
-  background-color: #96bf8b; /* Red badge for mandatory */
+  background-color: #96bf8b; /*  badge for mandatory */
 }
 
 .not-mandatory {
@@ -646,3 +652,18 @@ a {
 
 }
 
+.search-box {
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid black;
+  margin-right: 5px;
+}
+
+.course-location {
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+  font-weight: 700;
+  /* text-wrap: nowrap; */
+  color: var(--main-darkgreen);
+}

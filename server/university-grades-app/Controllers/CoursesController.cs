@@ -33,7 +33,7 @@ namespace university_grades_app.Controllers
         // GET api/<CoursesController>/5
         [HttpGet]
         [Route("GetAllCoursesByName/{CourseName}")]
-        public List<Course> GetCoursesByString(string CourseName)
+        public List<dynamic> GetCoursesByString(string CourseName)
         { 
             return Course.GetAllCoursesByString(CourseName);
         }
