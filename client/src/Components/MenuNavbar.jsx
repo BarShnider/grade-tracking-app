@@ -62,7 +62,7 @@ export default function MenuNavbar() {
       prevOpen.current = open;
     }, [open]);
   return (
-    <Stack sx={{position:"absolute", top:"20px",right:"20px"}} direction="row" spacing={2}>
+    <Stack sx={{position:"absolute", top:"20px",right:"20px", zIndex:3}} direction="row" spacing={2}>
 
     <div>
       <Button
@@ -96,6 +96,7 @@ export default function MenuNavbar() {
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
+                
                   autoFocusItem={open}
                   id="composition-menu"
                   aria-labelledby="composition-button"

@@ -112,6 +112,8 @@ export default function DegreeYearSemesterScreen() {
     <div style={{ textAlign: "center" }}>
       <DegreeYearSemesterContainer>
       <ButtonsContainer key="facCont" label={"פקולטה:"}>
+      {faculties.length === 0 && <span>לא נמצאו פקולטות</span> }
+
   {faculties.map((faculty) => (
     <Button
       key={faculty.facultyId}
@@ -124,6 +126,7 @@ export default function DegreeYearSemesterScreen() {
 </ButtonsContainer>
 
         {selectedFaculty && <ButtonsContainer key="degCont" label={"תואר:"}>
+          {degrees.length === 0 && <span>לא נמצאו תארים</span> }
           {degrees.map((deg) => (
             <Button
               key={deg.degreeId}
