@@ -5,8 +5,6 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { useUniversities } from "../contexts/AppContext";
-import toast from "react-hot-toast";
 
 function ValidateRegisterCodeModal({
     validationCode,
@@ -15,46 +13,9 @@ function ValidateRegisterCodeModal({
   setIsCodeApproved
 }) {
   const handleClose = () => setIsCodeModalOpen(false);
-
-  const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
-  const hebrewAndSignsRegex = /[\u0590-\u05FF.]+/;
-  const { BASE_URL } = useUniversities();
-
-  const [nameError, setNameError] = useState("");
-  const [codeError, setCodeError] = useState("");
-  const [lecturerNameError, setLecturerNameError] = useState("");
   const [validation, setValidation] = useState("")
 
-  const handleName = () => {
-    if (courseName === "") {
-      setNameError("שדה חובה*");
-    } else if (!hebrewRegex.test(courseName)) {
-      setNameError("נא להכניס רק אותיות בעברית ");
-    } else {
-      setNameError("");
-    }
-  };
-  const handleCourseCode = () => {
-    if (courseCode === "") {
-      setCodeError("שדה חובה*");
-    } else {
-      setCodeError("");
-    }
-  };
-  const handleLecturerName = () => {
-    if (lecturerName === "") {
-      setLecturerNameError("שדה חובה*");
-    } else if (!hebrewAndSignsRegex.test(lecturerName)) {
-      setLecturerNameError("נא להכניס רק אותיות בעברית ");
-    } else {
-      setLecturerNameError("");
-    }
-  };
-
   const handleSubmit = () => {
-    console.log("system: " , validationCode)
-    console.log("user: " ,validation)
-    
     if(Number(validation) === Number(validationCode)){
         setIsCodeApproved(true);
         setIsCodeModalOpen(false);
@@ -92,18 +53,14 @@ function ValidateRegisterCodeModal({
           textAlign: "center",
         }}
       >
-        <h1 className="login-header">עריכת פרטים</h1>
-
+        <h1 className="login-header">הזן קוד אימות</h1>
         <TextField
           sx={{ width: "80%", direction: "ltr" }}
           id="outlined-basic"
           label="קוד אימות"
           color={"success"}
           variant="outlined"
-        //   onBlur={handleName}
           value={validation}
-        //   error={!!nameError}
-        //   helperText={nameError}
           onChange={(e) => setValidation(e.target.value)}
         />
 
@@ -112,7 +69,7 @@ function ValidateRegisterCodeModal({
           variant="outlined"
           color="success"
         >
-          עדכן
+          שלח
         </Button>
       </Box>
     </Modal>

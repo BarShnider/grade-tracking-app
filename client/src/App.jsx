@@ -28,7 +28,7 @@ function App() {
             <Route path="register" element={<Register />} />
             <Route path="edit" element={<EditDetails />} />
             <Route path="admin" element={<AdminPanel />} />
-            <Route path="forgotPass" element={<ForgotPassModal />} />
+            <Route path="forgot-password" element={<ForgotPassModal />} />
             <Route
               path="universities"
               element={<UniversitySelectionScreen />}

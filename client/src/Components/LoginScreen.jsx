@@ -11,7 +11,6 @@ import InputLabel from "@mui/material/InputLabel";
 import { useUniversities } from "../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 import FormHelperText from "@mui/material/FormHelperText";
-import { getCardActionAreaUtilityClass } from "@mui/material";
 
 function LoginScreen() {
   const { connectedUser, setConnectedUser, BASE_URL, notifyFail } =
@@ -93,7 +92,6 @@ function LoginScreen() {
     }
   }
 
-  const forgotPass = () => {};
 
   return (
     <div className="login-form">
@@ -157,7 +155,7 @@ function LoginScreen() {
           width: "50%",
         }}
       >
-        <span className="clickable logout-link" onClick={() => forgotPass()}>
+        <span className="clickable logout-link" onClick={() => navigate("/forgot-password")}>
           שכחתי סיסמא
         </span>
         <span className="clickable logout-link" onClick={() => loginAsGuest()}>
