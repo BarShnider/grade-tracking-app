@@ -10,11 +10,12 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { useUniversities } from "../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
-import FormHelperText from '@mui/material/FormHelperText';
-
+import FormHelperText from "@mui/material/FormHelperText";
+import { getCardActionAreaUtilityClass } from "@mui/material";
 
 function LoginScreen() {
-  const { connectedUser, setConnectedUser, BASE_URL, notifyFail } = useUniversities();
+  const { connectedUser, setConnectedUser, BASE_URL, notifyFail } =
+    useUniversities();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,25 +31,23 @@ function LoginScreen() {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       login();
     }
   };
   async function loginAsGuest() {
-    setEmail("guest@mail.com")
-    setPassword("guest")
+    setEmail("guest@mail.com");
+    setPassword("guest");
     setGuestLoginTrigger(true); // Set trigger to true to initiate login in useEffect
-
   }
 
-  
-    // useEffect to watch for guest login trigger
-    useEffect(() => {
-      if (guestLoginTrigger) {
-        login();
-        setGuestLoginTrigger(false); // Reset trigger
-      }
-    }, [guestLoginTrigger]);
+  // useEffect to watch for guest login trigger
+  useEffect(() => {
+    if (guestLoginTrigger) {
+      login();
+      setGuestLoginTrigger(false); // Reset trigger
+    }
+  }, [guestLoginTrigger]);
 
   async function login() {
     try {
@@ -93,6 +92,9 @@ function LoginScreen() {
       notifyFail("Login failed"); // Consider a more user-friendly error handling
     }
   }
+
+  const forgotPass = () => {};
+
   return (
     <div className="login-form">
       <h1 className="login-header">התחברות</h1>
@@ -119,7 +121,6 @@ function LoginScreen() {
         <OutlinedInput
           onChange={(e) => setPassword(e.target.value)}
           onKeyDown={handleKeyPress}
-
           color="success"
           id="outlined-adornment-password"
           type={showPassword ? "text" : "password"}
@@ -149,8 +150,19 @@ function LoginScreen() {
           הרשם עכשיו!
         </span>
       </span>
-      <span className="clickable logout-link" onClick={() => loginAsGuest()}>
-        התחבר כאורח
+      <span
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "50%",
+        }}
+      >
+        <span className="clickable logout-link" onClick={() => forgotPass()}>
+          שכחתי סיסמא
+        </span>
+        <span className="clickable logout-link" onClick={() => loginAsGuest()}>
+          התחבר כאורח
+        </span>
       </span>
       <Button onClick={() => login()}>התחבר</Button>
     </div>
