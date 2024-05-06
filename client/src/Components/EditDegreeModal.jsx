@@ -18,7 +18,7 @@ function EditDegreeModal({
 }) {
   const handleClose = () => setIsDegreeModalOpen(false);
 
-  const { BASE_URL } = useUniversities();
+  const { BASE_URL, notifyFail } = useUniversities();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
@@ -60,7 +60,7 @@ function EditDegreeModal({
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
-          alert("didnt update");
+          notifyFail("Couln't update, please try again later");
           return;
         } else {
           console.log("Edit details successful");
@@ -77,7 +77,7 @@ function EditDegreeModal({
         }
       } catch (error) {
         console.error("Edit error:", error);
-        alert("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("Edit failed"); // Consider a more user-friendly error handling
       }
     }
   };
@@ -85,7 +85,7 @@ function EditDegreeModal({
   const addDegree = async () => {
     if (!name) {
       // You can also handle individual error states here if you prefer.
-      alert("נא להזין שם");
+      notifyFail("נא להזין שם");
       return;
     }
 
@@ -112,7 +112,7 @@ function EditDegreeModal({
       }
     } catch (error) {
       console.error("Error adding Degree:", error);
-      alert("Failed to add Degree");
+      notifyFail("Failed to add Degree");
     }
   };
   return (

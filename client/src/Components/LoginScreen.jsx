@@ -14,7 +14,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 
 
 function LoginScreen() {
-  const { connectedUser, setConnectedUser, BASE_URL } = useUniversities();
+  const { connectedUser, setConnectedUser, BASE_URL, notifyFail } = useUniversities();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -90,7 +90,7 @@ function LoginScreen() {
       //   setConnectedUser(data);
     } catch (error) {
       console.error("Login error:", error);
-      alert("Login failed"); // Consider a more user-friendly error handling
+      notifyFail("Login failed"); // Consider a more user-friendly error handling
     }
   }
   return (

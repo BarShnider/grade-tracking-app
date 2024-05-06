@@ -17,8 +17,7 @@ function EditUniversitiesModal({
   notifySuccess
 }) {
   const handleClose = () => setIsUniversitiesModalOpen(false);
-  const { BASE_URL } = useUniversities();
-  const navigate = useNavigate();
+  const { BASE_URL, notifyFail } = useUniversities();
 
   const urlRegex =
     /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})(:[0-9]{1,5})?(\/[\w\.-]*)*\/?(\?[\w\.-=&]*)?(#[\w\.-]*)?$/;
@@ -99,7 +98,7 @@ function EditUniversitiesModal({
   const addUniversity = async () => {
     if (!name || !location || !website || !imageUrl) {
       // You can also handle individual error states here if you prefer.
-      alert("Please fill all fields correctly.");
+      notifyFail("Please fill all fields correctly.");
       return;
     }
 
@@ -132,7 +131,7 @@ function EditUniversitiesModal({
       }
     } catch (error) {
       console.error("Error adding university:", error);
-      alert("Failed to add university");
+      notifyFail("Failed to add university");
     }
   };
 
@@ -166,7 +165,7 @@ function EditUniversitiesModal({
         );
         const isEdited = await response.json();
         if (isEdited === 0) {
-          alert("didnt update");
+          notifyFail("didnt update");
           return;
         } else {
           console.log("Edit details successful");
@@ -183,7 +182,7 @@ function EditUniversitiesModal({
         }
       } catch (error) {
         console.error("Edit error:", error);
-        alert("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("Edit failed"); // Consider a more user-friendly error handling
       }
     }
   };

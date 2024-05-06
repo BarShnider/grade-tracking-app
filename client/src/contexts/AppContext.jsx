@@ -13,6 +13,8 @@ function AppProvider({ children }) {
   const [connectedUser, setConnectedUser] = useState(null)
   const [loadingUser, setLoadingUser] = useState(true);  // Default to true to assume loading initially
   const notifySuccess = (text) => toast.success(text);
+  const notifyFail = (text) => toast.error(text)
+
 
 
   const [newCourse, setNewCourse] = useState(null)
@@ -26,7 +28,7 @@ function AppProvider({ children }) {
         const data = await res.json();
         setUniversities(data);
       } catch {
-        alert("there was an error loading data..");
+        notifyFail("there was an error loading data..");
       } finally {
         setIsLoading(false);
       }
@@ -43,7 +45,7 @@ function AppProvider({ children }) {
       setFaculties(data);
       console.log(data)
     } catch {
-      alert("there was an error loading data..");
+      notifyFail("there was an error loading data..");
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +75,7 @@ function AppProvider({ children }) {
     }
   }, [connectedUser]);
 
-  return <AppContext.Provider value={{BASE_URL,universities,setUniversities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser, notifySuccess}}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={{BASE_URL,universities,setUniversities,isLoading,loadingUser,currentUniversity,faculties, getFacultiesByUniversityId, selectedCourse,setSelectedCourse,newCourse,setNewCourse,connectedUser, setConnectedUser, notifySuccess, notifyFail}}>{children}</AppContext.Provider>;
 }
 
 

@@ -7,7 +7,7 @@ import { useUniversities } from '../contexts/AppContext';
 
 function Comment({username,text,commenterId, commentId,setComments}) {
     const [isEditMode,setIsEditMode] = useState(false);
-    const {connectedUser, BASE_URL} = useUniversities()
+    const {connectedUser, BASE_URL,notifyFail} = useUniversities()
     const [newText,setNewText] = useState("")
 
 
@@ -23,7 +23,7 @@ function Comment({username,text,commenterId, commentId,setComments}) {
       setComments(currentComments => currentComments.filter(comment => comment.commentId !== commentID));
   
     } catch (error) {
-      alert("There was an error deleting the comment.");
+      notifyFail("There was an error deleting the comment.");
     }
   }
   
@@ -58,7 +58,7 @@ function Comment({username,text,commenterId, commentId,setComments}) {
       }
   
     } catch (error) {
-      alert("There was an error updating the comment: " + error.message);
+      notifyFail("There was an error updating the comment: " + error.message);
     }
   }
   

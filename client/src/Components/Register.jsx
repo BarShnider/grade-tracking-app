@@ -15,7 +15,7 @@ import emailjs from "@emailjs/browser";
 import ValidateRegisterCodeModal from "./ValidateRegisterCodeModal";
 
 function Register() {
-  const { BASE_URL, notifySuccess } = useUniversities();
+  const { BASE_URL, notifySuccess, notifyFail } = useUniversities();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -132,7 +132,7 @@ function Register() {
       //navigate("/login"); // Navigate to login or success page
     } catch (error) {
       console.error("error:", error);
-      alert("Registration failed"); // Consider a more user-friendly error handling
+      notifyFail("Registration failed"); // Consider a more user-friendly error handling
     }
   };
 
@@ -163,7 +163,7 @@ function Register() {
         notifySuccess(`${email} נרשם בהצלחה!`)
       } catch (error) {
         console.error("Registration error:", error);
-        alert("Registration failed"); // Consider a more user-friendly error handling
+        notifyFail("Registration failed"); // Consider a more user-friendly error handling
       }
     finally {
       setIsCodeApproved(false)

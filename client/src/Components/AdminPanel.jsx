@@ -93,7 +93,7 @@ const StyledTab = styled((props) => <Tab disableRipple {...props} />)(
 
 
 function AdminPanel() {
-  const { universities, BASE_URL, setUniversities,connectedUser,loadingUser } = useUniversities();
+  const { universities, BASE_URL, setUniversities,connectedUser,loadingUser,notifyFail } = useUniversities();
   const [courses, setCourses] = useState([]);
   const [faculties, setFaculties] = useState([]);
   const [degrees, setDegrees] = useState([]);
@@ -514,7 +514,7 @@ function AdminPanel() {
       );
     } catch (error) {
       console.error("There was an error deleting the university:", error);
-      alert("There was an error deleting the university.");
+      notifyFail("There was an error deleting the university.");
     }
   }
 
@@ -534,7 +534,7 @@ function AdminPanel() {
       );
     } catch (error) {
       console.error("There was an error deleting the user:", error);
-      alert("There was an error deleting the user.");
+      notifyFail("There was an error deleting the user.");
     }
   }
 
@@ -554,7 +554,7 @@ function AdminPanel() {
       );
     } catch (error) {
       console.error("There was an error deleting the course:", error);
-      alert("There was an error deleting the course.");
+      notifyFail("There was an error deleting the course.");
     }
   }
 
@@ -574,7 +574,7 @@ function AdminPanel() {
       );
     } catch (error) {
       console.error("There was an error deleting the degree:", error);
-      alert("There was an error deleting the degree.");
+      notifyFail("There was an error deleting the degree.");
     }
   }
 
@@ -594,7 +594,7 @@ function AdminPanel() {
       );
     } catch (error) {
       console.error("There was an error deleting the degree:", error);
-      alert("There was an error deleting the degree.");
+      notifyFail("There was an error deleting the degree.");
     }
   }
 

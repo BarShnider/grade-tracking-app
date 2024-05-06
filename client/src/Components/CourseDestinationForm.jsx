@@ -17,7 +17,7 @@ function generateHebrewLettersByIndex(index) {
 
 
 function CourseDestinationForm() {
-  const { universities, newCourse,setNewCourse, BASE_URL } = useUniversities();
+  const { universities, newCourse,setNewCourse, BASE_URL,notifyFail } = useUniversities();
   const [selectedUniv,setSelectedUniv] = useState(null)
   const [selectedFaculty,setSelectedFaculty] = useState(null)
   const [selectedDegree,setSelectedDegree] = useState(null)
@@ -38,7 +38,7 @@ function CourseDestinationForm() {
       const data = await res.json();
       setSelectedFaculties(data);
     } catch {
-      alert("there was an error loading data..");
+      notifyFail("there was an error loading data..");
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +51,7 @@ function CourseDestinationForm() {
         const data = await res.json();
         setSelectedDegrees(data);
       } catch {
-        alert("there was an error loading data..");
+        notifyFail("there was an error loading data..");
       } finally {
         setIsLoading(false);
       }
@@ -63,7 +63,7 @@ function CourseDestinationForm() {
         const data = await res.json();
         setSelectedYears(data);
       } catch {
-        alert("there was an error loading data..");
+        notifyFail("there was an error loading data..");
       } finally {
         setIsLoading(false);
       }
@@ -76,7 +76,7 @@ function CourseDestinationForm() {
         const data = await res.json();
         setSelectedSemesters(data);
       } catch {
-        alert("there was an error loading data..");
+        notifyFail("there was an error loading data..");
       } finally {
         setIsLoading(false);
       }
@@ -130,7 +130,7 @@ function CourseDestinationForm() {
       console.log(data);
       console.log("course added succefully")
     } catch  {
-      alert("there was an error creating course..");
+      notifyFail("there was an error creating course..");
     } finally {
       navigate('/universities')
       setNewCourse(null)

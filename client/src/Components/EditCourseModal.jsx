@@ -6,8 +6,6 @@ import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useUniversities } from "../contexts/AppContext";
-import toast from "react-hot-toast";
-
 function EditCourseModal({
   courseData,
   isOpen,
@@ -19,7 +17,7 @@ function EditCourseModal({
 
   const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
   const hebrewAndSignsRegex = /[\u0590-\u05FF.]+/;
-  const { BASE_URL } = useUniversities();
+  const { BASE_URL, notifyFail } = useUniversities();
 
   const [courseName, setCourseName] = useState(courseData.CourseName);
   const [courseCode, setCourseCode] = useState(courseData.CourseCode);
@@ -74,7 +72,7 @@ function EditCourseModal({
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
-          alert("didnt update");
+          notifyFail("Couln't update, please try again later");
           return;
         } else {
 
@@ -92,7 +90,7 @@ function EditCourseModal({
         }
       } catch (error) {
         console.error("Edit error:", error);
-        alert("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("Edit failed"); // Consider a more user-friendly error handling
       }
     }
   };

@@ -22,7 +22,7 @@ function generateRandomArray() {
 }
 
 export default function CourseDetails() {
-  const { selectedCourse, connectedUser } = useUniversities();
+  const { selectedCourse, connectedUser, notifyFail } = useUniversities();
   const [rating, setRating] = useState(0);
   const [avgRating, setAvgRating] = useState(0);
   const [open, setOpen] = useState(false);
@@ -97,7 +97,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
       return result; // Returning the result from the API
   } catch (error) {
       console.error("Error submitting grade:", error);
-      alert("Failed to submit grade");
+      notifyFail("Failed to submit grade");
       return null; // Return null or appropriate error handling
   }
 };
@@ -126,7 +126,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
       return courseGrades; // Return the grades or handle as needed
     } catch (error) {
       console.error("Error fetching course grades:", error);
-      alert("Failed to fetch course grades");
+      notifyFail("Failed to fetch course grades");
       return []; // Return an empty array or handle the error appropriately
     }
   };
@@ -162,7 +162,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
       // navigate('/success-page');
     } catch (error) {
       console.error("Error setting rating:", error);
-      alert("Failed to set rating");
+      notifyFail("Failed to set rating");
     }
   };
 
@@ -191,7 +191,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
       console.log("Fetched average rating successfully", averageRating);
     } catch (error) {
       console.error("Error fetching average rating:", error);
-      alert("Failed to fetch average rating");
+      notifyFail("Failed to fetch average rating");
     }
   };
 
@@ -223,7 +223,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
       setRating(userRating); // You might want to update a state or handle this value differently depending on your component structure
     } catch (error) {
       console.error("Error fetching user rating:", error);
-      alert("Failed to fetch user rating");
+      notifyFail("Failed to fetch user rating");
       return 0; // Returning 0 or handling it as needed in case of an error
     }
   };

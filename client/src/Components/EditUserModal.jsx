@@ -10,7 +10,7 @@ import { useUniversities } from "../contexts/AppContext";
 function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers,notifySuccess}) {
   const handleClose = () => setIsUserModalOpen(false);
 
-  const { BASE_URL } = useUniversities();
+  const { BASE_URL, notifyFail } = useUniversities();
   const [email, setEmail] = useState(userData.email);
   const [firstName, setFirstName] = useState(userData.firstName);
   const [lastName, setLastName] = useState(userData.lastName);
@@ -71,7 +71,7 @@ function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers,notifySuc
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
-          alert("didnt update");
+          notifyFail("didnt update");
           return;
         } else {
           console.log("Edit details successful");
@@ -86,7 +86,7 @@ function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers,notifySuc
         }
       } catch (error) {
         console.error("Edit error:", error);
-        alert("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("Edit failed"); // Consider a more user-friendly error handling
       }
     }
   };

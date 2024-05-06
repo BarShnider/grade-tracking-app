@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import Button from "./Button";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { useUniversities } from "../contexts/AppContext";
 import {toast} from "react-hot-toast";
 import EditUniversitiesModal from "./EditUniversitiesModal";
 import EditFacultyModal from "./EditFacultyModal";
 import EditDegreeModal from "./EditDegreeModal";
 
-function AddCourseForm({ handleNewCourse }) {
+function AddCourseForm() {
   //OBJECTS STATES
-  const { newCourse, setNewCourse, universities,setUniversities,connectedUser,loadingUser, BASE_URL } = useUniversities();
+  const {setNewCourse, universities,setUniversities,connectedUser,loadingUser, BASE_URL,notifyFail } = useUniversities();
   const [faculties, setFaculties] = useState([]);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [courseName, setCourseName] = useState("");
@@ -157,7 +157,7 @@ function AddCourseForm({ handleNewCourse }) {
       const data = await res.json();
       setFaculties(data);
     } catch {
-      alert("there was an error loading data..");
+      notifyFail("there was an error loading data..");
     } finally {
       console.log("success");
     }
@@ -171,7 +171,7 @@ function AddCourseForm({ handleNewCourse }) {
       const data = await res.json();
       setDegrees(data);
     } catch {
-      alert("there was an error loading data..");
+      notifyFail("there was an error loading data..");
     } finally {
       console.log("success");
     }
@@ -182,7 +182,7 @@ function AddCourseForm({ handleNewCourse }) {
 
     // Ensure degreeId is provided
     if (!degreeId) {
-        alert('Degree ID is missing');
+      notifyFail('Degree ID is missing');
         return;
     }
 
@@ -205,7 +205,7 @@ function AddCourseForm({ handleNewCourse }) {
         }
     } catch (error) {
         console.error('Error adding course:', error);
-        alert('Failed to add course');
+        notifyFail('Failed to add course');
     }
 };
 

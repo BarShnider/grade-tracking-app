@@ -14,7 +14,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 
 function EditDetails() {
   const [showPassword, setShowPassword] = useState(false);
-  const { connectedUser, setConnectedUser, BASE_URL } = useUniversities();
+  const { connectedUser, setConnectedUser, BASE_URL, notifyFail } = useUniversities();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const navigate = useNavigate();
 
@@ -137,7 +137,7 @@ function EditDetails() {
         navigate("/universities");
       } catch (error) {
         console.error("Edit error:", error);
-        alert("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("Edit failed"); // Consider a more user-friendly error handling
       }
     }
   };

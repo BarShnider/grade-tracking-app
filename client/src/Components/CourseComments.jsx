@@ -3,7 +3,7 @@ import Comment from "./Comment";
 import { useUniversities } from "../contexts/AppContext";
 
 function CourseComments() {
-  const { selectedCourse,connectedUser, BASE_URL } = useUniversities();
+  const { selectedCourse,connectedUser, BASE_URL,notifyFail } = useUniversities();
   const [comments, setComments] = useState([]);
   const [commentText, setCommentText] = useState("")
   const [commentTitle, setCommentTitle] = useState("כותרתתת")
@@ -26,7 +26,7 @@ function CourseComments() {
           setComments(data);
         } catch (err) {
           console.log(err);
-          alert("there was an error loading data..");
+          notifyFail("there was an error loading data..");
         }
       }
       fetchComments();
@@ -53,7 +53,7 @@ function CourseComments() {
       setCommentText("")
       console.log(data);
     } catch {
-      alert("there was an error creating comment..");
+      notifyFail("there was an error creating comment..");
     } 
   }
 

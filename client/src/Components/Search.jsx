@@ -1,5 +1,4 @@
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -7,9 +6,8 @@ import { useUniversities } from '../contexts/AppContext';
 
 export default function Search() {
 const [courseOptions, setCourseOptions] = useState([]);
-const [value, setValue] = useState(courseOptions[0]);
 const [inputValue, setInputValue] = useState('');
-const {BASE_URL} = useUniversities();
+const {BASE_URL, notifyFail} = useUniversities();
 const navigate = useNavigate();
     const defaultProps = {
         options: courseOptions,
@@ -32,30 +30,6 @@ const navigate = useNavigate();
     }
   }
 
-      const getAllCourses = async () => {
-        try {
-          const response = await fetch(`${BASE_URL}/Courses`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-      
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-      
-          const courses = await response.json(); // Parses JSON response into native JavaScript objects
-          console.log("Fetched all courses successfully:", courses);
-          setCourseOptions(courses)
-          return courses; // Return the list of courses or handle it as needed
-        } catch (error) {
-          console.error("Error fetching all courses:", error);
-          alert("Failed to fetch courses");
-          return []; // Return an empty array or handle the error appropriately
-        }
-      };
-
 
       const fetchCoursesByName = async (searchString) => {
         try {
@@ -76,7 +50,7 @@ const navigate = useNavigate();
             setCourseOptions(courses);
         } catch (error) {
             console.error("Error fetching courses:", error);
-            alert("Failed to fetch courses");
+            notifyFail("Failed to fetch courses");
         }
     };
 

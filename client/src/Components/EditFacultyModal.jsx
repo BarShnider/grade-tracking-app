@@ -17,7 +17,7 @@ function EditFacultyModal({
   notifySuccess
 }) {
   const hebrewRegex = /^[\u0590-\u05FF\s]+$/;
-  const { BASE_URL } = useUniversities();
+  const { BASE_URL, notifyFail } = useUniversities();
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState("");
   const handleClose = () => setIsFacultyModalOpen(false);
@@ -60,7 +60,7 @@ function EditFacultyModal({
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
-          alert("didnt update");
+          notifyFail("didnt update");
           return;
         } else {
           console.log("Edit details successful");
@@ -77,7 +77,7 @@ function EditFacultyModal({
         }
       } catch (error) {
         console.error("Edit error:", error);
-        alert("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("Edit failed"); // Consider a more user-friendly error handling
       }
     }
   };
@@ -85,7 +85,7 @@ function EditFacultyModal({
   const addFaculty = async () => {
     if (!name) {
       // You can also handle individual error states here if you prefer.
-      alert("Please fill all fields correctly.");
+      notifyFail("Please fill all fields correctly.");
       return;
     }
 
@@ -114,7 +114,7 @@ function EditFacultyModal({
       }
     } catch (error) {
       console.error("Error adding Faculty:", error);
-      alert("Failed to add Faculty");
+      notifyFail("Failed to add Faculty");
     }
   };
   return (
