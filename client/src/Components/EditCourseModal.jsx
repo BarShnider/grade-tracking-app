@@ -76,7 +76,6 @@ function EditCourseModal({
           return;
         } else {
 
-          console.log("Edit details successful");
           notifySuccess("הקורס עודכן בהצלחה!")
           setCourses((prevCourses) =>
             prevCourses.map((course) => {
@@ -89,8 +88,7 @@ function EditCourseModal({
           handleClose();
         }
       } catch (error) {
-        console.error("Edit error:", error);
-        notifyFail("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("התרחשה שגיאה בעת עריכת הקורס"); // Consider a more user-friendly error handling
       }
     }
   };

@@ -18,7 +18,8 @@ function AppProvider({ children }) {
 
 
   const [newCourse, setNewCourse] = useState(null)
-  const BASE_URL = `https://localhost:7204/api`;
+  // const BASE_URL = `https://localhost:7204/api`;
+  const BASE_URL = `https://proj.ruppin.ac.il/cgroup10/test2/tar1/api`;
 
   useEffect(function () {
     async function fetchUniversities() {
@@ -43,7 +44,6 @@ function AppProvider({ children }) {
       const res = await fetch(`${BASE_URL}/Faculties/GetFacultiesByUniversityId/${id}`);
       const data = await res.json();
       setFaculties(data);
-      console.log(data)
     } catch {
       notifyFail("there was an error loading data..");
     } finally {
@@ -59,7 +59,7 @@ function AppProvider({ children }) {
           setConnectedUser(JSON.parse(storedUser));
         }
       } catch (error) {
-        console.error("Failed to retrieve user:", error);
+        notifyFail("התרחשה שגיאה בעת טעינת המשתמש המחובר");
       }
       setLoadingUser(false);  // Set loading to false after attempting to load user
     };

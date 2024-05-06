@@ -106,9 +106,9 @@ function Register() {
       passwordError ||
       confirmPasswordError
     ) {
-      console.error("Form validation failed.");
+      notifyFail("נא למלא את כל השדות על פי ההנחיות");
+      return
     }
-    console.log("Submitting form...");
     try {
       const response = await fetch(`${BASE_URL}/User/${email}`, {
         method: "GET", // Corrected typo in method
@@ -123,16 +123,13 @@ function Register() {
         setEmailError("האימייל תפוס, נסו אימייל אחר");
         return;
       } else{
-        console.log("randominze number ")
         const random=Math.floor(Math.random() * 9000) + 1000;
-        console.log(random)
         setRandomNumber(random)
         sendEmail(random);
       }
       //navigate("/login"); // Navigate to login or success page
     } catch (error) {
-      console.error("error:", error);
-      notifyFail("Registration failed"); // Consider a more user-friendly error handling
+      notifyFail("התרחשה שגיאה בעת ההרשמה, נא נסו שנית"); // Consider a more user-friendly error handling
     }
   };
 
@@ -159,11 +156,9 @@ function Register() {
           return;
         }
   
-        console.log("Registration successful");
         notifySuccess(`${email} נרשם בהצלחה!`)
       } catch (error) {
-        console.error("Registration error:", error);
-        notifyFail("Registration failed"); // Consider a more user-friendly error handling
+        notifyFail("התרחשה שגיאה בעת הרשמת המשתמש, נא נסו שוב"); // Consider a more user-friendly error handling
       }
     finally {
       setIsCodeApproved(false)
@@ -194,7 +189,7 @@ function Register() {
       )
       .then(
         (response) => {
-          console.log("Email sent successfully!", response);
+          notifySuccess("אימייל נשלח בהצלחה");
           setIsCodeModalOpen(true)
         },
         (error) => {

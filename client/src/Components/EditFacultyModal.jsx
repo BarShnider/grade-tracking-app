@@ -24,11 +24,8 @@ function EditFacultyModal({
 
   useEffect(() => {
     if (isAddNew) {
-      // Reset all fields if adding new university
       setName("");
     } else if (facultyData) {
-      console.log(facultyData);
-      // Populate fields with existing data if editing
       setName(facultyData.Name || "");
     }
   }, [isAddNew, facultyData]);
@@ -60,10 +57,8 @@ function EditFacultyModal({
         });
         const isEdited = await response.json();
         if (isEdited === 0) {
-          notifyFail("didnt update");
           return;
         } else {
-          console.log("Edit details successful");
           notifySuccess("הפקולטה עודכנה בהצלחה!")
           setFaculties((prevFaculties) =>
             prevFaculties.map((faculty) => {
@@ -76,8 +71,7 @@ function EditFacultyModal({
           handleClose();
         }
       } catch (error) {
-        console.error("Edit error:", error);
-        notifyFail("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("התרחשה שגיאה בעת עדכון הפקולטה"); // Consider a more user-friendly error handling
       }
     }
   };
@@ -104,7 +98,6 @@ function EditFacultyModal({
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Faculty added successfully", result);
         notifySuccess('הפקולטה נוספה בהצלחה!')
         setFaculties((prev) => [...prev, result]);
         handleClose();
@@ -113,8 +106,7 @@ function EditFacultyModal({
         throw new Error("Failed to add Faculty");
       }
     } catch (error) {
-      console.error("Error adding Faculty:", error);
-      notifyFail("Failed to add Faculty");
+      notifyFail("התרחשה שגיאה בעת הוספת הפקולטה");
     }
   };
   return (

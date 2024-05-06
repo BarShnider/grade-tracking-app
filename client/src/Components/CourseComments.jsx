@@ -25,8 +25,7 @@ function CourseComments() {
           const data = await res.json();
           setComments(data);
         } catch (err) {
-          console.log(err);
-          notifyFail("there was an error loading data..");
+          notifyFail("התרחשה שגיאה בעת טעינת התגובות");
         }
       }
       fetchComments();
@@ -51,9 +50,8 @@ function CourseComments() {
       const data = await res.json();
       setComments(data);
       setCommentText("")
-      console.log(data);
     } catch {
-      notifyFail("there was an error creating comment..");
+      notifyFail("התרחשה שגיאה בעת יצירת התגובה");
     } 
   }
 

@@ -17,9 +17,7 @@ export default function UniversitySelectionScreen() {
   return (
     
     <>
-      <NavigateArrow type='up'/>
       <UniversitiesContainer />
-      <NavigateArrow type='down'/>
       
     </>
   );

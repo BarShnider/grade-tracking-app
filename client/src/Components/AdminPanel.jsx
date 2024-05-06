@@ -512,8 +512,8 @@ function AdminPanel() {
       setUniversities(currentUniversities =>
         currentUniversities.filter(univ => univ.universityId !== universityID)
       );
+      notifySuccess("מוסד הלימוד נמחק בהצלחה")
     } catch (error) {
-      console.error("There was an error deleting the university:", error);
       notifyFail("There was an error deleting the university.");
     }
   }
@@ -533,8 +533,7 @@ function AdminPanel() {
         currentUsers.filter((user) => user.userId !== userId)
       );
     } catch (error) {
-      console.error("There was an error deleting the user:", error);
-      notifyFail("There was an error deleting the user.");
+      notifyFail("התרחשה שגיאה בעת מחיקת המשתמש");
     }
   }
 
@@ -553,8 +552,7 @@ function AdminPanel() {
         currentCourses.filter(course => course.CourseId !== courseID)
       );
     } catch (error) {
-      console.error("There was an error deleting the course:", error);
-      notifyFail("There was an error deleting the course.");
+      notifyFail("התרחשה שגיאה בעת מחיקת הקורס");
     }
   }
 
@@ -573,8 +571,7 @@ function AdminPanel() {
         currentDegrees.filter(degree => degree.DegreeId !== degreeID)
       );
     } catch (error) {
-      console.error("There was an error deleting the degree:", error);
-      notifyFail("There was an error deleting the degree.");
+      notifyFail("התרחשה שגיאה בעת מחיקת התואר");
     }
   }
 
@@ -593,8 +590,7 @@ function AdminPanel() {
         currentFaculties.filter(faculty => faculty.FacultyId !== facultyId)
       );
     } catch (error) {
-      console.error("There was an error deleting the degree:", error);
-      notifyFail("There was an error deleting the degree.");
+      notifyFail("התרחשה שגיאה בעת מחיקת הפקולטה");
     }
   }
 

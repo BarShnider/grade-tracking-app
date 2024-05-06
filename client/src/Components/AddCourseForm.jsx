@@ -97,7 +97,6 @@ function AddCourseForm() {
         selectedDegree,
          isMandatory
       };
-    console.log(newAddedCourse)
 
     if (
       courseName !== "" &&
@@ -109,7 +108,6 @@ function AddCourseForm() {
     ) {
       // setNewCourse(newAddedCourse);
       addCourse(selectedDegree,newAddedCourse)
-      notifyCourseSuccess()
       // navigate(`/search/sq-${newAddedCourse.courseName}`)
       navigate("/universities")
     } else {
@@ -135,8 +133,7 @@ function AddCourseForm() {
           (deg) => Number(deg.degreeId) === Number(selectedDegree)
         ),
       };
-      // console.log(newAddedCourse)
-      // console.log()
+
       setNewCourse(newAddedCourse);
     },
     [
@@ -158,9 +155,7 @@ function AddCourseForm() {
       setFaculties(data);
     } catch {
       notifyFail("there was an error loading data..");
-    } finally {
-      console.log("success");
-    }
+    } 
   }
 
   async function getDegreesByFaculty(id) {
@@ -171,18 +166,13 @@ function AddCourseForm() {
       const data = await res.json();
       setDegrees(data);
     } catch {
-      notifyFail("there was an error loading data..");
-    } finally {
-      console.log("success");
-    }
+      notifyFail("התרחשה שגיאה בעת טעינת הנתונים");
+    } 
   }
 
   const addCourse = async (degreeId, newCourse) => {
-
-
-    // Ensure degreeId is provided
     if (!degreeId) {
-      notifyFail('Degree ID is missing');
+      notifyFail('נא לבחור תואר');
         return;
     }
 
@@ -197,28 +187,19 @@ function AddCourseForm() {
 
         if (response.ok) {
             const result = await response.json();
-            console.log('Course added successfully', result);
-            // setCourses(prev => [...prev, result]); // Assume setCourses is the state updater for the list of courses
-            // handleClose(); // Close modal or any other UI component
+            notifySuccess('הקורס נוסף בהצלחה!');
+
         } else {
             throw new Error('Failed to add course');
         }
     } catch (error) {
-        console.error('Error adding course:', error);
         notifyFail('Failed to add course');
     }
 };
 
-  useEffect(function(){
-console.log("universities:", universities)
-console.log("faculties:", faculties)
-console.log("degrees:", degrees)
-  },[universities,faculties,degrees])
-
   useEffect(
     function () {
       if (selectedUniversity)
-        // console.log(selectedUniversity)
         getFacultiesByUniversityId(selectedUniversity);
     },
     [selectedUniversity]
@@ -226,7 +207,6 @@ console.log("degrees:", degrees)
   useEffect(
     function () {
       if (selectedFaculty)
-        // console.log(selectedUniversity)
         getDegreesByFaculty(selectedFaculty);
     },
     [selectedFaculty]

@@ -15,9 +15,7 @@ const navigate = useNavigate();
       };
 
       const handleSearch = () => {
-        // Perform the search using the selected value or the typed input value
-        console.log("Searching for:" ,inputValue);
-        // Here you would normally trigger some navigation or fetch based on the value/inputValue
+
         if (inputValue.trim() !== "") {
           navigate(`search/sq-${inputValue}`)
           setInputValue("")
@@ -46,11 +44,9 @@ const navigate = useNavigate();
             }
 
             const courses = await response.json();
-            console.log("Fetched courses successfully:", courses);
             setCourseOptions(courses);
         } catch (error) {
-            console.error("Error fetching courses:", error);
-            notifyFail("Failed to fetch courses");
+            notifyFail("התרחשה שגיאה בעת טעינת הקורסים");
         }
     };
 

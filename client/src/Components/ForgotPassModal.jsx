@@ -92,8 +92,7 @@ export default function ForgotPassModal() {
           setErrorMail("משתמש לא קיים");
         }
       } catch (error) {
-        console.error("error:", error);
-        notifyFail("recovery failed"); // Notify user of failure
+        notifyFail("התרחשה שגיאה"); // Notify user of failure
       }
     }
   }
@@ -144,11 +143,11 @@ export default function ForgotPassModal() {
       )
       .then(
         (response) => {
-          console.log("Email sent successfully!", response);
+          notifySuccess("המייל נשלח");
           setIsCodeModalOpen(true);
         },
         (error) => {
-          console.error("Failed to send email:", error);
+          notifyFail("שגיאה בעת שליחת המייל");
         }
       );
   };

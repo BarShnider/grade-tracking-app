@@ -121,7 +121,6 @@ function EditUniversitiesModal({
 
       if (response.ok) {
         const result = await response.json();
-        console.log("University added successfully", result);
         notifySuccess("מוסד הלימוד נוסף בהצלחה!")
         setUniversities((prev) => [...prev, result]);
         handleClose();
@@ -130,8 +129,7 @@ function EditUniversitiesModal({
         throw new Error("Failed to add university");
       }
     } catch (error) {
-      console.error("Error adding university:", error);
-      notifyFail("Failed to add university");
+      notifyFail("התרחשה שגיאה בעת הוספת מוסד הלימוד");
     }
   };
 
@@ -168,7 +166,6 @@ function EditUniversitiesModal({
           notifyFail("didnt update");
           return;
         } else {
-          console.log("Edit details successful");
           notifySuccess("מוסד הלימוד עודכן בהצלחה!")
           setUniversities((prevUniversities) =>
             prevUniversities.map((university) => {
@@ -181,8 +178,7 @@ function EditUniversitiesModal({
           handleClose();
         }
       } catch (error) {
-        console.error("Edit error:", error);
-        notifyFail("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("התרחשה שגיאה בעת עדכון מוסד הלימוד"); // Consider a more user-friendly error handling
       }
     }
   };

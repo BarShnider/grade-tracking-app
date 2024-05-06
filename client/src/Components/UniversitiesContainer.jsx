@@ -11,7 +11,6 @@ export default function UniversitiesContainer() {
     setAnimate(true);
   }, []);
 
-  console.log(isLoading)
   if(isLoading) return <Loader />
   return (
     <div

@@ -16,7 +16,7 @@ function generateHebrewLettersByIndex(index) {
 
 export default function DegreeYearSemesterScreen() {
   // generateHebrewLettersByIndex(0)
-  const { connectedUser, getFacultiesByUniversityId ,loadingUser,faculties, BASE_URL} = useUniversities();
+  const { connectedUser, getFacultiesByUniversityId ,loadingUser,faculties, BASE_URL,notifyFail} = useUniversities();
   const [degrees, setDegrees] = useState([]);
   const {id } = useParams();
   const [selectedFaculty, setSelectedFaculty] = useState(null);
@@ -60,7 +60,7 @@ export default function DegreeYearSemesterScreen() {
           const degreesData = await response.json();
           setDegrees(degreesData);
         } catch (error) {
-          console.error("Failed to fetch degrees:", error);
+          notifyFail("התרחשה שגיאה בעת טעינת התארים");
           setDegrees([]); // Optionally reset the degrees on error
         }
       };
@@ -70,30 +70,6 @@ export default function DegreeYearSemesterScreen() {
       setDegrees([]); // Reset degrees when there is no selected faculty
     }
   }, [selectedFaculty]);
-
-  useEffect(
-    function () {
-      if (selectedYear) {
-        fetch(
-          `${BASE_URL}/Semesters/GetAllSemestersByYearId/${selectedYear?.yearId}`
-        )
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json(); // Parse JSON data from the response
-          })
-          .then((data) => {
-            console.log(data);
-            setSemesters(data);
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
-    },
-    [selectedYear]
-  );
 
   useEffect(function(){
     if (selectedDegree && !selectedYear && !selectedSemester ){
@@ -137,33 +113,6 @@ export default function DegreeYearSemesterScreen() {
             </Button>
           ))}
         </ButtonsContainer>}
-        {/* <ButtonsContainer key="yearCont" label={"שנה:"}>
-          {years.length > 0 &&
-            years.map((year) => (
-              <Button
-                key={year.yearId}
-                selected={selectedYear?.yearId === year.yearId}
-                onClick={() => handleYearClick(year)}
-              >
-                שנה {generateHebrewLettersByIndex(year.yearNumber - 1)}'
-              </Button>
-            ))}
-        </ButtonsContainer>
-        <ButtonsContainer key="semCont" label={"סמסטר:"}>
-          {semesters.map((sem) => (
-            <Button
-              key={sem.semesterId}
-              selected={selectedSemester?.semesterId === sem.semesterId}
-              onClick={() => handleSemesterClick(sem)}
-            >{`${
-              sem.semesterNumber === 3
-                ? "סמסטר קיץ"
-                : `סמסטר ${generateHebrewLettersByIndex(
-                    sem.semesterNumber - 1
-                  )}'`
-            }`}</Button>
-          ))}
-        </ButtonsContainer> */}
       </DegreeYearSemesterContainer>
       {selectedFaculty || (selectedFaculty && selectedDegree) ?<div className="next-btn-wrapper">
         <Link to={`next/${param}`}>

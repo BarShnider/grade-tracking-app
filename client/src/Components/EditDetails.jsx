@@ -14,7 +14,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 
 function EditDetails() {
   const [showPassword, setShowPassword] = useState(false);
-  const { connectedUser, setConnectedUser, BASE_URL, notifyFail } = useUniversities();
+  const { connectedUser, setConnectedUser, BASE_URL, notifyFail, notifySuccess } = useUniversities();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const navigate = useNavigate();
 
@@ -46,13 +46,10 @@ function EditDetails() {
       setEmail(connectedUser.email);
       setFirstName(connectedUser.firstName);
       setLastName(connectedUser.lastName);
-    } else {
-      console.log("User data is not loaded yet");
-    }
+    } 
   }, [connectedUser]);
 
   const handleFirstName = (word) => {
-    console.log(id);
     setFirstName(word);
     if (hebrewRegex.test(word) || word === "") {
       setFirstNameError("");
@@ -133,17 +130,15 @@ function EditDetails() {
           setConnectedUser(user);
           sessionStorage.setItem("connectedUser", JSON.stringify(user));
         }
-        console.log("Edit details successful");
+        notifySuccess("הפרטים עודכנו בהצלחה!");
         navigate("/universities");
       } catch (error) {
-        console.error("Edit error:", error);
-        notifyFail("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("התרחשה שגיאה בעת עריכת הפרטים"); // Consider a more user-friendly error handling
       }
     }
   };
 
   if (!connectedUser) {
-    console.log("Connected user not found, redirecting or waiting...");
     return <div>Loading user details...</div>;
   }
 

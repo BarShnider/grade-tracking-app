@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, HashRouter } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import UniversitySelectionScreen from "./Components/UniversitySelectionScreen";
 import DegreeYearSemesterScreen from "./Components/DegreeYearSemesterScreen";
@@ -7,7 +7,6 @@ import CourseSelectionScreen from "./Components/CourseSelectionScreen";
 import { AppProvider } from "./contexts/AppContext";
 import AddNewCourseScreen from "./Components/AddNewCourseScreen";
 import AddCourseForm from "./Components/AddCourseForm";
-import CourseDestinationForm from "./Components/CourseDestinationForm";
 import LoginScreen from "./Components/LoginScreen";
 import Register from "./Components/Register";
 import EditDetails from "./Components/EditDetails";
@@ -19,7 +18,7 @@ function App() {
   return (
     <>
       <AppProvider>
-        <BrowserRouter>
+        <HashRouter>
           <Toaster />
           <Navbar />
           <Routes>
@@ -46,17 +45,11 @@ function App() {
               element={<CourseSelectionScreen />}
             />
             <Route path="search/:num" element={<CourseSelectionScreen />} />
-
-            {/* <Route
-              path="universities/:id/faculties/:facId/next/:num"
-              element={<CourseSelectionScreen />}
-            /> */}
             <Route path="addnew" element={<AddNewCourseScreen />}>
               <Route path="course-form" element={<AddCourseForm />} />
-              {/* <Route path="dest-form" element={<CourseDestinationForm />} /> */}
             </Route>
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </AppProvider>
     </>
   );

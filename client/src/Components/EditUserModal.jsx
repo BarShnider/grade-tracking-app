@@ -74,7 +74,6 @@ function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers,notifySuc
           notifyFail("didnt update");
           return;
         } else {
-          console.log("Edit details successful");
           notifySuccess("המשתמש עודכן בהצלחה!")
           setUsers(prevUsers => prevUsers.map(user => {
             if (user.id === id) {
@@ -85,8 +84,7 @@ function EditUserModal({ userData, isOpen, setIsUserModalOpen,setUsers,notifySuc
           handleClose();
         }
       } catch (error) {
-        console.error("Edit error:", error);
-        notifyFail("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("התרחשה שגיאה בעת עדכון המשתמש"); // Consider a more user-friendly error handling
       }
     }
   };

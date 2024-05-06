@@ -22,7 +22,7 @@ function generateRandomArray() {
 }
 
 export default function CourseDetails() {
-  const { selectedCourse, connectedUser, notifyFail } = useUniversities();
+  const { selectedCourse, connectedUser, notifyFail,notifySuccess,BASE_URL } = useUniversities();
   const [rating, setRating] = useState(0);
   const [avgRating, setAvgRating] = useState(0);
   const [open, setOpen] = useState(false);
@@ -74,7 +74,7 @@ export default function CourseDetails() {
 const userGradesCourse = async (userId, courseId, grade) => {
   try {
       const response = await fetch(
-          `https://localhost:7204/api/User/UserGradesCourse/${userId}/${courseId}/${grade}`,
+          `${BASE_URL}/User/UserGradesCourse/${userId}/${courseId}/${grade}`,
           {
               method: "POST", // Using POST method
               headers: {
@@ -88,7 +88,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
       }
 
       const result = await response.json(); // Assuming the response will be JSON with the result
-      console.log("Grade submitted successfully", result);
+     notifySuccess("הציון נוסף בהצלחה");
       setGrades((prevGrades) => [...prevGrades, parseInt(number)]);
       setNumber("")
       handleClose()
@@ -96,8 +96,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
 
       return result; // Returning the result from the API
   } catch (error) {
-      console.error("Error submitting grade:", error);
-      notifyFail("Failed to submit grade");
+      notifyFail("התרחשה שגיאה בעת הוספת הציון");
       return null; // Return null or appropriate error handling
   }
 };
@@ -106,7 +105,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
   const getCourseGrades = async (courseId) => {
     try {
       const response = await fetch(
-        `https://localhost:7204/api/Courses/GetAllCoursesGradesByCourseID/${courseId}`,
+        `${BASE_URL}/Courses/GetAllCoursesGradesByCourseID/${courseId}`,
         {
           method: "GET",
           headers: {
@@ -120,13 +119,11 @@ const userGradesCourse = async (userId, courseId, grade) => {
       }
 
       const courseGrades = await response.json(); // Expecting the response to be a list of integers
-      console.log("Fetched course grades successfully", courseGrades);
       // setGrades(generateRandomArray()) // SET THIS TO SHOW COURSE FULL OF GRADES
       setGrades(courseGrades)
       return courseGrades; // Return the grades or handle as needed
     } catch (error) {
-      console.error("Error fetching course grades:", error);
-      notifyFail("Failed to fetch course grades");
+      notifyFail("התרחשה שגיאה בעת טעינת הציונים");
       return []; // Return an empty array or handle the error appropriately
     }
   };
@@ -134,14 +131,18 @@ const userGradesCourse = async (userId, courseId, grade) => {
 
   const setRatingOnClick = async (newRating) => {
     // Assuming you have connectedUser's ID
-    if (!connectedUser || !selectedCourse) {
-      console.log("Missing user or course information");
+    if (!connectedUser || !selectedCourse ) {
+      notifyFail("חסר מידע על המשתמש או הקורס");
       return;
+    }
+
+    if(!newRating) {
+      return
     }
 
     try {
       const response = await fetch(
-        `https://localhost:7204/api/User/UserRatesCourse/${connectedUser.id}/${selectedCourse.courseId}/${newRating}`,
+        `${BASE_URL}/User/UserRatesCourse/${connectedUser.id}/${selectedCourse.courseId}/${newRating}`,
         {
           method: "POST",
           headers: {
@@ -156,20 +157,15 @@ const userGradesCourse = async (userId, courseId, grade) => {
 
       const result = await response.json(); // Get the result from your endpoint if necessary
       setRating(newRating); // Update the local state with the new rating
-      console.log("Rating set successfully", result);
 
-      // Optionally, navigate to another route after successful rating
-      // navigate('/success-page');
     } catch (error) {
-      console.error("Error setting rating:", error);
-      notifyFail("Failed to set rating");
     }
   };
 
   const getCourseAverageRating = async (courseId) => {
     try {
       const response = await fetch(
-        `https://localhost:7204/api/Courses/GetCourseRating/${courseId}`,
+        `${BASE_URL}/Courses/GetCourseRating/${courseId}`,
         {
           method: "GET",
           headers: {
@@ -188,10 +184,8 @@ const userGradesCourse = async (userId, courseId, grade) => {
 
       const averageRating = await response.json(); // Expecting the response to be a float representing the average rating
       setAvgRating(averageRating); // Update the local state with the fetched average rating
-      console.log("Fetched average rating successfully", averageRating);
     } catch (error) {
-      console.error("Error fetching average rating:", error);
-      notifyFail("Failed to fetch average rating");
+      notifyFail("התרחשה שגיאה בעת טעינת ממוצע הקורס");
     }
   };
 
@@ -205,7 +199,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
   const getUserRating = async (userId, courseId) => {
     try {
       const response = await fetch(
-        `https://localhost:7204/api/User/GetUserRating/${courseId}/${userId}`,
+        `${BASE_URL}/User/GetUserRating/${courseId}/${userId}`,
         {
           method: "GET",
           headers: {
@@ -219,11 +213,9 @@ const userGradesCourse = async (userId, courseId, grade) => {
       }
 
       const userRating = await response.json(); // Expecting the response to be a float representing the user's rating
-      console.log("Fetched user rating successfully", userRating);
       setRating(userRating); // You might want to update a state or handle this value differently depending on your component structure
     } catch (error) {
-      console.error("Error fetching user rating:", error);
-      notifyFail("Failed to fetch user rating");
+      notifyFail("התרחשה שגיאה בעת טעינת דירוג המשתמש");
       return 0; // Returning 0 or handling it as needed in case of an error
     }
   };
@@ -237,11 +229,7 @@ const userGradesCourse = async (userId, courseId, grade) => {
     ) {
       getCourseAverageRating(selectedCourse.courseId);
       getUserRating(connectedUser.id, selectedCourse.courseId);
-    } else {
-      console.log(
-        "Either selectedCourse or connectedUser is not fully loaded yet"
-      );
-    }
+    } 
   }, [selectedCourse, connectedUser]); // Depend on selectedCourse and connectedUser to refetch when they change
 
   useEffect(

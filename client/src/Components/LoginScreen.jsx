@@ -64,14 +64,12 @@ function LoginScreen() {
         },
         body: JSON.stringify(user),
       });
-      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to login");
       }
 
       const data = await response.json(); // Or handle the response as needed
       if (data.id !== -1 && data.id !== -2) {
-        console.log("Login successful", data);
         setConnectedUser(data);
         sessionStorage.setItem("connectedUser", JSON.stringify(data));
         navigate("/universities"); // If using react-router-dom for navigation
@@ -87,8 +85,7 @@ function LoginScreen() {
       // Here you might want to update your app context or perform a redirect, e.g.:
       //   setConnectedUser(data);
     } catch (error) {
-      console.error("Login error:", error);
-      notifyFail("Login failed"); // Consider a more user-friendly error handling
+      notifyFail("התרחשה שגיאה בעת ההתחברות, נא נסו שנית"); // Consider a more user-friendly error handling
     }
   }
 

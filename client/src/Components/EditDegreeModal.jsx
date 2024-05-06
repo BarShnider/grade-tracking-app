@@ -63,7 +63,6 @@ function EditDegreeModal({
           notifyFail("Couln't update, please try again later");
           return;
         } else {
-          console.log("Edit details successful");
           notifySuccess("התואר עודכן בהצלחה!")
           setDegrees((prevDegrees) =>
             prevDegrees.map((degree) => {
@@ -76,8 +75,7 @@ function EditDegreeModal({
           handleClose();
         }
       } catch (error) {
-        console.error("Edit error:", error);
-        notifyFail("Edit failed"); // Consider a more user-friendly error handling
+        notifyFail("התרחשה שגיאה בעת עריכת התואר"); // Consider a more user-friendly error handling
       }
     }
   };
@@ -102,7 +100,6 @@ function EditDegreeModal({
 
       if (response.ok) {
         const result = await response.json();
-        console.log("Degree added successfully", result);
         notifySuccess("התואר נוסף בהצלחה!")
         setDegrees((prev) => [...prev, result]);
         handleClose();
@@ -111,8 +108,7 @@ function EditDegreeModal({
         throw new Error("Failed to add Degree");
       }
     } catch (error) {
-      console.error("Error adding Degree:", error);
-      notifyFail("Failed to add Degree");
+      notifyFail("התרחשה שגיאה בעת הוספת התואר");
     }
   };
   return (

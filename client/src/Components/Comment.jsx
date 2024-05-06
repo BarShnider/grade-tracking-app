@@ -54,11 +54,10 @@ function Comment({username,text,commenterId, commentId,setComments}) {
         setIsEditMode(mode => !mode)
       } else {
         // Handle the case where the server did not update any records
-        console.error("No comments were updated.");
       }
   
     } catch (error) {
-      notifyFail("There was an error updating the comment: " + error.message);
+      notifyFail("התרחשה שגיאה בעת עדכון התגובה");
     }
   }
   
