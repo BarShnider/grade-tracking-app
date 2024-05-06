@@ -49,6 +49,14 @@ namespace university_grades_app.Controllers
         }
 
         [HttpPost]
+        [Route("UserForgotPass/{mail}/{password}")]
+        public int UserForgotPass(String mail, String password)
+        {
+
+            return university_grades_app.Models.User.UserForgotPassword(mail, password);
+        }
+
+        [HttpPost]
         [Route("UserGradesCourse/{userId}/{courseId}/{grade}")]
         public int UserGradesCourse(int userId, int courseId, int grade)
         {

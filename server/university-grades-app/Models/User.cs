@@ -73,6 +73,11 @@ namespace university_grades_app.Models
             return dbs.EditUserDetails(this);
         }
 
+        public static int UserForgotPassword(String mail, String password)
+        {
+            DBservices dbs = new DBservices();
+            return dbs.UserForgotPass(mail, password);
+        }
         public int DeleteUserByID(int id)                                      
         {
             DBservices dbs = new DBservices();
