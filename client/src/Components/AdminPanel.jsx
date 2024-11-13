@@ -797,12 +797,15 @@ function AdminPanel() {
             sx={{ backgroundColor: "#fff" }}
             getRowId={(row) => row.CourseId} // Custom ID getter
             initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
+              pagination: false
             }}
+            // initialState={{
+            //   pagination: {
+            //     paginationModel: {
+            //       pageSize: 5,
+            //     },
+            //   },
+            // }}
             pageSizeOptions={[5]}
             //   checkboxSelection
             disableRowSelectionOnClick

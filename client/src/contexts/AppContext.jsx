@@ -19,7 +19,7 @@ function AppProvider({ children }) {
 
   const [newCourse, setNewCourse] = useState(null)
   // const BASE_URL = `https://localhost:7204/api`;
-  const BASE_URL = `https://proj.ruppin.ac.il/cgroup10/test2/tar1/api`;
+  const BASE_URL = `https://proj.ruppin.ac.il/cgroup10/Keep/Test2/Tar1/api`;
 
   useEffect(function () {
     async function fetchUniversities() {

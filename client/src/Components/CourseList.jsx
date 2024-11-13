@@ -4,23 +4,20 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useUniversities } from "../contexts/AppContext";
 
-
-
 export default function CourseList() {
-  const [courses, setCourses] = useState([])
-  const {num} = useParams()
-  const {setSelectedCourse, selectedCourse, BASE_URL} = useUniversities()
-  const [isLoading, setIsLoading] = useState(false)
-  
-  function onSelectedCourse(course){
+  const [courses, setCourses] = useState([]);
+  const { num } = useParams();
+  const { setSelectedCourse, selectedCourse, BASE_URL } = useUniversities();
+  const [isLoading, setIsLoading] = useState(false);
+
+  function onSelectedCourse(course) {
     const newSelectedCourse = selectedCourse === course ? null : course;
     setSelectedCourse(newSelectedCourse);
   }
 
-
   useEffect(() => {
-    let type = num.split('-')[0];
-    let id = num.split('-')[1];
+    let type = num.split("-")[0];
+    let id = num.split("-")[1];
     let query = "";
 
     if (type === "semester") {
@@ -29,8 +26,7 @@ export default function CourseList() {
       query = `GetAllCoursesByYear/${id}`;
     } else if (type === "degree") {
       query = `GetAllCoursesByDegree/${id}`;
-    }
-    else if (type === "sq") {
+    } else if (type === "sq") {
       query = `GetAllCoursesByName/${id}`;
     }
 
@@ -45,12 +41,11 @@ export default function CourseList() {
         })
         .then((data) => {
           setCourses(data);
-          if (data && data.length > 0 ) {
+          if (data && data.length > 0) {
             setSelectedCourse(data[0]); // Set the first course as selected if no course is currently selected
-            
           }
-          if (data.length === 0){
-            setSelectedCourse(null)
+          if (data.length === 0) {
+            setSelectedCourse(null);
           }
         })
         .catch((err) => {
@@ -60,21 +55,32 @@ export default function CourseList() {
           setIsLoading(false);
         });
     }
-  }, [num]); 
+  }, [num]);
   return (
     <>
       <ButtonsContainer isLoading={isLoading}>
-        {courses.length === 0 && <span className="list-no-courses">לא נמצאו קורסים להצגה</span>}
-        {courses.map(course => <Button isMandatory={course.isMandatory} selected={selectedCourse?.courseId === course.courseId} onClick={() =>  onSelectedCourse(course)} key={course.courseId}>{course.courseName}            {num.startsWith("sq") && (
+        {courses.length === 0 && (
+          <span className="list-no-courses">לא נמצאו קורסים להצגה</span>
+        )}
+        {courses.map((course) => (
+          <Button
+            isMandatory={course.isMandatory}
+            selected={selectedCourse?.courseId === course.courseId}
+            onClick={() => onSelectedCourse(course)}
+            key={course.courseId}
+          >
+            {course.courseName}{" "}
+            {num.startsWith("sq") && (
               <>
                 <span className="course-location">
-                    {course.degreeName} - {course.facultyName} - {course.universityName}</span>
+                  {course.degreeName} - {course.facultyName} -{" "}
+                  {course.universityName}
+                </span>
               </>
-            )} </Button>)}
+            )}{" "}
+          </Button>
+        ))}
       </ButtonsContainer>
     </>
   );
 }
-
-
-

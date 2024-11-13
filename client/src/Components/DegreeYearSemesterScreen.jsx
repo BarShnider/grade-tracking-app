@@ -114,7 +114,7 @@ export default function DegreeYearSemesterScreen() {
           ))}
         </ButtonsContainer>}
       </DegreeYearSemesterContainer>
-      {selectedFaculty || (selectedFaculty && selectedDegree) ?<div className="next-btn-wrapper">
+      {selectedFaculty && selectedDegree ?<div className="next-btn-wrapper">
         <Link to={`next/${param}`}>
         <NextButton  >הבא</NextButton>
         </Link>
